@@ -3,7 +3,10 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
 
 let initialState = {
-    google: {},
+    google: {
+        result: null,
+        isLoading: false
+    },
     microsoft: {}
 }
 
