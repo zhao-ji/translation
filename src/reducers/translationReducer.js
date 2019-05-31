@@ -1,10 +1,23 @@
 export default (state = {}, action) => {
+    const newState = Object.assign({}, state);
+
     switch (action.type) {
-        case 'GOOGLE_TRANSLATION':
-            return {
-                google: action.result
+        case 'GOOGLE_TRANSLATION_TRY': {
+            newState.google.isLoading = true;
+            return newState
+        }
+        case 'GOOGLE_TRANSLATION_SUCCESS': {
+            newState.google = {
+                result: action.result,
+                isLoading: false
             }
+            return newState
+        }
+        case 'GOOGLE_TRANSLATION_ERROR': {
+            newState.google.isLoading = false;
+            return newState
+        }
         default:
-            return state
+            return newState;
     }
 }

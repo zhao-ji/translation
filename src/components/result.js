@@ -8,10 +8,10 @@ export class Result extends Component {
         }
     }
 
-
     render() {
         return (
             <div>
+                <span>{this.props.google.result}</span>
             </div>
         );
     }

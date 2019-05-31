@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-const englishRegex = /^[A-Za-z0-9]*$/;
+const englishRegex = /^[A-Za-z0-9\n\s]*$/;
 
-const Towards = (text) => (
+const Towards = (isEnglish) => (
     <span>
-        Language: 
-        {
-            englishRegex.test(text) ? 'English => Madarine': 'Madarine => English'
-        }
+        <small>
+            Language: 
+            {
+                isEnglish ? 'English => Madarine': 'Madarine => English'
+            }
+        </small>
     </span>
 )
 
@@ -23,24 +25,43 @@ export class Input extends Component {
 
     handleChange(event) {
         this.setState({value: event.target.value});
-        this.props.translate(event.target.value);
+        if (this.checkIfEnglish(event.target.value)) {
+            this.props.googleTranslate({
+                text: event.target.value,
+                origin: "english",
+                destination: "manderin",
+            });
+        } else {
+            this.props.googleTranslate({
+                text: event.target.value,
+                origin: "manderin",
+                destination: "english",
+            });
+        }
+    }
+
+    checkIfEnglish(text) {
+        return englishRegex.test(text); 
     }
 
     render() {
         return (
             <div>
                 <textarea
-                    value={this.state.value} onChange={this.handleChange}
-                    autocomplete={false} autofocus
-                    cols="20" rows="5"
-                    minlength="2"
+                    value={this.state.value || ""} onChange={this.handleChange}
+                    autoComplete="false" autoFocus
+                    cols="100" rows="20"
+                    minLength="2"
                     placeholder="Please write what you want to translate."
                 />
                 {
                     this.state.value &&
                         <div>
-                            <span>Length: {this.state.value ? this.state.value.length : 0}/5000</span>
-                            <Towards text={this.state.value} />
+                            <span><small>Length: {this.state.value ? this.state.value.length : 0}/5000</small></span>
+                            <br />
+                            <br />
+                            <br />
+                            <Towards isEnglish={this.checkIfEnglish(this.state.value)} />
                         </div>
                 }
             </div>

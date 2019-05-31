@@ -1,6 +1,25 @@
-export const googleTranslate = () => dispatch => {
-    dispatch({
-        type: "GOOGLE_TRANSLATION",
-        result: 'hi'
-    })
+import axios from 'axios';
+import { secrets } from './secrets';
+
+export const actions = {
+    googleTranslate: kwargs => dispatch => {
+        dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
+        let args = {
+            params: {
+                key: secrets.googleKey,
+                q: kwargs.text,
+                from: kwargs.origin === "english" ? "en" : "zh-cn",
+                target: kwargs.destination === "english" ? "en" : "zh-cn",
+            }
+        };
+        axios.get("https://www.googleapis.com/language/translate/v2", args).then(response => {
+            dispatch({
+                type: "GOOGLE_TRANSLATION_SUCCESS",
+                result: response.data.data.translations[0].translatedText,
+                kwargs
+            });
+        }).catch(error => {
+            dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
+        })
+    }
 }

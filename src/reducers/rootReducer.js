@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import translationReducer from './translationReducer';
+import translation from './translationReducer';
 
 export default combineReducers({
-    translationReducer
+    translation,
 })
