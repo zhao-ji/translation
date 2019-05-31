@@ -38,6 +38,9 @@ export class Input extends Component {
                 destination: "english",
             });
         }
+        this.props.youdaoTranslate({
+            text: event.target.value,
+        });
     }
 
     checkIfEnglish(text) {

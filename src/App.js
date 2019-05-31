@@ -7,7 +7,7 @@ import './App.css';
 import { actions } from './actions/translationAction'
 
 import { Input } from './components/input';
-import { Result } from './components/result';
+import { GoogleResult, YoudaoResult } from './components/result';
 
 class App extends Component {
     render() {
@@ -16,9 +16,13 @@ class App extends Component {
                 <header className="App-header">
                     <Input
                         googleTranslate={this.props.googleTranslate}
+                        youdaoTranslate={this.props.youdaoTranslate}
                     />
-                    <Result 
+                    <GoogleResult 
                         google={this.props.translation.google}
+                    />
+                    <YoudaoResult 
+                        youdao={this.props.translation.youdao}
                     />
                 </header>
             </div>

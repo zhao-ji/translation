@@ -21,5 +21,27 @@ export const actions = {
         }).catch(error => {
             dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
         })
-    }
+    },
+    youdaoTranslate: kwargs => dispatch => {
+        dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
+        let args = {
+            params: {
+                key: secrets.youdaoKey,
+                keyfrom: secrets.youdaoKeyFrom,
+                type: "data",
+                doctype: "json",
+                version: "1.1",
+                q: kwargs.text,
+            }
+        };
+        axios.get("http://fanyi.youdao.com/openapi.do", args).then(response => {
+            dispatch({
+                type: "YOUDAO_TRANSLATION_SUCCESS",
+                result: response.data,
+                kwargs
+            });
+        }).catch(error => {
+            dispatch({ type: "YOUDAO_TRANSLATION_ERROR", error: error, kwargs });
+        })
+    },
 }

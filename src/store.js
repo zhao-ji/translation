@@ -9,7 +9,7 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
-            microsoft: {
+            youdao: {
                 result: null,
                 isLoading: false
             },

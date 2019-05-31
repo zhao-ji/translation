@@ -17,6 +17,21 @@ export default (state = {}, action) => {
             newState.google.isLoading = false;
             return newState
         }
+        case 'YOUDAO_TRANSLATION_TRY': {
+            newState.youdao.isLoading = true;
+            return newState
+        }
+        case 'YOUDAO_TRANSLATION_SUCCESS': {
+            newState.youdao = {
+                result: action.result,
+                isLoading: false
+            }
+            return newState
+        }
+        case 'YOUDAO_TRANSLATION_ERROR': {
+            newState.youdao.isLoading = false;
+            return newState
+        }
         default:
             return newState;
     }
