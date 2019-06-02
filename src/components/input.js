@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 
 const englishRegex = /^[A-Za-z0-9\n\s]*$/;
 
 const Towards = (isEnglish) => (
     <span>
-        <small>
             Language: 
             {
                 isEnglish ? 'English => Madarine': 'Madarine => English'
             }
-        </small>
     </span>
 )
 
@@ -50,22 +49,27 @@ export class Input extends Component {
     render() {
         return (
             <div>
-                <textarea
-                    value={this.state.value || ""} onChange={this.handleChange}
-                    autoComplete="false" autoFocus
-                    cols="100" rows="20"
-                    minLength="2"
+                <Form.Control
+                    as="textarea"
+                    rows="20"
                     placeholder="Please write what you want to translate."
+                    value={this.state.value || ""}
+                    onChange={this.handleChange}
+                    autoComplete="false" autoFocus
+                    minLength="2"
                 />
                 {
                     this.state.value &&
-                        <div>
-                            <span><small>Length: {this.state.value ? this.state.value.length : 0}/5000</small></span>
-                            <br />
-                            <br />
-                            <br />
-                            <Towards isEnglish={this.checkIfEnglish(this.state.value)} />
-                        </div>
+                    <Container fluid={true}>
+                        <Row>
+                            <Col sm={6} lg={6}>
+                                <span>Length: {this.state.value ? this.state.value.length : 0}/5000</span>
+                            </Col>
+                            <Col sm={6} lg={6}>
+                                <Towards isEnglish={this.checkIfEnglish(this.state.value)} />
+                            </Col>
+                        </Row>
+                    </Container>
                 }
             </div>
         );

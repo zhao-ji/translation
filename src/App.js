@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-
-import './App.css';
+import { bindActionCreators } from 'redux';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import { actions } from './actions/translationAction'
 
@@ -12,20 +11,24 @@ import { GoogleResult, YoudaoResult } from './components/result';
 class App extends Component {
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <Input
-                        googleTranslate={this.props.googleTranslate}
-                        youdaoTranslate={this.props.youdaoTranslate}
-                    />
-                    <GoogleResult 
-                        google={this.props.translation.google}
-                    />
-                    <YoudaoResult 
-                        youdao={this.props.translation.youdao}
-                    />
-                </header>
-            </div>
+            <Container fluid={true}>
+                <Row>
+                    <Col sm={6} lg={6}>
+                        <Input
+                            googleTranslate={this.props.googleTranslate}
+                            youdaoTranslate={this.props.youdaoTranslate}
+                        />
+                    </Col>
+                    <Col sm={6} lg={6}>
+                        <GoogleResult 
+                            google={this.props.translation.google}
+                        />
+                        <YoudaoResult 
+                            youdao={this.props.translation.youdao}
+                        />
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
