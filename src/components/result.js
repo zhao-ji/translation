@@ -29,7 +29,6 @@ export class YoudaoResult extends Component {
     }
 
     render() {
-        console.log(this.props.youdao.result);
         if (!this.props.youdao.result) {
             return null;
         }

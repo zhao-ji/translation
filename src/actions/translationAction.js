@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { secrets } from './secrets';
 
-export const actions = {
+export const translationActions = {
     googleTranslate: kwargs => dispatch => {
         dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
         let args = {

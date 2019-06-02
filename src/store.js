@@ -14,6 +14,10 @@ function initialState() {
                 isLoading: false
             },
         },
+        record: {
+            isSuccess: null,
+            isLoading: null,
+        }
     }
 }
 

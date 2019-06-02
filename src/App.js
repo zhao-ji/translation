@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import { actions } from './actions/translationAction'
+import { translationActions } from './actions/translationAction'
+import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
 import { GoogleResult, YoudaoResult } from './components/result';
@@ -17,6 +18,7 @@ class App extends Component {
                         <Input
                             googleTranslate={this.props.googleTranslate}
                             youdaoTranslate={this.props.youdaoTranslate}
+                            record={this.props.record}
                         />
                     </Col>
                     <Col sm={6} lg={6}>
@@ -37,6 +39,12 @@ const mapStateToProps = state => ({
     ...state
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+    {
+        ...translationActions,
+        ...recordActions,
+    },
+    dispatch
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

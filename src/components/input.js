@@ -40,6 +40,9 @@ export class Input extends Component {
         this.props.youdaoTranslate({
             text: event.target.value,
         });
+        this.props.record({
+            text: event.target.value,
+        });
     }
 
     checkIfEnglish(text) {
