@@ -24,3 +24,4 @@ yarn-error.log*
 
 secrets.js
 package-lock.json
+useless_code

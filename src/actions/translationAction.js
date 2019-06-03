@@ -22,6 +22,29 @@ export const translationActions = {
             dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
         })
     },
+    baiduTranslate: kwargs => dispatch => {
+        dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
+        const salt = Math.random() * 2 ** 16;
+        let args = {
+            params: {
+                appid: secrets.baiduAppId,
+                salt: salt,
+                sign: secrets.baiduAppId + kwargs.text + salt + secrets.baiduSecretKey,
+                q: kwargs.text,
+                from: kwargs.origin === "english" ? "en" : "zh-cn",
+                to: kwargs.destination === "english" ? "en" : "zh-cn",
+            }
+        };
+        axios.get(secrets.baiduUrl, args).then(response => {
+            dispatch({
+                type: "BAIDU_TRANSLATION_SUCCESS",
+                result: response.data.trans_result[0].dst,
+                kwargs
+            });
+        }).catch(error => {
+            dispatch({ type: "BAIDU_TRANSLATION_ERROR", error: error, kwargs });
+        })
+    },
     youdaoTranslate: kwargs => dispatch => {
         dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
         let args = {
