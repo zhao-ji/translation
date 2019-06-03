@@ -1,6 +1,5 @@
 1. youdao stay after clean the input
 2. deploy to s3
-3. baidu translate, md5
 4. bing, axios in axios
 5. debounce for input
 6. uglify the secret

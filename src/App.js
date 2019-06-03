@@ -7,7 +7,7 @@ import { translationActions } from './actions/translationAction'
 import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
-import { GoogleResult, YoudaoResult } from './components/result';
+import { GoogleResult, BaiduResult, YoudaoResult } from './components/result';
 
 class App extends Component {
     render() {
@@ -17,16 +17,20 @@ class App extends Component {
                     <Col sm={6} lg={6}>
                         <Input
                             googleTranslate={this.props.googleTranslate}
+                            baiduTranslate={this.props.baiduTranslate}
                             youdaoTranslate={this.props.youdaoTranslate}
                             record={this.props.record}
                         />
                     </Col>
                     <Col sm={6} lg={6}>
-                        <GoogleResult 
-                            google={this.props.translation.google}
+                        <GoogleResult
+                            result={this.props.translation.google.result}
                         />
-                        <YoudaoResult 
-                            youdao={this.props.translation.youdao}
+                        <BaiduResult
+                            result={this.props.translation.baidu.result}
+                        />
+                        <YoudaoResult
+                            result={this.props.translation.youdao.result}
                         />
                     </Col>
                 </Row>

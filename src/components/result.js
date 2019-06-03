@@ -10,11 +10,30 @@ export class GoogleResult extends Component {
     }
 
     render() {
-        return ( this.props.google.result && 
+        return ( this.props.result &&
             <Card>
                 <Card.Header>Google Translate</Card.Header>
                 <Card.Body>
-                    <Card.Title> {this.props.google.result} </Card.Title>
+                    <Card.Title> {this.props.result} </Card.Title>
+                </Card.Body>
+            </Card>
+        );
+    }
+}
+
+export class BaiduResult extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    render() {
+        return ( this.props.result &&
+            <Card>
+                <Card.Header>Baidu Translate</Card.Header>
+                <Card.Body>
+                    <Card.Title> {this.props.result} </Card.Title>
                 </Card.Body>
             </Card>
         );
@@ -29,21 +48,20 @@ export class YoudaoResult extends Component {
     }
 
     render() {
-        if (!this.props.youdao.result) {
+        if (!this.props.result) {
             return null;
         }
-        let translation, basic, web;
-        const basicInfo = this.props.youdao.result.basic;
-        const webInfo = this.props.youdao.result.web;
+        const basicInfo = this.props.result.basic;
+        const webInfo = this.props.result.web;
         return (
             <Card>
                 <Card.Header>Youdao Translate</Card.Header>
                 <Card.Body>
-                    <Card.Title> 
-                        {this.props.youdao.result.translation && this.props.youdao.result.translation[0]}
+                    <Card.Title>
+                        {this.props.result.translation && this.props.result.translation[0]}
                     </Card.Title>
                 </Card.Body>
-                {this.props.youdao.result.basic && this.props.youdao.result.basic.phonetic &&
+                {this.props.result.basic && this.props.result.basic.phonetic &&
                     <Card.Body>
                         <Card.Text>
                             /{basicInfo.phonetic}/ &nbsp;
@@ -54,7 +72,7 @@ export class YoudaoResult extends Component {
                 }
                 <Card.Body>
                     <Card.Title> Basic </Card.Title>
-                    {this.props.youdao.result.basic &&
+                    {this.props.result.basic &&
                         <ListGroup className="list-group-flush">
                             {basicInfo.explains.map(explain => (<ListGroupItem>{explain}</ListGroupItem>))}
                         </ListGroup>
@@ -62,10 +80,12 @@ export class YoudaoResult extends Component {
                 </Card.Body>
                 <Card.Body>
                     <Card.Title> Web </Card.Title>
-                    {this.props.youdao.result.web &&
+                    {this.props.result.web &&
                         <ListGroup className="list-group-flush">
-                            {webInfo.map(
-                                info => (<ListGroupItem>{info.key}: {info.value.map(v => (<small>{v} &nbsp;</small>))}</ListGroupItem>))
+                            {
+                                webInfo.map(info => (
+                                    <ListGroupItem>{info.key}: {info.value.map(v => (<small>{v} &nbsp;</small>))}</ListGroupItem>
+                                ))
                             }
                         </ListGroup>
                     }

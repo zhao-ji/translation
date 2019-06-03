@@ -17,6 +17,21 @@ export default (state = {}, action) => {
             newState.google.isLoading = false;
             return newState
         }
+        case 'BAIDU_TRANSLATION_TRY': {
+            newState.baidu.isLoading = true;
+            return newState
+        }
+        case 'BAIDU_TRANSLATION_SUCCESS': {
+            newState.baidu = {
+                result: action.result,
+                isLoading: false
+            }
+            return newState
+        }
+        case 'BAIDU_TRANSLATION_ERROR': {
+            newState.baidu.isLoading = false;
+            return newState
+        }
         case 'YOUDAO_TRANSLATION_TRY': {
             newState.youdao.isLoading = true;
             return newState

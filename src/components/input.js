@@ -5,7 +5,7 @@ const englishRegex = /^[A-Za-z0-9\n\s]*$/;
 
 const Towards = (isEnglish) => (
     <span>
-            Language: 
+            Language:
             {
                 isEnglish ? 'English => Madarine': 'Madarine => English'
             }
@@ -30,8 +30,18 @@ export class Input extends Component {
                 origin: "english",
                 destination: "manderin",
             });
+            this.props.baiduTranslate({
+                text: event.target.value,
+                origin: "english",
+                destination: "manderin",
+            });
         } else {
             this.props.googleTranslate({
+                text: event.target.value,
+                origin: "manderin",
+                destination: "english",
+            });
+            this.props.baiduTranslate({
                 text: event.target.value,
                 origin: "manderin",
                 destination: "english",
@@ -46,7 +56,7 @@ export class Input extends Component {
     }
 
     checkIfEnglish(text) {
-        return englishRegex.test(text); 
+        return englishRegex.test(text);
     }
 
     render() {

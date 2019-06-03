@@ -9,6 +9,10 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            baidu: {
+                result: null,
+                isLoading: false
+            },
             youdao: {
                 result: null,
                 isLoading: false

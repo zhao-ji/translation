@@ -1,4 +1,6 @@
 import axios from 'axios';
+import md5 from 'md5';
+
 import { secrets } from './secrets';
 
 export const translationActions = {
@@ -29,10 +31,10 @@ export const translationActions = {
             params: {
                 appid: secrets.baiduAppId,
                 salt: salt,
-                sign: secrets.baiduAppId + kwargs.text + salt + secrets.baiduSecretKey,
+                sign: md5(secrets.baiduAppId + kwargs.text + salt + secrets.baiduSecretKey),
                 q: kwargs.text,
-                from: kwargs.origin === "english" ? "en" : "zh-cn",
-                to: kwargs.destination === "english" ? "en" : "zh-cn",
+                from: kwargs.origin === "english" ? "en" : "zh",
+                to: kwargs.destination === "english" ? "en" : "zh",
             }
         };
         axios.get(secrets.baiduUrl, args).then(response => {
