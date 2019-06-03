@@ -8,6 +8,7 @@ import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
 import { GoogleResult, BaiduResult, YoudaoResult } from './components/result';
+import { debounce } from './utils';
 
 class App extends Component {
     render() {
@@ -16,10 +17,10 @@ class App extends Component {
                 <Row>
                     <Col sm={6} lg={6}>
                         <Input
-                            googleTranslate={this.props.googleTranslate}
-                            baiduTranslate={this.props.baiduTranslate}
-                            youdaoTranslate={this.props.youdaoTranslate}
-                            record={this.props.record}
+                            googleTranslate={debounce(this.props.googleTranslate, 500)}
+                            baiduTranslate={debounce(this.props.baiduTranslate, 500)}
+                            youdaoTranslate={debounce(this.props.youdaoTranslate, 500)}
+                            record={debounce(this.props.record, 500)}
                         />
                     </Col>
                     <Col sm={6} lg={6}>
