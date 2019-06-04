@@ -17,6 +17,10 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            bing: {
+                result: null,
+                isLoading: false
+            },
         },
         record: {
             isSuccess: null,

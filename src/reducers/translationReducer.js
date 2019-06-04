@@ -47,6 +47,21 @@ export default (state = {}, action) => {
             newState.youdao.isLoading = false;
             return newState
         }
+        case 'BING_TRANSLATION_TRY': {
+            newState.bing.isLoading = true;
+            return newState
+        }
+        case 'BING_TRANSLATION_SUCCESS': {
+            newState.bing = {
+                result: action.result,
+                isLoading: false
+            }
+            return newState
+        }
+        case 'BING_TRANSLATION_ERROR': {
+            newState.bing.isLoading = false;
+            return newState
+        }
         default:
             return newState;
     }

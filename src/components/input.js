@@ -35,6 +35,11 @@ export class Input extends Component {
                 origin: "english",
                 destination: "manderin",
             });
+            this.props.bingTranslate({
+                text: event.target.value,
+                origin: "english",
+                destination: "manderin",
+            });
         } else {
             this.props.googleTranslate({
                 text: event.target.value,
@@ -42,6 +47,11 @@ export class Input extends Component {
                 destination: "english",
             });
             this.props.baiduTranslate({
+                text: event.target.value,
+                origin: "manderin",
+                destination: "english",
+            });
+            this.props.bingTranslate({
                 text: event.target.value,
                 origin: "manderin",
                 destination: "english",

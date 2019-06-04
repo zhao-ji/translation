@@ -1,8 +1,5 @@
-1. youdao stay after clean the input
-2. deploy to s3
-4. bing, axios in axios
-5. debounce for input
-6. uglify the secret
-7. clear all input
-8. detect the input method, auto select the source language
-9. google translate en -> en
+clear all input
+uglify the secret
+deploy to s3
+google translate en -> en
+bing show lookup at first, then show examples

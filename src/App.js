@@ -7,7 +7,7 @@ import { translationActions } from './actions/translationAction'
 import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
-import { GoogleResult, BaiduResult, YoudaoResult } from './components/result';
+import { GoogleResult, BaiduResult, YoudaoResult, BingResult } from './components/result';
 import { debounce } from './utils';
 
 class App extends Component {
@@ -17,10 +17,11 @@ class App extends Component {
                 <Row>
                     <Col sm={6} lg={6}>
                         <Input
-                            googleTranslate={debounce(this.props.googleTranslate, 500)}
-                            baiduTranslate={debounce(this.props.baiduTranslate, 500)}
-                            youdaoTranslate={debounce(this.props.youdaoTranslate, 500)}
-                            record={debounce(this.props.record, 500)}
+                            googleTranslate={debounce(this.props.googleTranslate, 250)}
+                            baiduTranslate={debounce(this.props.baiduTranslate, 250)}
+                            youdaoTranslate={debounce(this.props.youdaoTranslate, 250)}
+                            bingTranslate={debounce(this.props.bingTranslate, 250)}
+                            record={debounce(this.props.record, 250)}
                         />
                     </Col>
                     <Col sm={6} lg={6}>
@@ -29,6 +30,9 @@ class App extends Component {
                         />
                         <BaiduResult
                             result={this.props.translation.baidu.result}
+                        />
+                        <BingResult
+                            result={this.props.translation.bing.result}
                         />
                         <YoudaoResult
                             result={this.props.translation.youdao.result}
