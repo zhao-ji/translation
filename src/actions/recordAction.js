@@ -4,6 +4,9 @@ import { secrets } from './secrets';
 export const recordActions = {
     record: kwargs => dispatch => {
         dispatch({ type: "RECORD_TRY", kwargs });
+        if (!kwargs.text || kwargs.text.length < 2) {
+            return dispatch({ type: "RECORD_SUCCESS", kwargs });
+        }
         axios.post(secrets.recordURL, { word: kwargs.text })
             .then(response => {
                 dispatch({ type: "RECORD_SUCCESS", kwargs });
