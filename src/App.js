@@ -15,7 +15,7 @@ class App extends Component {
         return (
             <Container fluid={true}>
                 <Row>
-                    <Col sm={6} lg={6}>
+                    <Col sm={12} lg={5}>
                         <Input
                             googleTranslate={debounce(this.props.googleTranslate, 250)}
                             baiduTranslate={debounce(this.props.baiduTranslate, 250)}
@@ -24,7 +24,7 @@ class App extends Component {
                             record={debounce(this.props.record, 250)}
                         />
                     </Col>
-                    <Col sm={6} lg={6}>
+                    <Col sm={12} lg={7}>
                         <GoogleResult
                             result={this.props.translation.google.result}
                         />

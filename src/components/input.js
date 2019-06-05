@@ -50,7 +50,7 @@ export class Input extends Component {
             <div>
                 <Form.Control
                     as="textarea"
-                    rows="20"
+                    rows="6"
                     placeholder="Please write what you want to translate."
                     value={this.state.value || ""}
                     onChange={this.handleChange}
