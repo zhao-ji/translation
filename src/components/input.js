@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 
 const englishRegex = /^[A-Za-z0-9\n\s]*$/;
 
@@ -24,45 +24,21 @@ export class Input extends Component {
 
     handleChange(event) {
         this.setState({value: event.target.value});
+
+        let inputData = {
+            text: event.target.value,
+            origin: "manderin",
+            destination: "english",
+        };
         if (this.checkIfEnglish(event.target.value)) {
-            this.props.googleTranslate({
-                text: event.target.value,
-                origin: "english",
-                destination: "manderin",
-            });
-            this.props.baiduTranslate({
-                text: event.target.value,
-                origin: "english",
-                destination: "manderin",
-            });
-            this.props.bingTranslate({
-                text: event.target.value,
-                origin: "english",
-                destination: "manderin",
-            });
-        } else {
-            this.props.googleTranslate({
-                text: event.target.value,
-                origin: "manderin",
-                destination: "english",
-            });
-            this.props.baiduTranslate({
-                text: event.target.value,
-                origin: "manderin",
-                destination: "english",
-            });
-            this.props.bingTranslate({
-                text: event.target.value,
-                origin: "manderin",
-                destination: "english",
-            });
+            inputData.origin = "english"
+            inputData.destination = "manderin"
         }
-        this.props.youdaoTranslate({
-            text: event.target.value,
-        });
-        this.props.record({
-            text: event.target.value,
-        });
+        this.props.googleTranslate(inputData);
+        this.props.baiduTranslate(inputData);
+        this.props.bingTranslate(inputData);
+        this.props.youdaoTranslate({ text: event.target.value });
+        this.props.record({ text: event.target.value });
     }
 
     checkIfEnglish(text) {
