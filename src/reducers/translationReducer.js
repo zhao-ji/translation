@@ -48,18 +48,33 @@ export default (state = {}, action) => {
             return newState
         }
         case 'BING_TRANSLATION_TRY': {
-            newState.bing.isLoading = true;
+            newState.bing.isTranslationLoading = true;
+            newState.bing.isExampleLoading = true;
+            return newState
+        }
+        case 'BING_TRANSLATION_IN_PROGRESS': {
+            newState.bing = {
+                result: action.result,
+                isTranslationLoading: false,
+                isExampleLoading: true
+            }
             return newState
         }
         case 'BING_TRANSLATION_SUCCESS': {
             newState.bing = {
                 result: action.result,
-                isLoading: false
+                isTranslationLoading: false,
+                isExampleLoading: false
             }
             return newState
         }
+        case 'BING_TRANSLATION_EXAMPLE_ERROR': {
+            newState.bing.isExampleLoading = false;
+            return newState
+        }
         case 'BING_TRANSLATION_ERROR': {
-            newState.bing.isLoading = false;
+            newState.bing.isTranslationLoading = true;
+            newState.bing.isExampleLoading = false;
             return newState
         }
         default:

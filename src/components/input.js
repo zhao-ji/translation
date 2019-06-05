@@ -7,7 +7,7 @@ const Towards = (isEnglish) => (
     <span>
             Language:
             {
-                isEnglish ? 'English => Madarine': 'Madarine => English'
+                isEnglish ? 'English => Mandarin': 'Mandarin => English'
             }
     </span>
 )
@@ -27,12 +27,12 @@ export class Input extends Component {
 
         let inputData = {
             text: event.target.value,
-            origin: "manderin",
+            origin: "mandarin",
             destination: "english",
         };
         if (this.checkIfEnglish(event.target.value)) {
             inputData.origin = "english"
-            inputData.destination = "manderin"
+            inputData.destination = "mandarin"
         }
         this.props.googleTranslate(inputData);
         this.props.baiduTranslate(inputData);

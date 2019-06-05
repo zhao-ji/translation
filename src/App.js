@@ -14,13 +14,13 @@ class App extends Component {
     render() {
         return (
             <Container fluid={true}>
-                <Row>
+                <Row noGutters={true}>
                     <Col sm={12} lg={5}>
                         <Input
                             googleTranslate={debounce(this.props.googleTranslate, 500)}
                             baiduTranslate={debounce(this.props.baiduTranslate, 500)}
-                            youdaoTranslate={debounce(this.props.youdaoTranslate, 500)}
                             bingTranslate={debounce(this.props.bingTranslate, 500)}
+                            youdaoTranslate={debounce(this.props.youdaoTranslate, 500)}
                             record={debounce(this.props.record, 500)}
                         />
                     </Col>
@@ -31,11 +31,11 @@ class App extends Component {
                         <BaiduResult
                             result={this.props.translation.baidu.result}
                         />
-                        <YoudaoResult
-                            result={this.props.translation.youdao.result}
-                        />
                         <BingResult
                             result={this.props.translation.bing.result}
+                        />
+                        <YoudaoResult
+                            result={this.props.translation.youdao.result}
                         />
                     </Col>
                 </Row>

@@ -109,19 +109,37 @@ export const translationActions = {
 
         axios.all([getBingTranslation(), getBingDictionLookup()])
             .then(axios.spread((translateResponse, dictionaryResponse) => {
-                const exampleData = dictionaryResponse.data[0].translations.map(
+                const dictionary = dictionaryResponse.data[0].translations;
+                if (dictionary.length === 0) {
+                    return dispatch({
+                        type: "BING_TRANSLATION_SUCCESS",
+                        result: {
+                            translation: translateResponse.data[0].translations[0].text,
+                            dictionary: dictionary,
+                        },
+                        kwargs
+                    });
+                }
+
+                dispatch({
+                    type: "BING_TRANSLATION_IN_PROGRESS",
+                    result: {
+                        translation: translateResponse.data[0].translations[0].text,
+                        dictionary: dictionary,
+                    },
+                    kwargs
+                });
+
+                const exampleRequestData = dictionary.map(
                     item => ({
                         Text: kwargs.text,
                         Translation: item.normalizedTarget,
                     })
                 );
-                axios.post(secrets.bingDictionaryExampleUrl, exampleData, config)
+                axios.post(secrets.bingDictionaryExampleUrl, exampleRequestData, config)
                     .then(response => {
-                        const dictionaryData = dictionaryResponse.data[0].translations.map(
-                            (item, index) => ({
-                                ...item,
-                                ...response.data[index]
-                            })
+                        const dictionaryData = dictionary.map(
+                            (item, index) => ({ ...item, ...response.data[index] })
                         );
                         dispatch({
                             type: "BING_TRANSLATION_SUCCESS",
@@ -133,7 +151,7 @@ export const translationActions = {
                         });
                     })
                     .catch(error => {
-                        dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
+                        dispatch({ type: "BING_TRANSLATION_EXAMPLE_ERROR", error: error, kwargs });
                     })
             }))
             .catch(error => {

@@ -19,7 +19,8 @@ function initialState() {
             },
             bing: {
                 result: null,
-                isLoading: false
+                isTranslationLoading: false,
+                isExampleLoading: false
             },
         },
         record: {
