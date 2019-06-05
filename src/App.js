@@ -17,11 +17,11 @@ class App extends Component {
                 <Row>
                     <Col sm={12} lg={5}>
                         <Input
-                            googleTranslate={debounce(this.props.googleTranslate, 250)}
-                            baiduTranslate={debounce(this.props.baiduTranslate, 250)}
-                            youdaoTranslate={debounce(this.props.youdaoTranslate, 250)}
-                            bingTranslate={debounce(this.props.bingTranslate, 250)}
-                            record={debounce(this.props.record, 250)}
+                            googleTranslate={debounce(this.props.googleTranslate, 500)}
+                            baiduTranslate={debounce(this.props.baiduTranslate, 500)}
+                            youdaoTranslate={debounce(this.props.youdaoTranslate, 500)}
+                            bingTranslate={debounce(this.props.bingTranslate, 500)}
+                            record={debounce(this.props.record, 500)}
                         />
                     </Col>
                     <Col sm={12} lg={7}>
