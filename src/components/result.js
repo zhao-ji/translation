@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Accordion, Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 
 export class GoogleResult extends Component {
@@ -52,7 +52,6 @@ export class BingResult extends Component {
             return null;
         }
         const dictionary = this.props.result.dictionary;
-        const examples = this.props.result.examples;
         return (
             <Card>
                 <Card.Header>Bing Translate</Card.Header>
@@ -61,36 +60,38 @@ export class BingResult extends Component {
                         {this.props.result.translation}
                     </Card.Title>
                 </Card.Body>
-                {this.props.result.dictionary && this.props.result.dictionary.length > 0 &&
-                    <Card.Body>
-                        <Card.Title> Dictionary Lookup </Card.Title>
-                        <ListGroup className="list-group-flush">
-                            {dictionary.map((explain, index) => (
-                                <ListGroupItem key={index}>
-                                    {explain.posTag}: {explain.displayTarget}
-                                </ListGroupItem>
-                                ))}
-                        </ListGroup>
-                    </Card.Body>
-                }
-                {this.props.result.examples && this.props.result.examples.length > 0 &&
-                    <Card.Body>
-                        <Card.Title> Examples </Card.Title>
-                        <ListGroup className="list-group-flush">
-                            {examples.map((example, index) => (
-                                example.examples.map((item, iIndex) => (
-                                    <ListGroupItem key={index * 100 + iIndex}>
-                                        {item.sourcePrefix.split('...').join('')}
-                                        {item.sourceTerm.split('...').join('')}
-                                        {item.sourceSuffix.split('...').join('')}: &nbsp;
-                                        {item.targetPrefix.split('...').join('')}
-                                        {item.targetTerm.split('...').join('')}
-                                        {item.targetSuffix.split('...').join('')}
-                                    </ListGroupItem>
-                                ))
-                            ))}
-                        </ListGroup>
-                    </Card.Body>
+                {dictionary && dictionary.length > 0 &&
+                        <Card.Body>
+                            <Card.Title> Dictionary Lookup </Card.Title>
+                            <ListGroup className="list-group-flush">
+                                <Accordion>
+                                    {dictionary.map((explain, index) => (
+                                        <ListGroupItem key={index}>
+                                            {explain.posTag}: {explain.displayTarget}
+                                            <Accordion.Toggle
+                                                as={Button} variant="outline-info" size="sm"
+                                                className="float-right" eventKey={index}>
+                                                Examples
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey={index}>
+                                                <ListGroup className="list-group-flush">
+                                                    {explain.examples.map((item, iIndex) => (
+                                                        <ListGroupItem key={iIndex}>
+                                                            {item.sourcePrefix.split('...').join('')}
+                                                            {item.sourceTerm.split('...').join('')}
+                                                            {item.sourceSuffix.split('...').join('')}: &nbsp;
+                                                            {item.targetPrefix.split('...').join('')}
+                                                            {item.targetTerm.split('...').join('')}
+                                                            {item.targetSuffix.split('...').join('')}
+                                                        </ListGroupItem>
+                                                    ))}
+                                                </ListGroup>
+                                            </Accordion.Collapse>
+                                        </ListGroupItem>
+                                    ))}
+                                </Accordion>
+                            </ListGroup>
+                        </Card.Body>
                 }
             </Card>
         );

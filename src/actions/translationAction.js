@@ -117,12 +117,17 @@ export const translationActions = {
                 );
                 axios.post(secrets.bingDictionaryExampleUrl, exampleData, config)
                     .then(response => {
+                        const dictionaryData = dictionaryResponse.data[0].translations.map(
+                            (item, index) => ({
+                                ...item,
+                                ...response.data[index]
+                            })
+                        );
                         dispatch({
                             type: "BING_TRANSLATION_SUCCESS",
                             result: {
                                 translation: translateResponse.data[0].translations[0].text,
-                                dictionary: dictionaryResponse.data[0].translations,
-                                examples: response.data,
+                                dictionary: dictionaryData,
                             },
                             kwargs
                         });

@@ -31,11 +31,11 @@ class App extends Component {
                         <BaiduResult
                             result={this.props.translation.baidu.result}
                         />
-                        <BingResult
-                            result={this.props.translation.bing.result}
-                        />
                         <YoudaoResult
                             result={this.props.translation.youdao.result}
+                        />
+                        <BingResult
+                            result={this.props.translation.bing.result}
                         />
                     </Col>
                 </Row>
