@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
+import autosize from 'autosize';
 
 const englishRegex = /^[A-Za-z0-9\n\s]*$/;
 
 const Towards = (isEnglish) => (
-    <span>
+    <span className="pull-right">
             Language:
             {
                 isEnglish ? 'English => Mandarin': 'Mandarin => English'
@@ -23,6 +24,7 @@ export class Input extends Component {
     }
 
     handleChange(event) {
+        autosize(event.target)
         this.setState({value: event.target.value});
 
         let inputData = {
@@ -50,12 +52,14 @@ export class Input extends Component {
             <div>
                 <Form.Control
                     as="textarea"
-                    rows="6"
                     placeholder="Please write what you want to translate."
                     value={this.state.value || ""}
                     onChange={this.handleChange}
-                    autoComplete="false" autoFocus
+                    autoComplete="false"
+                    autoFocus
                     minLength="2"
+                    rows="1"
+                    id="input-search-bar"
                 />
                 {
                     this.state.value &&

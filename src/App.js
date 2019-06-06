@@ -8,14 +8,16 @@ import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
 import { GoogleResult, BaiduResult, YoudaoResult, BingResult } from './components/result';
+
 import { debounce } from './utils';
+import './css/_custom.css';
 
 class App extends Component {
     render() {
         return (
             <Container fluid={true}>
                 <Row noGutters={true}>
-                    <Col sm={12} lg={5}>
+                    <Col sm={12} lg={12}>
                         <Input
                             googleTranslate={debounce(this.props.googleTranslate, 500)}
                             baiduTranslate={debounce(this.props.baiduTranslate, 500)}
@@ -24,15 +26,19 @@ class App extends Component {
                             record={debounce(this.props.record, 500)}
                         />
                     </Col>
-                    <Col sm={12} lg={7}>
+                </Row>
+                <Row noGutters={true}>
+                    <Col sm={12} lg={6}>
                         <GoogleResult
                             result={this.props.translation.google.result}
                         />
-                        <BaiduResult
-                            result={this.props.translation.baidu.result}
-                        />
                         <BingResult
                             result={this.props.translation.bing.result}
+                        />
+                    </Col>
+                    <Col sm={12} lg={6}>
+                        <BaiduResult
+                            result={this.props.translation.baidu.result}
                         />
                         <YoudaoResult
                             result={this.props.translation.youdao.result}
