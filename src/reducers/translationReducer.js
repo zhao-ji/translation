@@ -3,7 +3,10 @@ export default (state = {}, action) => {
 
     switch (action.type) {
         case 'GOOGLE_TRANSLATION_TRY': {
-            newState.google.isLoading = true;
+            newState.google = {
+                result: null,
+                isLoading: true
+            };
             return newState
         }
         case 'GOOGLE_TRANSLATION_SUCCESS': {
@@ -18,7 +21,10 @@ export default (state = {}, action) => {
             return newState
         }
         case 'BAIDU_TRANSLATION_TRY': {
-            newState.baidu.isLoading = true;
+            newState.baidu = {
+                result: null,
+                isLoading: true
+            };
             return newState
         }
         case 'BAIDU_TRANSLATION_SUCCESS': {
@@ -33,7 +39,10 @@ export default (state = {}, action) => {
             return newState
         }
         case 'YOUDAO_TRANSLATION_TRY': {
-            newState.youdao.isLoading = true;
+            newState.youdao = {
+                result: null,
+                isLoading: true
+            };
             return newState
         }
         case 'YOUDAO_TRANSLATION_SUCCESS': {
@@ -48,8 +57,11 @@ export default (state = {}, action) => {
             return newState
         }
         case 'BING_TRANSLATION_TRY': {
-            newState.bing.isTranslationLoading = true;
-            newState.bing.isExampleLoading = true;
+            newState.bing = {
+                result: null,
+                isTranslationLoading: true,
+                isExampleLoading: true,
+            };
             return newState
         }
         case 'BING_TRANSLATION_IN_PROGRESS': {

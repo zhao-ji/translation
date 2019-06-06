@@ -79,12 +79,20 @@ export class BingResult extends Component {
                                                         <ListGroup className="list-group-flush">
                                                             {explain.examples.map((item, iIndex) => (
                                                                 <ListGroupItem key={iIndex}>
-                                                                    {item.sourcePrefix.split('...').join('')}
-                                                                    {item.sourceTerm.split('...').join('')}
-                                                                    {item.sourceSuffix.split('...').join('')}: &nbsp;
-                                                                    {item.targetPrefix.split('...').join('')}
-                                                                    {item.targetTerm.split('...').join('')}
-                                                                    {item.targetSuffix.split('...').join('')}
+                                                                    <span>
+                                                                        {item.sourcePrefix}
+                                                                        <mark>
+                                                                            {item.sourceTerm}
+                                                                        </mark>
+                                                                        {item.sourceSuffix}:
+                                                                    </span>
+                                                                    <span className="pull-right">
+                                                                        {item.targetPrefix}
+                                                                        <mark>
+                                                                            {item.targetTerm}
+                                                                        </mark>
+                                                                        {item.targetSuffix}
+                                                                    </span>
                                                                 </ListGroupItem>
                                                             ))}
                                                         </ListGroup>
