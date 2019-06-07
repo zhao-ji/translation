@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import autosize from 'autosize';
 
-const englishRegex = /^[A-Za-z0-9\n\s]*$/;
+const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 
 const Towards = (isEnglish) => (
     <span className="pull-right">
@@ -24,27 +24,41 @@ export class Input extends Component {
     }
 
     handleChange(event) {
+        // auto resize the textarea to let use see all the input
         autosize(event.target)
-        this.setState({value: event.target.value});
 
-        let inputData = {
-            text: event.target.value,
-            origin: "mandarin",
-            destination: "english",
-        };
-        if (this.checkIfEnglish(event.target.value)) {
-            inputData.origin = "english"
-            inputData.destination = "mandarin"
+        let searchString = event.target.value;
+        const isEnglish = this.checkIfEnglish(searchString);
+
+        this.setState({value: searchString});
+
+        if (this.state.value && searchString.trim() === this.state.value.trim()) {
+            // if just spaces added in the beginning or end, we don't request it any more
+            return
         }
+
+        searchString = searchString.trim()
+        const inputData = {
+            text: searchString,
+            origin: isEnglish ? "english" : "mandarin",
+            destination: isEnglish ? "mandarin" : "english",
+        };
+
         this.props.googleTranslate(inputData);
         this.props.baiduTranslate(inputData);
         this.props.bingTranslate(inputData);
-        this.props.youdaoTranslate({ text: event.target.value });
-        this.props.record({ text: event.target.value });
+        this.props.youdaoTranslate({ text: searchString });
+        this.props.record({ text: searchString });
     }
 
+
     checkIfEnglish(text) {
-        return englishRegex.test(text);
+        return !chineseRegex.test(text);
+    }
+
+    removeSpecialCharacters(text) {
+        // remove all the special characters in input
+        return text.replace(/[^a-zA-Z0-9\n\s]/g, " ")
     }
 
     render() {
