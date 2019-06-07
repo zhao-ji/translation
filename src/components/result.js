@@ -140,11 +140,19 @@ export class YoudaoResult extends Component {
                 {basicInfo && basicInfo.phonetic &&
                     <Card.Body>
                         <Card.Title> Pronounciation </Card.Title>
-                        <Card.Text>
-                            /{basicInfo.phonetic}/ &nbsp;
-                            UK: /{basicInfo["uk-phonetic"]}/ &nbsp;
-                            US: /{basicInfo["us-phonetic"]}/
-                        </Card.Text>
+                        {
+                            basicInfo["uk-phonetic"]
+                                ?
+                                <Card.Text>
+                                    /{basicInfo.phonetic}/ &nbsp;
+                                    UK: /{basicInfo["uk-phonetic"]}/ &nbsp;
+                                    US: /{basicInfo["us-phonetic"]}/
+                                </Card.Text>
+                                :
+                                <Card.Text>
+                                    /{basicInfo.phonetic}/
+                                </Card.Text>
+                        }
                     </Card.Body>
                 }
                 {basicInfo && basicInfo.explains.length > 0 &&

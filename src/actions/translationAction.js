@@ -6,7 +6,11 @@ import { secrets } from './secrets';
 export const translationActions = {
     googleTranslate: kwargs => dispatch => {
         dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text || kwargs.text.length < 2) {
+        if (!kwargs.text) {
+            // empty search content
+            return dispatch({ type: "GOOGLE_TRANSLATION_SUCCESS", result: "", kwargs });
+        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
+            // we don't trigger the search if it's english and less than 2 characters
             return dispatch({ type: "GOOGLE_TRANSLATION_SUCCESS", result: "", kwargs });
         }
 
@@ -30,7 +34,11 @@ export const translationActions = {
     },
     baiduTranslate: kwargs => dispatch => {
         dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text || kwargs.text.length < 2) {
+        if (!kwargs.text) {
+            // empty search content
+            return dispatch({ type: "BAIDU_TRANSLATION_SUCCESS", result: "", kwargs });
+        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
+            // we don't trigger the search if it's english and less than 2 characters
             return dispatch({ type: "BAIDU_TRANSLATION_SUCCESS", result: "", kwargs });
         }
 
@@ -57,7 +65,11 @@ export const translationActions = {
     },
     youdaoTranslate: kwargs => dispatch => {
         dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text || kwargs.text.length < 2) {
+        if (!kwargs.text) {
+            // empty search content
+            return dispatch({ type: "YOUDAO_TRANSLATION_SUCCESS", result: "", kwargs });
+        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
+            // we don't trigger the search if it's english and less than 2 characters
             return dispatch({ type: "YOUDAO_TRANSLATION_SUCCESS", result: "", kwargs });
         }
 
@@ -83,7 +95,11 @@ export const translationActions = {
     },
     bingTranslate: kwargs => dispatch => {
         dispatch({ type: "BING_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text || kwargs.text.length < 2) {
+        if (!kwargs.text) {
+            // empty search content
+            return dispatch({ type: "BING_TRANSLATION_SUCCESS", result: "", kwargs });
+        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
+            // we don't trigger the search if it's english and less than 2 characters
             return dispatch({ type: "BING_TRANSLATION_SUCCESS", result: "", kwargs });
         }
 

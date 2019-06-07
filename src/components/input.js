@@ -40,6 +40,7 @@ export class Input extends Component {
         searchString = searchString.trim()
         const inputData = {
             text: searchString,
+            isEnglish: isEnglish,
             origin: isEnglish ? "english" : "mandarin",
             destination: isEnglish ? "mandarin" : "english",
         };
@@ -47,8 +48,8 @@ export class Input extends Component {
         this.props.googleTranslate(inputData);
         this.props.baiduTranslate(inputData);
         this.props.bingTranslate(inputData);
-        this.props.youdaoTranslate({ text: searchString });
-        this.props.record({ text: searchString });
+        this.props.youdaoTranslate(inputData);
+        this.props.record(inputData);
     }
 
 
