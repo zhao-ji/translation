@@ -10,7 +10,10 @@ export class GoogleResult extends Component {
     }
 
     render() {
-        return ( this.props.result &&
+        if (!this.props.result) {
+            return null;
+        }
+        return (
             <Card>
                 <Card.Header>Google</Card.Header>
                 <Card.Body>
@@ -29,7 +32,10 @@ export class BaiduResult extends Component {
     }
 
     render() {
-        return ( this.props.result &&
+        if (!this.props.result) {
+            return null;
+        }
+        return (
             <Card>
                 <Card.Header>Baidu</Card.Header>
                 <Card.Body>

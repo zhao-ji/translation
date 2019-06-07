@@ -9,7 +9,7 @@ import { recordActions } from './actions/recordAction'
 import { Input } from './components/input';
 import { GoogleResult, BaiduResult, YoudaoResult, BingResult } from './components/result';
 
-import { debounce } from './utils';
+import { debounce, LoadingWrapper } from './utils';
 import './css/_custom.css';
 
 class App extends Component {
@@ -29,20 +29,20 @@ class App extends Component {
                 </Row>
                 <Row noGutters={true}>
                     <Col sm={12} lg={6}>
-                        <GoogleResult
-                            result={this.props.translation.google.result}
-                        />
-                        <BingResult
-                            result={this.props.translation.bing.result}
-                        />
+                        <LoadingWrapper loading={this.props.translation.google.isLoading}>
+                            <GoogleResult result={this.props.translation.google.result}/>
+                        </LoadingWrapper>
+                        <LoadingWrapper loading={this.props.translation.bing.isTranslationLoading}>
+                            <BingResult result={this.props.translation.bing.result}/>
+                        </LoadingWrapper>
                     </Col>
                     <Col sm={12} lg={6}>
-                        <BaiduResult
-                            result={this.props.translation.baidu.result}
-                        />
-                        <YoudaoResult
-                            result={this.props.translation.youdao.result}
-                        />
+                        <LoadingWrapper loading={this.props.translation.baidu.isLoading}>
+                            <BaiduResult result={this.props.translation.baidu.result}/>
+                        </LoadingWrapper>
+                        <LoadingWrapper loading={this.props.translation.youdao.isLoading}>
+                            <YoudaoResult result={this.props.translation.youdao.result}/>
+                        </LoadingWrapper>
                     </Col>
                 </Row>
             </Container>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
 export const debounce = (fn, delay) => {
     let timer = null;
@@ -11,18 +12,14 @@ export const debounce = (fn, delay) => {
     };
 };
 
-export const LoadingWrapper = ({ loading, children }) =>(
+export const LoadingWrapper = ({ loading, children }) => (
     <div>
         { loading ?
-            <div className="margin-fixer">
-                <div className="sk-spinner sk-spinner-wave">
-                    <div className="sk-rect1"/>
-                    <div className="sk-rect2"/>
-                    <div className="sk-rect3"/>
-                    <div className="sk-rect4"/>
-                    <div className="sk-rect5"/>
+                <div className="spinner">
+                    <Spinner animation="border"></Spinner>
                 </div>
-            </div> : children
+                :
+                children
         }
     </div>
 )
