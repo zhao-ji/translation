@@ -22,6 +22,10 @@ function initialState() {
                 isTranslationLoading: false,
                 isExampleLoading: false
             },
+            oxford: {
+                result: null,
+                isLoading: false
+            },
         },
         record: {
             isSuccess: null,

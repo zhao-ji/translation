@@ -181,3 +181,159 @@ export class YoudaoResult extends Component {
         );
     }
 }
+
+export class OxfordResult extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    render() {
+        if (!this.props.result) {
+            return null;
+        }
+        console.log(this.props.result);
+        const entries = this.props.result.entry;
+        const sentences = this.props.result.sentence;
+        return (
+            <>
+                <OxfordEntries entries={entries} />
+            <Card>
+                <Card.Header>Oxford</Card.Header>
+                <Card.Body>
+                    <Card.Title> Examples </Card.Title>
+                    <ListGroup className="list-group-flush">
+                        <Accordion>
+                        {sentences.map((sentence, index) => (
+                            <ListGroupItem key={index}>
+                                Lexical Category: {sentence.lexicalEntries[0].lexicalCategory.text}
+                                {sentence.lexicalEntries[0].sentences && sentence.lexicalEntries[0].sentences.length > 0 &&
+                                    <span>
+                                        <Accordion.Toggle
+                                            as={Button} variant="outline-info" size="sm"
+                                            className="float-right" eventKey={index}>
+                                            Examples
+                                        </Accordion.Toggle>
+                                        <Accordion.Collapse eventKey={index}>
+                                            <ListGroup className="list-group-flush">
+                                                {sentence.lexicalEntries[0].sentences.map((item, iIndex) => (
+                                                    <ListGroupItem key={iIndex}>
+                                                        {item.regions && item.regions.length > 0 &&
+                                                            <div> Region: {item.regions[0].text} </div>
+                                                        }
+                                                        {item.text}
+                                                    </ListGroupItem>
+                                                ))}
+                                            </ListGroup>
+                                        </Accordion.Collapse>
+                                    </span>
+                                }
+                            </ListGroupItem>
+                        ))}
+                        </Accordion>
+                    </ListGroup>
+                </Card.Body>
+            </Card>
+            </>
+        );
+    }
+}
+
+const OxfordEntries = ({ entries }) => {
+    return (
+        <>
+        {entries.map((entry) => (
+            <>
+            {entry.lexicalEntries.map((lexicalEntry, iIndex) => (
+                <Card>
+                <Card.Header>Oxford Lexical Category: {lexicalEntry.lexicalCategory.text}</Card.Header>
+                <Card.Body key={iIndex}>
+                    <Card.Title> Pronunciation </Card.Title>
+                    <ListGroup className="list-group-flush">
+                        {lexicalEntry.pronunciations.map((pronunciation, IIindex) => (
+                            <ListGroupItem key={IIindex}>
+                                {pronunciation.dialects && pronunciation.dialects.length > 0 &&
+                                    pronunciation.dialects[0]
+                                }: /{pronunciation.phoneticSpelling}/
+                                <audio control="true">
+                                    <source src={pronunciation.audioFile} type="audio/mpeg" />
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </ListGroupItem>
+                        ))}
+                    </ListGroup>
+                </Card.Body>
+                <Card.Body key={iIndex}>
+                    <Card.Title> Etymology </Card.Title>
+                    <ListGroup className="list-group-flush">
+                        {lexicalEntry.entries[0].etymologies && lexicalEntry.entries[0].etymologies.length > 0 &&
+                            <>
+                                {lexicalEntry.entries[0].etymologies.map((etymology, IIIindex) => (
+                                    <ListGroupItem key={IIIindex}>
+                                        {etymology}
+                                    </ListGroupItem>
+                                ))}
+                            </>
+                        }
+                    </ListGroup>
+                </Card.Body>
+                {lexicalEntry.entries[0].variantForms && lexicalEntry.entries[0].variantForms.length > 0 &&
+                    <Card.Body key={iIndex}>
+                        <Card.Title>Variant Forms:</Card.Title>
+                        <ListGroup className="list-group-flush">
+                            {lexicalEntry.entries[0].variantForms.map((variant, IIIindex) => (
+                                <ListGroupItem key={IIIindex}>
+                                    {variant.text}
+                                </ListGroupItem>
+                            ))}
+                        </ListGroup>
+                    </Card.Body>
+                }
+                {lexicalEntry.entries[0].senses && lexicalEntry.entries[0].senses.length > 0 &&
+                    <>
+                            {lexicalEntry.entries[0].senses.map((sense, Iindex) => (
+                    <Card.Body key={iIndex}>
+                        <Card.Title>Variant Forms:</Card.Title>
+                        <ListGroup className="list-group-flush">
+                                <ListGroupItem key={Iindex}>
+                                    Short Definitions: {sense.shortDefinitions.join()}
+                                    <br/>
+                                    Definitions: {sense.definitions.join()}
+                                    <br/>
+                                    Examples: {sense.examples.map(example => (example.text)).join()}
+                                    <br/>
+                                    Sub Senses: {sense.subsenses && sense.subsenses.length > 0 &&
+                                            <div>
+                                        {sense.subsenses.map((subsense, hello) => (
+                                            <div key={hello}>
+                                                Short Definitions: {subsense.shortDefinitions.join()}
+                                    <br/>
+                                                Definitions: {subsense.definitions.join()}
+                                    <br/>
+                                                Examples: {subsense.examples && subsense.examples.length > 0 && subsense.examples.map((example, hey) => (<span key={hey}>{example.text}</span>))}
+                                            </div>
+                                        ))}
+                                            </div>
+                                    }
+                                    Regions: {sense.regions && sense.regions.length > 0 &&
+                                            <div>
+                                                {sense.regions.map(region => (
+                                                    <span>{region.text}</span>
+                                                ))}
+                                            </div>
+                                             }
+                                </ListGroupItem>
+                            </ListGroup>
+                        </Card.Body>
+                            ))
+                            }
+                    </>
+                    }
+                </Card>
+            ))}
+            </>
+        ))}
+        </>
+    )
+}

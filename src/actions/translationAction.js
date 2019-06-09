@@ -75,11 +75,6 @@ export const translationActions = {
 
         let args = {
             params: {
-                key: secrets.youdaoKey,
-                keyfrom: secrets.youdaoKeyFrom,
-                type: "data",
-                doctype: "json",
-                version: "1.1",
                 q: kwargs.text,
             }
         };
@@ -118,17 +113,19 @@ export const translationActions = {
         };
 
         if (kwargs.isSentence) {
-            return axios.post(secrets.bingTranslateUrl, data, config).then(translateResponse => {
-                dispatch({
-                    type: "BING_TRANSLATION_SUCCESS",
-                    result: {
-                        translation: translateResponse.data[0].translations[0].text,
-                    },
-                    kwargs
-                });
-            }).catch(error => {
-                dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
-            })
+            return axios.post(secrets.bingTranslateUrl, data, config)
+                .then(translateResponse => {
+                    dispatch({
+                        type: "BING_TRANSLATION_SUCCESS",
+                        result: {
+                            translation: translateResponse.data[0].translations[0].text,
+                        },
+                        kwargs
+                    });
+                })
+                .catch(error => {
+                    dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
+                })
         }
 
         function getBingTranslation () {
@@ -186,6 +183,30 @@ export const translationActions = {
             }))
             .catch(error => {
                 dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
+            })
+    },
+    oxfordTranslate: kwargs => dispatch => {
+        dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
+
+        function getOxfordEntry () {
+            return axios.get(secrets.oxfordEntryUrl + kwargs.text.toLowerCase())
+        }
+        function getOxfordSentence () {
+            return axios.get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase())
+        }
+        axios.all([getOxfordEntry(), getOxfordSentence()])
+            .then(axios.spread((entryResponse, sentenceResponse) => {
+                return dispatch({
+                    type: "OXFORD_TRANSLATION_SUCCESS",
+                    result: {
+                        entry: entryResponse.data.results,
+                        sentence: sentenceResponse.data.results,
+                    },
+                    kwargs
+                });
+            }))
+            .catch(error => {
+                dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
 }

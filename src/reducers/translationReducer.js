@@ -89,6 +89,24 @@ export default (state = {}, action) => {
             newState.bing.isExampleLoading = false;
             return newState
         }
+        case 'OXFORD_TRANSLATION_TRY': {
+            newState.oxford = {
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'OXFORD_TRANSLATION_SUCCESS': {
+            newState.oxford = {
+                result: action.result,
+                isLoading: false
+            }
+            return newState
+        }
+        case 'OXFORD_TRANSLATION_ERROR': {
+            newState.oxford.isLoading = false;
+            return newState
+        }
         default:
             return newState;
     }
