@@ -116,13 +116,27 @@ export const translationActions = {
                 to: kwargs.destination === "english" ? "en" : "zh-Hans",
             },
         };
+
+        if (kwargs.isSentence) {
+            return axios.post(secrets.bingTranslateUrl, data, config).then(translateResponse => {
+                dispatch({
+                    type: "BING_TRANSLATION_SUCCESS",
+                    result: {
+                        translation: translateResponse.data[0].translations[0].text,
+                    },
+                    kwargs
+                });
+            }).catch(error => {
+                dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
+            })
+        }
+
         function getBingTranslation () {
             return axios.post(secrets.bingTranslateUrl, data, config)
         }
         function getBingDictionLookup () {
             return axios.post(secrets.bingDictionaryLookupUrl, data, config)
         }
-
         axios.all([getBingTranslation(), getBingDictionLookup()])
             .then(axios.spread((translateResponse, dictionaryResponse) => {
                 const dictionary = dictionaryResponse.data[0].translations;

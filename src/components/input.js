@@ -3,15 +3,18 @@ import { Col, Container, Form, Row } from 'react-bootstrap';
 import autosize from 'autosize';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
+const punctuationRegex = /[ .,:;!?。，：；！？]/
 
-const Towards = (isEnglish) => (
-    <span className="pull-right">
-            Language:
-            {
-                isEnglish ? 'English => Mandarin': 'Mandarin => English'
-            }
-    </span>
-)
+const Towards = ({ isEnglish }) => {
+    return (
+        <span className="pull-right">
+                Language:
+                {
+                    isEnglish ? 'English => Chinese' : 'Chinese => English'
+                }
+        </span>
+    )
+}
 
 export class Input extends Component {
     constructor(props) {
@@ -38,9 +41,11 @@ export class Input extends Component {
         }
 
         searchString = searchString.trim()
+        const isSentence = this.checkIfSentence(searchString);
         const inputData = {
             text: searchString,
             isEnglish: isEnglish,
+            isSentence: isSentence,
             origin: isEnglish ? "english" : "mandarin",
             destination: isEnglish ? "mandarin" : "english",
         };
@@ -55,6 +60,10 @@ export class Input extends Component {
 
     checkIfEnglish(text) {
         return !chineseRegex.test(text);
+    }
+
+    checkIfSentence(text) {
+        return punctuationRegex.test(text);
     }
 
     removeSpecialCharacters(text) {
