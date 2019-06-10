@@ -90,21 +90,39 @@ export default (state = {}, action) => {
             return newState
         }
         case 'OXFORD_TRANSLATION_TRY': {
-            newState.oxford = {
+            newState.oxfordTranslation = {
                 result: null,
                 isLoading: true
             };
             return newState
         }
         case 'OXFORD_TRANSLATION_SUCCESS': {
-            newState.oxford = {
+            newState.oxfordTranslation = {
                 result: action.result,
                 isLoading: false
             }
             return newState
         }
         case 'OXFORD_TRANSLATION_ERROR': {
-            newState.oxford.isLoading = false;
+            newState.oxfordTranslation.isLoading = false;
+            return newState
+        }
+        case 'OXFORD_FETCH_EXAMPLES_TRY': {
+            newState.oxfordExamples = {
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'OXFORD_FETCH_EXAMPLES_SUCCESS': {
+            newState.oxfordExamples = {
+                result: action.result,
+                isLoading: false
+            }
+            return newState
+        }
+        case 'OXFORD_FETCH_EXAMPLES_ERROR': {
+            newState.oxfordExamples.isLoading = false;
             return newState
         }
         default:

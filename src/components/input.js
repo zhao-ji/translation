@@ -52,6 +52,7 @@ export class Input extends Component {
 
         if (isEnglish && searchString.length > 2 && !isSentence) {
             this.props.oxfordTranslate(inputData);
+            this.props.oxfordFetchExamples(inputData);
         }
 
         this.props.googleTranslate(inputData);

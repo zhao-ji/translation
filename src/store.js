@@ -22,7 +22,11 @@ function initialState() {
                 isTranslationLoading: false,
                 isExampleLoading: false
             },
-            oxford: {
+            oxfordTranslation: {
+                result: null,
+                isLoading: false
+            },
+            oxfordExamples: {
                 result: null,
                 isLoading: false
             },
