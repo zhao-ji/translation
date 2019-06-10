@@ -109,7 +109,7 @@ export default (state = {}, action) => {
         }
         case 'OXFORD_FETCH_EXAMPLES_TRY': {
             newState.oxfordExamples = {
-                result: null,
+                result: [],
                 isLoading: true
             };
             return newState

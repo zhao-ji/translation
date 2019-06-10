@@ -190,7 +190,7 @@ export class OxfordTranslationResult extends Component {
     }
 
     render() {
-        if (!this.props.result) {
+        if (!this.props.result || this.props.result.length === 0 || !this.props.result[0].lexicalEntries) {
             return null;
         }
         return (
@@ -221,7 +221,7 @@ class OxfordTranslationCard extends Component {
                 <Card.Body>
                     <Card.Title> Pronunciation </Card.Title>
                     <ListGroup className="list-group-flush">
-                        {lexicalEntry.pronunciations.map((pronunciation, IIindex) => (
+                        {lexicalEntry.pronunciations && lexicalEntry.pronunciations.length > 0 && lexicalEntry.pronunciations.map((pronunciation, IIindex) => (
                             <ListGroupItem key={IIindex}>
                                 {pronunciation.dialects && pronunciation.dialects.length > 0 &&
                                     pronunciation.dialects[0]
@@ -237,7 +237,7 @@ class OxfordTranslationCard extends Component {
                 <Card.Body>
                     <Card.Title> Etymology </Card.Title>
                     <ListGroup className="list-group-flush">
-                        {lexicalEntry.entries[0].etymologies && lexicalEntry.entries[0].etymologies.length > 0 &&
+                        {lexicalEntry.entries && lexicalEntry.entries.length > 0 && lexicalEntry.entries[0].etymologies && lexicalEntry.entries[0].etymologies.length > 0 &&
                             <>
                                 {lexicalEntry.entries[0].etymologies.map((etymology, IIIindex) => (
                                     <ListGroupItem key={IIIindex}>
@@ -248,7 +248,7 @@ class OxfordTranslationCard extends Component {
                         }
                     </ListGroup>
                 </Card.Body>
-                {lexicalEntry.entries[0].variantForms && lexicalEntry.entries[0].variantForms.length > 0 &&
+                {lexicalEntry.entries && lexicalEntry.entries.length > 0 &&lexicalEntry.entries[0].variantForms && lexicalEntry.entries[0].variantForms.length > 0 &&
                     <Card.Body>
                     <Card.Title>Variant Forms:</Card.Title>
                     <ListGroup className="list-group-flush">
@@ -260,23 +260,27 @@ class OxfordTranslationCard extends Component {
                     </ListGroup>
                     </Card.Body>
                 }
-                {lexicalEntry.entries[0].senses && lexicalEntry.entries[0].senses.length > 0 &&
+                {lexicalEntry.entries && lexicalEntry.entries.length > 0 && lexicalEntry.entries[0].senses && lexicalEntry.entries[0].senses.length > 0 &&
                     <>
                     {lexicalEntry.entries[0].senses.map((sense, Iindex) => (
                         <Card.Body>
                             <Card.Title>Senses:</Card.Title>
                             <ListGroup className="list-group-flush">
-                                <ListGroupItem>
-                                    Short Definitions: {sense.shortDefinitions.join("=============")}
-                                </ListGroupItem>
-                                <ListGroupItem>
-                                    Definitions: {sense.definitions.join("===============")}
-                                </ListGroupItem>
-                                    {sense.examples && sense.examples.map(example => (
-                                        <ListGroupItem>
-                                            Example: <Example text={example.text} word={this.props.word} />
-                                        </ListGroupItem>
-                                    ))}
+                                {sense.shortDefinitions && sense.shortDefinitions.length > 0 &&
+                                    <ListGroupItem>
+                                        Short Definitions: {sense.shortDefinitions.join("=============")}
+                                    </ListGroupItem>
+                                }
+                                {sense.definitions && sense.definitions.length > 0 &&
+                                    <ListGroupItem>
+                                        Definitions: {sense.definitions.join("===============")}
+                                    </ListGroupItem>
+                                }
+                                {sense.examples && sense.examples.map(example => (
+                                    <ListGroupItem>
+                                        Example: <Example text={example.text} word={this.props.result.text} />
+                                    </ListGroupItem>
+                                ))}
                                 <ListGroupItem>
                                     {sense.subsenses && sense.subsenses.length > 0 &&
                                         <ListGroup className="list-group-flush">
@@ -290,8 +294,8 @@ class OxfordTranslationCard extends Component {
                                                     </ListGroupItem>
                                                     {subsense.examples && subsense.examples.length > 0 &&
                                                         subsense.examples.map((example, hey) => (
-                                                            <ListGroupItem>
-                                                                Example: <Example text={example.text} word={this.props.word} />
+                                                            <ListGroupItem key={hey}>
+                                                                Example: <Example text={example.text} word={this.props.result.text} />
                                                             </ListGroupItem>
                                                         ))
                                                     }
@@ -374,7 +378,11 @@ class OxfordExampleCard extends Component {
 }
 
 const Example = ({ text, word }) => {
-    return (
-        text
-    );
+    let parts = text.split(new RegExp(`(${word})`, 'gi'));
+    return (<>{
+        parts.map((part, index) => 
+            part.toLowerCase() === word.toLowerCase()
+            ? <mark key={index}>{part}</mark> : part
+        )
+    }</>);
 }
