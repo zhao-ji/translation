@@ -10,3 +10,20 @@
 .weak {
     font-weight: lighter;
 }
+
+.horn {
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 24px !important;
+    width: 24px !important;
+    background-image: -webkit-image-set(url('https://ssl.gstatic.com/translate/1x_mobile.png') 1x,url('https://ssl.gstatic.com/translate/2x_mobile.png') 2x);
+}
+
+.yellow-horn {
+    background-repeat: no-repeat;
+    background-color: yellow;
+    display: inline-block;
+    height: 24px !important;
+    width: 24px !important;
+    background-image: -webkit-image-set(url('https://ssl.gstatic.com/translate/1x_mobile.png') 1x,url('https://ssl.gstatic.com/translate/2x_mobile.png') 2x);
+}

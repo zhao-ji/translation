@@ -40,7 +40,7 @@ class EntryCard extends Component {
                         <ListGroupItem>
                             {item.dialects && item.dialects.length > 0 && item.dialects[0]}:
                             &nbsp; /{item.phoneticSpelling}/
-                            &nbsp; <audio src={item.audioFile}></audio>
+                            &nbsp; <AudioPlayer src={item.audioFile} />
                         </ListGroupItem>
                     )}
                 />
@@ -162,6 +162,35 @@ const Example = ({ text, word }) => {
             ? <mark key={index}>{part}</mark> : part
         )
     }</>);
+}
+
+class AudioPlayer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isPlaying: false
+        }
+
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick() {
+        const audio = new Audio(this.props.src);
+        audio.play();
+        this.setState({ isPlaying: true });
+        audio.addEventListener("ended", () => {
+            this.setState({ isPlaying: false });
+        });
+    }
+
+    render() {
+        return (
+            <span
+                className={this.state.isPlaying ? "yellow-horn" : "horn"}
+                onClick={this.onClick}>
+            </span>
+        );
+    }
 }
 
 const OxfordResult = {
