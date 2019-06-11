@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { TranslationCard, TranslationCardItems } from '../utils';
 
-export class OxfordTranslationResult extends Component {
+class TranslationResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,13 +14,13 @@ export class OxfordTranslationResult extends Component {
             return null;
         }
         return (<>{this.props.result[0].lexicalEntries.map(
-            (entry, index) => (<OxfordTranslationCard result={entry} key={index} />)
+            (entry, index) => (<EntryCard result={entry} key={index} />)
         )}</>);
     }
 }
 
 
-class OxfordTranslationCard extends Component {
+class EntryCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -106,7 +106,7 @@ class OxfordTranslationCard extends Component {
     }
 }
 
-export class OxfordExamplesResult extends Component {
+class ExamplesResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -119,13 +119,13 @@ export class OxfordExamplesResult extends Component {
         }
         return (
             <>
-                {this.props.result.map((example, index) => (<OxfordExampleCard result={example} key={index} />))}
+                {this.props.result.map((example, index) => (<ExampleCard result={example} key={index} />))}
             </>
         )
     }
 }
 
-class OxfordExampleCard extends Component {
+class ExampleCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -136,7 +136,7 @@ class OxfordExampleCard extends Component {
         const sentence = this.props.result;
         return (
             <TranslationCard
-                    header={`Examples of ${sentence.word}`}
+                    header={<span>Examples of <b>{sentence.word}</b></span>}
                     title={`Lexical Category: ${sentence.lexicalEntries[0].lexicalCategory.text}`}>
                 <TranslationCardItems
                     title="" items={sentence.lexicalEntries[0].sentences}
@@ -163,3 +163,10 @@ const Example = ({ text, word }) => {
         )
     }</>);
 }
+
+const OxfordResult = {
+    TranslationResult: TranslationResult,
+    ExamplesResult: ExamplesResult,
+}
+
+export default OxfordResult;

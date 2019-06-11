@@ -3,7 +3,7 @@ import { Accordion, Button, Card, ListGroup, ListGroupItem } from 'react-bootstr
 import { TranslationCard, TranslationCardItems } from '../utils';
 
 
-export class GoogleResult extends Component {
+class GoogleResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +17,7 @@ export class GoogleResult extends Component {
     }
 }
 
-export class BaiduResult extends Component {
+class BaiduResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +31,7 @@ export class BaiduResult extends Component {
     }
 }
 
-export class BingResult extends Component {
+class BingResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -93,7 +93,7 @@ export class BingResult extends Component {
     }
 }
 
-export class YoudaoResult extends Component {
+class YoudaoResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -136,3 +136,12 @@ export class YoudaoResult extends Component {
         );
     }
 }
+
+const Result = {
+    GoogleResult: GoogleResult,
+    BaiduResult: BaiduResult,
+    YoudaoResult: YoudaoResult,
+    BingResult: BingResult,
+}
+
+export default Result;

@@ -20,6 +20,13 @@ export default (state = {}, action) => {
             newState.google.isLoading = false;
             return newState
         }
+        case 'GOOGLE_TRANSLATION_RESET': {
+            newState.google = {
+                result: null,
+                isLoading: false
+            };
+            return newState
+        }
         case 'BAIDU_TRANSLATION_TRY': {
             newState.baidu = {
                 result: null,
@@ -38,6 +45,13 @@ export default (state = {}, action) => {
             newState.baidu.isLoading = false;
             return newState
         }
+        case 'BAIDU_TRANSLATION_RESET': {
+            newState.baidu = {
+                result: null,
+                isLoading: false
+            };
+            return newState
+        }
         case 'YOUDAO_TRANSLATION_TRY': {
             newState.youdao = {
                 result: null,
@@ -54,6 +68,13 @@ export default (state = {}, action) => {
         }
         case 'YOUDAO_TRANSLATION_ERROR': {
             newState.youdao.isLoading = false;
+            return newState
+        }
+        case 'YOUDAO_TRANSLATION_RESET': {
+            newState.youdao = {
+                result: null,
+                isLoading: false
+            };
             return newState
         }
         case 'BING_TRANSLATION_TRY': {
@@ -89,6 +110,14 @@ export default (state = {}, action) => {
             newState.bing.isExampleLoading = false;
             return newState
         }
+        case 'BING_TRANSLATION_RESET': {
+            newState.bing = {
+                result: null,
+                isTranslationLoading: false,
+                isExampleLoading: false
+            };
+            return newState
+        }
         case 'OXFORD_TRANSLATION_TRY': {
             newState.oxfordTranslation = {
                 result: null,
@@ -107,6 +136,13 @@ export default (state = {}, action) => {
             newState.oxfordTranslation.isLoading = false;
             return newState
         }
+        case 'OXFORD_TRANSLATION_RESET': {
+            newState.oxfordTranslation = {
+                result: null,
+                isLoading: false
+            };
+            return newState
+        }
         case 'OXFORD_FETCH_EXAMPLES_TRY': {
             newState.oxfordExamples = {
                 result: [],
@@ -123,6 +159,13 @@ export default (state = {}, action) => {
         }
         case 'OXFORD_FETCH_EXAMPLES_ERROR': {
             newState.oxfordExamples.isLoading = false;
+            return newState
+        }
+        case 'OXFORD_FETCH_EXAMPLES_RESET': {
+            newState.oxfordExamples = {
+                result: null,
+                isLoading: false
+            };
             return newState
         }
         default:

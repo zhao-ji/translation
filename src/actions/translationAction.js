@@ -8,18 +8,18 @@ export const translationActions = {
         dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
         if (!kwargs.text) {
             // empty search content
-            return dispatch({ type: "GOOGLE_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "GOOGLE_TRANSLATION_RESET" });
         } else if (kwargs.isEnglish && kwargs.text.length < 2) {
             // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "GOOGLE_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "GOOGLE_TRANSLATION_RESET" });
         }
 
         let args = {
             params: {
                 key: secrets.googleKey,
                 q: kwargs.text,
-                from: kwargs.origin === "english" ? "en" : "zh-cn",
-                target: kwargs.destination === "english" ? "en" : "zh-cn",
+                from: kwargs.isEnglish ? "en" : "zh-cn",
+                target: kwargs.isEnglish ? "zh-cn" : "en",
             }
         };
         axios.get(secrets.googleUrl, args).then(response => {
@@ -36,10 +36,10 @@ export const translationActions = {
         dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
         if (!kwargs.text) {
             // empty search content
-            return dispatch({ type: "BAIDU_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "BAIDU_TRANSLATION_RESET" });
         } else if (kwargs.isEnglish && kwargs.text.length < 2) {
             // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "BAIDU_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "BAIDU_TRANSLATION_RESET" });
         }
 
         const salt = Math.random() * 2 ** 16;
@@ -49,8 +49,8 @@ export const translationActions = {
                 salt: salt,
                 sign: md5(secrets.baiduAppId + kwargs.text + salt + secrets.baiduSecretKey),
                 q: kwargs.text,
-                from: kwargs.origin === "english" ? "en" : "zh",
-                to: kwargs.destination === "english" ? "en" : "zh",
+                from: kwargs.isEnglish ? "en" : "zh",
+                to: kwargs.isEnglish ? "zh" : "en",
             }
         };
         axios.get(secrets.baiduUrl, args).then(response => {
@@ -67,10 +67,10 @@ export const translationActions = {
         dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
         if (!kwargs.text) {
             // empty search content
-            return dispatch({ type: "YOUDAO_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "YOUDAO_TRANSLATION_RESET" });
         } else if (kwargs.isEnglish && kwargs.text.length < 2) {
             // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "YOUDAO_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "YOUDAO_TRANSLATION_RESET" });
         }
 
         let args = {
@@ -92,10 +92,10 @@ export const translationActions = {
         dispatch({ type: "BING_TRANSLATION_TRY", kwargs });
         if (!kwargs.text) {
             // empty search content
-            return dispatch({ type: "BING_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "BING_TRANSLATION_RESET" });
         } else if (kwargs.isEnglish && kwargs.text.length < 2) {
             // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "BING_TRANSLATION_SUCCESS", result: "", kwargs });
+            return dispatch({ type: "BING_TRANSLATION_RESET" });
         }
 
         const data = [{
@@ -107,8 +107,8 @@ export const translationActions = {
             },
             params: {
                 "api-version": "3.0",
-                from: kwargs.origin === "english" ? "en" : "zh-Hans",
-                to: kwargs.destination === "english" ? "en" : "zh-Hans",
+                from: kwargs.isEnglish ? "en" : "zh-Hans",
+                to: kwargs.isEnglish ? "zh-Hans" : "en",
             },
         };
 
@@ -186,6 +186,20 @@ export const translationActions = {
             })
     },
     oxfordTranslate: kwargs => dispatch => {
+        if (!kwargs.text) {
+            // empty search content
+            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
+        } else if (!kwargs.isEnglish) {
+            // we don't trigger the search if it's mandarin
+            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
+        } else if (kwargs.isSentence) {
+            // we don't trigger the search if it's sentence
+            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
+        } else if (kwargs.text.length < 2) {
+            // we don't trigger the search if it's english and less than 2 characters
+            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
+        }
+
         dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
 
         axios.get(secrets.oxfordEntryUrl + kwargs.text.toLowerCase()).then(response => {
@@ -200,6 +214,20 @@ export const translationActions = {
     },
     oxfordFetchExamples: kwargs => dispatch => {
         dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
+
+        if (!kwargs.text) {
+            // empty search content
+            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
+        } else if (!kwargs.isEnglish) {
+            // we don't trigger the search if it's mandarin
+            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
+        } else if (kwargs.isSentence) {
+            // we don't trigger the search if it's sentence
+            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
+        } else if (kwargs.text.length < 2) {
+            // we don't trigger the search if it's english and less than 2 characters
+            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
+        }
 
         axios.get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase()).then(response => {
             dispatch({

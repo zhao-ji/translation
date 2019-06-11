@@ -7,8 +7,8 @@ import { translationActions } from './actions/translationAction'
 import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
-import { GoogleResult, BaiduResult, YoudaoResult, BingResult } from './components/result';
-import { OxfordTranslationResult, OxfordExamplesResult } from './components/oxfordResult';
+import OxfordResult from './components/oxfordResult';
+import Result from './components/result';
 
 import { debounce, LoadingWrapper } from './utils';
 import './css/_custom.css';
@@ -33,24 +33,24 @@ class App extends Component {
                 <Row noGutters={true}>
                     <Col sm={12} lg={6}>
                         <LoadingWrapper loading={this.props.translation.google.isLoading}>
-                            <GoogleResult result={this.props.translation.google.result}/>
+                            <Result.GoogleResult result={this.props.translation.google.result}/>
                         </LoadingWrapper>
                         <LoadingWrapper loading={this.props.translation.bing.isTranslationLoading}>
-                            <BingResult result={this.props.translation.bing.result}/>
+                            <Result.BingResult result={this.props.translation.bing.result}/>
                         </LoadingWrapper>
                         <LoadingWrapper loading={this.props.translation.oxfordTranslation.isLoading}>
-                            <OxfordTranslationResult result={this.props.translation.oxfordTranslation.result}/>
+                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
                         </LoadingWrapper>
                     </Col>
                     <Col sm={12} lg={6}>
                         <LoadingWrapper loading={this.props.translation.baidu.isLoading}>
-                            <BaiduResult result={this.props.translation.baidu.result}/>
+                            <Result.BaiduResult result={this.props.translation.baidu.result}/>
                         </LoadingWrapper>
                         <LoadingWrapper loading={this.props.translation.youdao.isLoading}>
-                            <YoudaoResult result={this.props.translation.youdao.result}/>
+                            <Result.YoudaoResult result={this.props.translation.youdao.result}/>
                         </LoadingWrapper>
                         <LoadingWrapper loading={this.props.translation.oxfordExamples.isLoading}>
-                            <OxfordExamplesResult result={this.props.translation.oxfordExamples.result}/>
+                            <OxfordResult.ExamplesResult result={this.props.translation.oxfordExamples.result}/>
                         </LoadingWrapper>
                     </Col>
                 </Row>

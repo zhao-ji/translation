@@ -46,20 +46,15 @@ export class Input extends Component {
             text: searchString,
             isEnglish: isEnglish,
             isSentence: isSentence,
-            origin: isEnglish ? "english" : "mandarin",
-            destination: isEnglish ? "mandarin" : "english",
         };
-
-        if (isEnglish && searchString.length > 2 && !isSentence) {
-            this.props.oxfordTranslate(inputData);
-            this.props.oxfordFetchExamples(inputData);
-        }
 
         this.props.googleTranslate(inputData);
         this.props.baiduTranslate(inputData);
         this.props.bingTranslate(inputData);
         this.props.youdaoTranslate(inputData);
         this.props.record(inputData);
+        this.props.oxfordTranslate(inputData);
+        this.props.oxfordFetchExamples(inputData);
     }
 
 
