@@ -8,7 +8,7 @@ import { recordActions } from './actions/recordAction'
 
 import { Input } from './components/input';
 import { GoogleResult, BaiduResult, YoudaoResult, BingResult } from './components/result';
-import { OxfordTranslationResult, OxfordExamplesResult } from './components/result';
+import { OxfordTranslationResult, OxfordExamplesResult } from './components/oxfordResult';
 
 import { debounce, LoadingWrapper } from './utils';
 import './css/_custom.css';
