@@ -32,7 +32,7 @@ class EntryCard extends Component {
         return (
             <Card>
                 <Card.Header>
-                    Oxford Lexical Category: {lexicalEntry.lexicalCategory.text}
+                    <span>Oxford Lexical Category: <b>{lexicalEntry.lexicalCategory.text}</b></span>
                 </Card.Header>
                 <TranslationCardItems
                     title="Pronunciation" items={lexicalEntry.pronunciations}
@@ -136,8 +136,8 @@ class ExampleCard extends Component {
         const sentence = this.props.result;
         return (
             <TranslationCard
-                    header={<span>Examples of <b>{sentence.word}</b></span>}
-                    title={`Lexical Category: ${sentence.lexicalEntries[0].lexicalCategory.text}`}>
+                    header={<span>Oxford Lexical Category: <b>{sentence.lexicalEntries[0].lexicalCategory.text}</b></span>}
+                    title="Examples">
                 <TranslationCardItems
                     title="" items={sentence.lexicalEntries[0].sentences}
                     renderMethod={item => (
