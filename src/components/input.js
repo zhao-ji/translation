@@ -8,10 +8,7 @@ const punctuationRegex = /[ .,:;!?。，：；！？]/
 const Towards = ({ isEnglish }) => {
     return (
         <span className="pull-right">
-                Language:
-                {
-                    isEnglish ? 'English => Chinese' : 'Chinese => English'
-                }
+            Language: { isEnglish ? 'English => Chinese' : 'Chinese => English' }
         </span>
     )
 }
@@ -76,7 +73,7 @@ export class Input extends Component {
             <div>
                 <Form.Control
                     as="textarea"
-                    placeholder="Please write what you want to translate."
+                    placeholder="Please input here..."
                     value={this.state.value || ""}
                     onChange={this.handleChange}
                     autoComplete="false"
