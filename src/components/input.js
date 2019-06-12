@@ -28,8 +28,6 @@ export class Input extends Component {
         autosize(event.target)
 
         let searchString = event.target.value;
-        const isEnglish = this.checkIfEnglish(searchString);
-
         this.setState({value: searchString});
 
         if (this.state.value && searchString.trim() === this.state.value.trim()) {
@@ -38,11 +36,10 @@ export class Input extends Component {
         }
 
         searchString = searchString.trim()
-        const isSentence = this.checkIfSentence(searchString);
         const inputData = {
             text: searchString,
-            isEnglish: isEnglish,
-            isSentence: isSentence,
+            isEnglish: this.checkIfEnglish(searchString),
+            isSentence: this.checkIfSentence(searchString),
         };
 
         this.props.googleTranslate(inputData);
@@ -70,7 +67,7 @@ export class Input extends Component {
 
     render() {
         return (
-            <div>
+            <>
                 <Form.Control
                     as="textarea"
                     placeholder="Please input here..."
@@ -95,7 +92,7 @@ export class Input extends Component {
                         </Row>
                     </Container>
                 }
-            </div>
+            </>
         );
     }
 }

@@ -27,7 +27,7 @@ function initialState() {
                 isLoading: false
             },
             oxfordExamples: {
-                result: null,
+                result: [],
                 isLoading: false
             },
         },

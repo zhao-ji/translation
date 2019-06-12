@@ -163,7 +163,7 @@ export default (state = {}, action) => {
         }
         case 'OXFORD_FETCH_EXAMPLES_RESET': {
             newState.oxfordExamples = {
-                result: null,
+                result: [],
                 isLoading: false
             };
             return newState

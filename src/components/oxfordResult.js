@@ -95,7 +95,7 @@ class EntryCard extends Component {
                                     </ListGroupItem>
                                 ))}
                                 {sense.regions && sense.regions.length > 0 && sense.regions.map(region => (
-                                    <ListGroupItem> Region: {region} </ListGroupItem>
+                                    <ListGroupItem> Region: {region.text} </ListGroupItem>
                                 ))}
                             </ListGroupItem>)}
                         />
@@ -114,7 +114,7 @@ class ExamplesResult extends Component {
     }
 
     render() {
-        if (!this.props.result) {
+        if (this.props.result.length < 1) {
             return null;
         }
         return (
