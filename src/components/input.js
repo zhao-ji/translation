@@ -5,10 +5,10 @@ import autosize from 'autosize';
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[ .,:;!?。，：；！？]/
 
-const Towards = ({ isEnglish }) => {
+export const Towards = ({ isMandarin }) => {
     return (
         <span className="pull-right">
-            Language: { isEnglish ? 'English => Chinese' : 'Chinese => English' }
+            Language: { isMandarin ? 'Chinese => English' : 'English => Chinese' }
         </span>
     )
 }
@@ -38,7 +38,7 @@ export class Input extends Component {
         searchString = searchString.trim()
         const inputData = {
             text: searchString,
-            isEnglish: this.checkIfEnglish(searchString),
+            isEnglish: !this.checkIfMandarin(searchString),
             isSentence: this.checkIfSentence(searchString),
         };
 
@@ -52,17 +52,18 @@ export class Input extends Component {
     }
 
 
-    checkIfEnglish(text) {
-        return !chineseRegex.test(text);
+    checkIfMandarin(text) {
+        if (typeof text !== "string") {
+            return false
+        }
+        return chineseRegex.test(text);
     }
 
     checkIfSentence(text) {
+        if (typeof text !== "string") {
+            return false
+        }
         return punctuationRegex.test(text);
-    }
-
-    removeSpecialCharacters(text) {
-        // remove all the special characters in input
-        return text.replace(/[^a-zA-Z0-9\n\s]/g, " ")
     }
 
     render() {
@@ -87,7 +88,7 @@ export class Input extends Component {
                                 <span>Length: {this.state.value ? this.state.value.length : 0}/5000</span>
                             </Col>
                             <Col sm={6} lg={6}>
-                                <Towards isEnglish={this.checkIfEnglish(this.state.value)} />
+                                <Towards isMandarin={this.checkIfMandarin(this.state.value)} />
                             </Col>
                         </Row>
                     </Container>

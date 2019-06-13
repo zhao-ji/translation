@@ -40,6 +40,9 @@
     ]
   },
   "devDependencies": {
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "react-test-renderer": "^16.8.6",
     "source-map-explorer": "^2.0.0"
   }
 }

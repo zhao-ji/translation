@@ -64,18 +64,10 @@ class BingResult extends Component {
                                                     {explain.examples.map((item, iIndex) => (
                                                         <ListGroupItem key={iIndex}>
                                                             <span>
-                                                                {item.sourcePrefix}
-                                                                <mark>
-                                                                    {item.sourceTerm}
-                                                                </mark>
-                                                                {item.sourceSuffix}:
+                                                                {item.sourcePrefix} <mark> {item.sourceTerm} </mark> {item.sourceSuffix}:
                                                             </span>
                                                             <span className="pull-right">
-                                                                {item.targetPrefix}
-                                                                <mark>
-                                                                    {item.targetTerm}
-                                                                </mark>
-                                                                {item.targetSuffix}
+                                                                {item.targetPrefix} <mark> {item.targetTerm} </mark> {item.targetSuffix}
                                                             </span>
                                                         </ListGroupItem>
                                                     ))}
