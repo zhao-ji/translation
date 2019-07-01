@@ -13,9 +13,13 @@ class TranslationResult extends Component {
         if (!this.props.result || this.props.result.length === 0 || !this.props.result[0].lexicalEntries) {
             return null;
         }
-        return (<>{this.props.result[0].lexicalEntries.map(
-            (entry, index) => (<EntryCard result={entry} key={index} />)
-        )}</>);
+        return (<>{
+            this.props.result.map((item, index) => (
+                item.lexicalEntries.map((entry, Iindex) =>
+                    <EntryCard result={entry} key={Iindex + index * 100} />
+                )
+            ))
+        }</>);
     }
 }
 
