@@ -79,15 +79,27 @@ class EntryCard extends Component {
                                         Example: <Example text={example.text} word={this.props.result.text} key={indexx} />
                                     </ListGroupItem>
                                 ))}
+                                {sense.domains && sense.domains.map((domain, indexx) => (
+                                    <ListGroupItem>
+                                        Domains: {domain.text}
+                                    </ListGroupItem>
+                                ))}
+                                {sense.notes && sense.notes.map((note, indexx) => (
+                                    <ListGroupItem>
+                                        Note: {note.type} {note.text}
+                                    </ListGroupItem>
+                                ))}
                                 {sense.subsenses && sense.subsenses.length > 0 && sense.subsenses.map((subsense, indexx) => (
                                     <ListGroupItem>
                                         <ListGroup className="list-group-flush">
                                             <ListGroupItem>
                                                 Short Definitions: {subsense.shortDefinitions.join('--------')}
                                             </ListGroupItem>
-                                            <ListGroupItem>
-                                                Definitions: {subsense.definitions.join('----------')}
-                                            </ListGroupItem>
+                                            {subsense.definitions && subsense.definitions.length > 0 &&
+                                                <ListGroupItem>
+                                                    Definitions: {subsense.definitions.join('----------')}
+                                                </ListGroupItem>
+                                            }
                                             {subsense.examples && subsense.examples.length > 0 &&
                                                 subsense.examples.map((example, hey) => (
                                                     <ListGroupItem key={hey}>
