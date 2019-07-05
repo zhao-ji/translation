@@ -4,104 +4,67 @@ export default (state = {}, action) => {
     switch (action.type) {
         case 'GOOGLE_TRANSLATION_TRY': {
             newState.google = {
+                text: action.kwargs.text,
                 result: null,
                 isLoading: true
             };
             return newState
         }
         case 'GOOGLE_TRANSLATION_SUCCESS': {
-            newState.google = {
-                result: action.result,
-                isLoading: false
-            }
+            newState.google.result = action.result;
+            newState.google.isLoading = false;
             return newState
         }
         case 'GOOGLE_TRANSLATION_ERROR': {
             newState.google.isLoading = false;
             return newState
         }
-        case 'GOOGLE_TRANSLATION_RESET': {
-            newState.google = {
-                result: null,
-                isLoading: false
-            };
-            return newState
-        }
         case 'BAIDU_TRANSLATION_TRY': {
             newState.baidu = {
+                text: action.kwargs.text,
                 result: null,
                 isLoading: true
             };
             return newState
         }
         case 'BAIDU_TRANSLATION_SUCCESS': {
-            newState.baidu = {
-                result: action.result,
-                isLoading: false
-            }
+            newState.baidu.result = action.result;
+            newState.baidu.isLoading = false;
             return newState
         }
         case 'BAIDU_TRANSLATION_ERROR': {
             newState.baidu.isLoading = false;
             return newState
         }
-        case 'BAIDU_TRANSLATION_RESET': {
-            newState.baidu = {
-                result: null,
-                isLoading: false
-            };
-            return newState
-        }
         case 'YOUDAO_TRANSLATION_TRY': {
             newState.youdao = {
+                text: action.kwargs.text,
                 result: null,
                 isLoading: true
             };
             return newState
         }
         case 'YOUDAO_TRANSLATION_SUCCESS': {
-            newState.youdao = {
-                result: action.result,
-                isLoading: false
-            }
+            newState.youdao.result = action.result;
+            newState.youdao.isLoading = false;
             return newState
         }
         case 'YOUDAO_TRANSLATION_ERROR': {
             newState.youdao.isLoading = false;
             return newState
         }
-        case 'YOUDAO_TRANSLATION_RESET': {
-            newState.youdao = {
-                result: null,
-                isLoading: false
-            };
-            return newState
-        }
         case 'BING_TRANSLATION_TRY': {
             newState.bing = {
+                text: action.kwargs.text,
                 result: null,
                 isTranslationLoading: true,
                 isExampleLoading: true,
             };
             return newState
         }
-        case 'BING_TRANSLATION_IN_PROGRESS': {
-            newState.bing = {
-                result: action.result,
-                isTranslationLoading: false,
-                isExampleLoading: true
-            }
-            return newState
-        }
         case 'BING_TRANSLATION_SUCCESS': {
-            newState.bing = {
-                result: action.result,
-                isTranslationLoading: false,
-                isExampleLoading: false
-            }
-            return newState
-        }
-        case 'BING_TRANSLATION_EXAMPLE_ERROR': {
+            newState.bing.result = action.result;
+            newState.bing.isTranslationLoading = false;
             newState.bing.isExampleLoading = false;
             return newState
         }
@@ -110,62 +73,48 @@ export default (state = {}, action) => {
             newState.bing.isExampleLoading = false;
             return newState
         }
-        case 'BING_TRANSLATION_RESET': {
-            newState.bing = {
-                result: null,
-                isTranslationLoading: false,
-                isExampleLoading: false
-            };
+        case 'BING_TRANSLATION_IN_PROGRESS': {
+            newState.bing.result = action.result;
+            newState.bing.isTranslationLoading = false;
+            newState.bing.isExampleLoading = true;
+            return newState
+        }
+        case 'BING_TRANSLATION_EXAMPLE_ERROR': {
+            newState.bing.isExampleLoading = false;
             return newState
         }
         case 'OXFORD_TRANSLATION_TRY': {
             newState.oxfordTranslation = {
+                text: action.kwargs.text,
                 result: null,
                 isLoading: true
             };
             return newState
         }
         case 'OXFORD_TRANSLATION_SUCCESS': {
-            newState.oxfordTranslation = {
-                result: action.result,
-                isLoading: false
-            }
+            newState.oxfordTranslation.result = action.result;
+            newState.oxfordTranslation.isLoading = false;
             return newState
         }
         case 'OXFORD_TRANSLATION_ERROR': {
             newState.oxfordTranslation.isLoading = false;
             return newState
         }
-        case 'OXFORD_TRANSLATION_RESET': {
-            newState.oxfordTranslation = {
-                result: null,
-                isLoading: false
-            };
-            return newState
-        }
         case 'OXFORD_FETCH_EXAMPLES_TRY': {
             newState.oxfordExamples = {
+                text: action.kwargs.text,
                 result: [],
                 isLoading: true
             };
             return newState
         }
         case 'OXFORD_FETCH_EXAMPLES_SUCCESS': {
-            newState.oxfordExamples = {
-                result: action.result,
-                isLoading: false
-            }
+            newState.oxfordExamples.result = action.result;
+            newState.oxfordExamples.isLoading = false;
             return newState
         }
         case 'OXFORD_FETCH_EXAMPLES_ERROR': {
             newState.oxfordExamples.isLoading = false;
-            return newState
-        }
-        case 'OXFORD_FETCH_EXAMPLES_RESET': {
-            newState.oxfordExamples = {
-                result: [],
-                isLoading: false
-            };
             return newState
         }
         default:

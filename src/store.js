@@ -6,42 +6,52 @@ function initialState() {
     return {
         translation: {
             google: {
+                text: null,
                 result: null,
                 isLoading: false
             },
             baidu: {
+                text: null,
                 result: null,
                 isLoading: false
             },
             youdao: {
+                text: null,
                 result: null,
                 isLoading: false
             },
             bing: {
+                text: null,
                 result: null,
                 isTranslationLoading: false,
                 isExampleLoading: false
             },
             oxfordTranslation: {
+                text: null,
                 result: null,
                 isLoading: false
             },
             oxfordExamples: {
+                text: null,
                 result: [],
                 isLoading: false
             },
         },
-        record: {
+        recordResult: {
             isSuccess: null,
             isLoading: null,
-        }
+        },
+        utils: {
+            currentText: null,
+            cache: {},
+        },
     }
 }
 
 export default function configureStore() {
-    return createStore(
+    return applyMiddleware(thunk)(createStore)(
         rootReducer,
         initialState(),
-        applyMiddleware(thunk)
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     );
 }

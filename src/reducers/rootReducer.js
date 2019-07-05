@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import translation from './translationReducer';
-import record from './recordReducer';
+import recordResult from './recordReducer';
+import utils from './utilsReducer';
 
 export default combineReducers({
     translation: translation,
-    record: record,
+    recordResult: recordResult,
+    utils: utils,
 })

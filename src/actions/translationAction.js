@@ -2,18 +2,11 @@ import axios from 'axios';
 import md5 from 'md5';
 
 import { secrets } from './secrets';
+import { utilsActions } from './utilsAction';
 
 export const translationActions = {
     googleTranslate: kwargs => dispatch => {
         dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text) {
-            // empty search content
-            return dispatch({ type: "GOOGLE_TRANSLATION_RESET" });
-        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
-            // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "GOOGLE_TRANSLATION_RESET" });
-        }
-
         let args = {
             params: {
                 key: secrets.googleKey,
@@ -28,19 +21,26 @@ export const translationActions = {
                 result: response.data.data.translations[0].translatedText,
                 kwargs
             });
+            dispatch(utilsActions.addCache({
+                source: "google",
+                text: kwargs.text,
+                result: response.data.data.translations[0].translatedText,
+            }));
         }).catch(error => {
+            console.error(error);
             dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
         })
     },
+    googleTranslateFromCache: kwargs => dispatch => {
+        dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
+        dispatch({
+            type: "GOOGLE_TRANSLATION_SUCCESS",
+            result: kwargs.cache,
+            kwargs
+        });
+    },
     baiduTranslate: kwargs => dispatch => {
         dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text) {
-            // empty search content
-            return dispatch({ type: "BAIDU_TRANSLATION_RESET" });
-        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
-            // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "BAIDU_TRANSLATION_RESET" });
-        }
 
         const salt = Math.random() * 2 ** 16;
         let args = {
@@ -59,19 +59,26 @@ export const translationActions = {
                 result: response.data.trans_result[0].dst,
                 kwargs
             });
+            dispatch(utilsActions.addCache({
+                source: "baidu",
+                text: kwargs.text,
+                result: response.data.trans_result[0].dst,
+            }));
         }).catch(error => {
+            console.error(error);
             dispatch({ type: "BAIDU_TRANSLATION_ERROR", error: error, kwargs });
         })
     },
+    baiduTranslateFromCache: kwargs => dispatch => {
+        dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
+        dispatch({
+            type: "BAIDU_TRANSLATION_SUCCESS",
+            result: kwargs.cache,
+            kwargs
+        });
+    },
     youdaoTranslate: kwargs => dispatch => {
         dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text) {
-            // empty search content
-            return dispatch({ type: "YOUDAO_TRANSLATION_RESET" });
-        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
-            // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "YOUDAO_TRANSLATION_RESET" });
-        }
 
         let args = {
             params: {
@@ -84,19 +91,26 @@ export const translationActions = {
                 result: response.data,
                 kwargs
             });
+            dispatch(utilsActions.addCache({
+                source: "youdao",
+                text: kwargs.text,
+                result: response.data,
+            }));
         }).catch(error => {
+            console.error(error);
             dispatch({ type: "YOUDAO_TRANSLATION_ERROR", error: error, kwargs });
         })
     },
+    youdaoTranslateFromCache: kwargs => dispatch => {
+        dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
+        dispatch({
+            type: "YOUDAO_TRANSLATION_SUCCESS",
+            result: kwargs.cache,
+            kwargs
+        });
+    },
     bingTranslate: kwargs => dispatch => {
         dispatch({ type: "BING_TRANSLATION_TRY", kwargs });
-        if (!kwargs.text) {
-            // empty search content
-            return dispatch({ type: "BING_TRANSLATION_RESET" });
-        } else if (kwargs.isEnglish && kwargs.text.length < 2) {
-            // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "BING_TRANSLATION_RESET" });
-        }
 
         const data = [{
             text: kwargs.text
@@ -122,8 +136,16 @@ export const translationActions = {
                         },
                         kwargs
                     });
+                    dispatch(utilsActions.addCache({
+                        source: "bing",
+                        text: kwargs.text,
+                        result: {
+                            translation: translateResponse.data[0].translations[0].text,
+                        }
+                    }));
                 })
                 .catch(error => {
+                    console.error(error);
                     dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
                 })
         }
@@ -138,7 +160,7 @@ export const translationActions = {
             .then(axios.spread((translateResponse, dictionaryResponse) => {
                 const dictionary = dictionaryResponse.data[0].translations;
                 if (dictionary.length === 0) {
-                    return dispatch({
+                    dispatch({
                         type: "BING_TRANSLATION_SUCCESS",
                         result: {
                             translation: translateResponse.data[0].translations[0].text,
@@ -146,6 +168,15 @@ export const translationActions = {
                         },
                         kwargs
                     });
+                    dispatch(utilsActions.addCache({
+                        source: "bing",
+                        text: kwargs.text,
+                        result: {
+                            translation: translateResponse.data[0].translations[0].text,
+                            dictionary: dictionary,
+                        },
+                    }));
+                    return
                 }
 
                 dispatch({
@@ -176,30 +207,34 @@ export const translationActions = {
                             },
                             kwargs
                         });
+                        dispatch(utilsActions.addCache({
+                            source: "bing",
+                            text: kwargs.text,
+                            result: {
+                                translation: translateResponse.data[0].translations[0].text,
+                                dictionary: dictionaryData,
+                            },
+                        }));
                     })
                     .catch(error => {
+                        console.error(error);
                         dispatch({ type: "BING_TRANSLATION_EXAMPLE_ERROR", error: error, kwargs });
                     })
             }))
             .catch(error => {
+                console.error(error);
                 dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
+    bingTranslateFromCache: kwargs => dispatch => {
+        dispatch({ type: "BING_TRANSLATION_TRY", kwargs });
+        dispatch({
+            type: "BING_TRANSLATION_SUCCESS",
+            result: kwargs.cache,
+            kwargs
+        });
+    },
     oxfordTranslate: kwargs => dispatch => {
-        if (!kwargs.text) {
-            // empty search content
-            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
-        } else if (!kwargs.isEnglish) {
-            // we don't trigger the search if it's mandarin
-            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
-        } else if (kwargs.isSentence) {
-            // we don't trigger the search if it's sentence
-            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
-        } else if (kwargs.text.length < 2) {
-            // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "OXFORD_TRANSLATION_RESET" });
-        }
-
         dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
 
         axios.get(secrets.oxfordEntryUrl + kwargs.text.toLowerCase()).then(response => {
@@ -208,26 +243,26 @@ export const translationActions = {
                 result: response.data.results,
                 kwargs
             });
+            dispatch(utilsActions.addCache({
+                source: "oxford",
+                text: kwargs.text,
+                result: response.data.results,
+            }));
         }).catch(error => {
+            console.error(error);
             dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
         })
     },
+    oxfordTranslateFromCache: kwargs => dispatch => {
+        dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
+        dispatch({
+            type: "OXFORD_TRANSLATION_SUCCESS",
+            result: kwargs.cache,
+            kwargs
+        });
+    },
     oxfordFetchExamples: kwargs => dispatch => {
         dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
-
-        if (!kwargs.text) {
-            // empty search content
-            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
-        } else if (!kwargs.isEnglish) {
-            // we don't trigger the search if it's mandarin
-            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
-        } else if (kwargs.isSentence) {
-            // we don't trigger the search if it's sentence
-            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
-        } else if (kwargs.text.length < 2) {
-            // we don't trigger the search if it's english and less than 2 characters
-            return dispatch({ type: "OXFORD_FETCH_EXAMPLES_RESET" });
-        }
 
         axios.get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase()).then(response => {
             dispatch({
@@ -235,8 +270,22 @@ export const translationActions = {
                 result: response.data.results,
                 kwargs
             });
+            dispatch(utilsActions.addCache({
+                source: "oxfordExamples",
+                text: kwargs.text,
+                result: response.data.results,
+            }));
         }).catch(error => {
+            console.error(error);
             dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
         })
+    },
+    oxfordFetchExamplesFromCache: kwargs => dispatch => {
+        dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
+        dispatch({
+            type: "OXFORD_FETCH_EXAMPLES_SUCCESS",
+            result: kwargs.cache,
+            kwargs
+        });
     },
 }

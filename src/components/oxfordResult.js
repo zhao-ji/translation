@@ -48,7 +48,7 @@ class EntryCard extends Component {
                         </ListGroupItem>
                     )}
                 />
-                {lexicalEntry.entries && lexicalEntry.entries.length > 0 && 
+                {lexicalEntry.entries && lexicalEntry.entries.length > 0 &&
                     <>
                         <TranslationCardItems
                             title="Etymology"
@@ -173,7 +173,7 @@ class ExampleCard extends Component {
 const Example = ({ text, word }) => {
     let parts = text.split(new RegExp(`(${word})`, 'gi'));
     return (<>{
-        parts.map((part, index) => 
+        parts.map((part, index) =>
             part.toLowerCase() === word.toLowerCase()
             ? <mark key={index}>{part}</mark> : part
         )

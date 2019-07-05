@@ -2,22 +2,15 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 
-export const debounce = (fn, delay) => {
-    let timer = null;
-    return (...args) => {
-        const context = this;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            fn.apply(context, args);
-        }, delay);
-    };
-};
+const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
+const punctuationRegex = /[ .,:;!?。，：；！？]/
 
-export const LoadingWrapper = ({ loading, children }) => (
-    <div>
-        { !loading && children }
-    </div>
-)
+export const LoadingWrapper = ({ loading, match, children }) => {
+    if (!loading && match) {
+        return (<>{ children }</>);
+    }
+    return null
+}
 
 export function TranslationCard (props) {
     if (!props.title) {
@@ -46,4 +39,18 @@ export function TranslationCardItems(props) {
             </ListGroup>
         </Card.Body>
     );
+}
+
+export function checkIfMandarin(text) {
+    if (typeof text !== "string") {
+        return false
+    }
+    return chineseRegex.test(text);
+}
+
+export function checkIfSentence(text) {
+    if (typeof text !== "string") {
+        return false
+    }
+    return punctuationRegex.test(text);
 }

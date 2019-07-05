@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import autosize from 'autosize';
+import { throttle, debounce } from 'throttle-debounce';
 
-const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
-const punctuationRegex = /[ .,:;!?。，：；！？]/
+import { checkIfMandarin, checkIfSentence } from '../utils';
 
-export const Towards = ({ isMandarin }) => {
-    return (
-        <span className="pull-right">
-            Language: { isMandarin ? 'Chinese => English' : 'English => Chinese' }
-        </span>
-    )
-}
-
-export class Input extends Component {
+export default class Input extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: null
+            tasks: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.debounceFetch = this.debounceFetch.bind(this);
+        this.throttleFetch = this.throttleFetch.bind(this);
     }
 
     handleChange(event) {
@@ -28,72 +22,115 @@ export class Input extends Component {
         autosize(event.target)
 
         let searchString = event.target.value;
-        this.setState({value: searchString});
-
-        if (this.state.value && searchString.trim() === this.state.value.trim()) {
-            // if just spaces added in the beginning or end, we don't request it any more
-            return
-        }
-
-        searchString = searchString.trim()
         const inputData = {
-            text: searchString,
-            isEnglish: !this.checkIfMandarin(searchString),
-            isSentence: this.checkIfSentence(searchString),
+            text: searchString.trim(),
+            isEnglish: !checkIfMandarin(searchString),
+            isSentence: checkIfSentence(searchString),
         };
+        this.props.setCurrentText({ text: inputData.text })
+        this.setState((prevState, props) => {
+            prevState.tasks.map(task => task.cancel());
+            return {tasks: []};
+        })
 
-        this.props.googleTranslate(inputData);
-        this.props.baiduTranslate(inputData);
-        this.props.bingTranslate(inputData);
-        this.props.youdaoTranslate(inputData);
-        this.props.oxfordTranslate(inputData);
-        this.props.oxfordFetchExamples(inputData);
-        this.props.record(inputData);
+        if (!searchString || !searchString.trim()) {
+            // input is empty string or only contains spaces
+            // it means user clean the input
+            // so we need to clean the cache and update the current input state
+            this.props.cleanCache()
+        } else if (searchString.trim() === this.props.currentText) {
+            // user add spaces in the end or begening of sentence
+            // the input does change, but we don't need to trigger a HTTP request
+            // we do nothing
+        } else if (inputData.isEnglish && searchString.length < 2) {
+            // input is english and less than 2 characters
+            // user have not finished the input
+            // we don't trigger the search but we update the global state to hide the result
+        } else if (inputData.isEnglish && inputData.text.length < 10) {
+            // input is english and less than 10 characters
+            // there is high possibility to be a single word
+            // we throttle the HTTP request(more often than debounce)
+            this.throttleFetch(inputData)
+        } else if (inputData.isEnglish && inputData.text.length >= 10) {
+            // input is english and more than 10 chars
+            // this means user want to translate the sentence
+            // we debounce the request
+            this.debounceFetch(inputData)
+        } else if (!inputData.isEnglish && inputData.text.length <= 3) {
+            // input is mandarin and less than 3 chars
+            // this is mandarin word
+            // we throttle the HTTP request and no oxford included
+            this.throttleFetch(inputData)
+        } else if (!inputData.isEnglish && inputData.text.length > 3) {
+            // input is mandarin and more than 3 chars
+            // this is mandarin word
+            // we debounce the HTTP request and don't include the oxford
+            this.debounceFetch(inputData)
+        } else {
+            // what's wrong with our check?
+            console.log("something happened!");
+            console.log(inputData);
+        }
     }
 
-
-    checkIfMandarin(text) {
-        if (typeof text !== "string") {
-            return false
+    cacheOrThrottle(inputData, sourceName, fetchFunc, fetchFromCacheFunc, throttleFunc, throttleTime) {
+        if (inputData.text in this.props.cache && sourceName in this.props.cache[inputData.text]) {
+            fetchFromCacheFunc({
+                text: inputData.text,
+                cache: this.props.cache[inputData.text][sourceName]
+            });
+        } else {
+            const throttleObj = throttle(500, fetchFunc);
+            this.setState((prevState, props) => {
+                prevState.tasks.push(throttleObj);
+                return { tasks: prevState.tasks };
+            });
+            throttleObj(inputData);
         }
-        return chineseRegex.test(text);
     }
 
-    checkIfSentence(text) {
-        if (typeof text !== "string") {
-            return false
+    debounceFetch(inputData) {
+        const partialFunc = (sourceName, fetchFunc, fetchFromCacheFunc) => {
+            this.cacheOrThrottle(inputData, sourceName, fetchFunc, fetchFromCacheFunc, debounce, 1000);
         }
-        return punctuationRegex.test(text);
+        partialFunc("google", this.props.googleTranslate, this.props.googleTranslateFromCache);
+        partialFunc("baidu", this.props.baiduTranslate, this.props.baiduTranslateFromCache);
+        partialFunc("bing", this.props.bingTranslate, this.props.bingTranslateFromCache);
+        partialFunc("youdao", this.props.youdaoTranslate, this.props.youdaoTranslateFromCache);
+        if (inputData.isEnglish && !inputData.isSentence) {
+            partialFunc("oxford", this.props.oxfordTranslate, this.props.oxfordTranslateFromCache);
+            partialFunc("oxfordExamples", this.props.oxfordFetchExamples, this.props.oxfordFetchExamplesFromCache);
+        }
+        debounce(1000, this.props.record)(inputData);
+    }
+
+    throttleFetch(inputData) {
+        const partialFunc = (sourceName, fetchFunc, fetchFromCacheFunc) => {
+            this.cacheOrThrottle(inputData, sourceName, fetchFunc, fetchFromCacheFunc, throttle, 500);
+        }
+        partialFunc("google", this.props.googleTranslate, this.props.googleTranslateFromCache);
+        partialFunc("baidu", this.props.baiduTranslate, this.props.baiduTranslateFromCache);
+        partialFunc("bing", this.props.bingTranslate, this.props.bingTranslateFromCache);
+        partialFunc("youdao", this.props.youdaoTranslate, this.props.youdaoTranslateFromCache);
+        if (inputData.isEnglish && !inputData.isSentence) {
+            partialFunc("oxford", this.props.oxfordTranslate, this.props.oxfordTranslateFromCache);
+            partialFunc("oxfordExamples", this.props.oxfordFetchExamples, this.props.oxfordFetchExamplesFromCache);
+        }
+        debounce(500, this.props.record)(inputData);
     }
 
     render() {
         return (
-            <>
-                <Form.Control
-                    as="textarea"
-                    placeholder="Please input here..."
-                    value={this.state.value || ""}
-                    onChange={this.handleChange}
-                    autoComplete="false"
-                    autoFocus
-                    minLength="2"
-                    rows="1"
-                    id="input-search-bar"
-                />
-                {
-                    this.state.value &&
-                    <Container fluid={true}>
-                        <Row>
-                            <Col sm={6} lg={6}>
-                                <span>Length: {this.state.value ? this.state.value.length : 0}/5000</span>
-                            </Col>
-                            <Col sm={6} lg={6}>
-                                <Towards isMandarin={this.checkIfMandarin(this.state.value)} />
-                            </Col>
-                        </Row>
-                    </Container>
-                }
-            </>
+            <Form.Control
+                as="textarea"
+                placeholder="Please input here..."
+                onChange={this.handleChange}
+                autoComplete="false"
+                autoFocus
+                minLength="2"
+                rows="1"
+                id="input-search-bar"
+            />
         );
     }
 }

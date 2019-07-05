@@ -112,7 +112,7 @@ class YoudaoResult extends Component {
                 }
                 <TranslationCardItems
                     title="Basic" items={basicInfo && basicInfo.explains}
-                    renderMethod={item => (<ListGroupItem>{item}</ListGroupItem>)}
+                    renderMethod={(item, index) => (<ListGroupItem key={index}>{item}</ListGroupItem>)}
                 />
                 <TranslationCardItems
                     title="Web" items={webInfo}
