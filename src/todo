@@ -1,7 +1,39 @@
 uglify the secret
+
+build analysis
+
 test case
-example extendable
-icon put some place
-the sauruslinks
-cross reference
-copy UI style from oxford
+    jest
+    enzyme
+
+dictionary content:
+    oxford:
+        the sauruslinks
+        cross reference
+
+style change:
+    oxford:
+        copy style from oxford offical website
+        example extendable
+    google:
+        copy style from google translation
+    status indicator icon
+    clear icon
+    input box default stay center
+
+side project:
+    china network divide stream
+    input form for word search engine, demuse API
+    NZ gateway in/out
+    flexbox
+    juniper script unittest style
+    traffic:
+        ws fineno
+        redis fileno
+        react redux websocket
+        celery connection pickup
+        reduce the point to make it balance
+        different frequency for different time
+    BGP monitor:
+        API
+        email out
