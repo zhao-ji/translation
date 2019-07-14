@@ -1,32 +1,36 @@
-uglify the secret
-
-build analysis
-
-test case
-    jest
-    enzyme
-
-dictionary content:
-    oxford:
-        the sauruslinks
-        cross reference
-
-style change:
-    oxford:
-        copy style from oxford offical website
-        example extendable
-    google:
-        copy style from google translation
-    status indicator icon
-    clear icon
-    input box default stay center
+translation:
+    http2 connection reuse for api
+    uglify the secret
+    build analysis
+    test case
+        jest
+        enzyme
+    dictionary content:
+        oxford:
+            the sauruslinks
+            cross reference
+        webster
+    style change:
+        oxford:
+            copy style from oxford offical website
+            example extendable
+        google:
+            copy style from google translation
+        use color to distinguish the result
+        status indicator icon
+        clear icon
+        input box default stay center
+        apple website icon
+        translation result full screen
 
 side project:
     china network divide stream
     input form for word search engine, demuse API
     NZ gateway in/out
-    flexbox
     juniper script unittest style
+    actress rework
+    xiezhua website rework
+    google remove redirect
     traffic:
         ws fineno
         redis fileno
@@ -37,3 +41,33 @@ side project:
     BGP monitor:
         API
         email out
+
+the techs I want to learn:
+    flexbox
+    CSS
+    系统参数
+    pg bouncer
+    caddy
+    aws:
+        amplify
+
+the techs I do not know:
+    peewee
+    jekins
+    Unix 编程艺术
+    skill set:
+    profiler
+    graph search
+    sequential bayesian filters
+    unittest mocking
+    frontend multi api connection reuse
+
+the problems which cost me more than 1 hour:
+
+other:
+    alexa:
+        alexa UK accent
+        novel read
+        voice twitter
+        servers monitor
+        小黄鸡
