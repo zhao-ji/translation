@@ -8,7 +8,6 @@ import { recordActions } from './actions/recordAction'
 import { utilsActions } from './actions/utilsAction'
 
 import Input from './components/input';
-import StatusIndicator from './components/status';
 import OxfordResult from './components/oxfordResult';
 import Result from './components/result';
 
@@ -19,33 +18,25 @@ class App extends Component {
     render() {
         return (
             <Container fluid={true}>
-                <Row noGutters={true}>
-                    <Col sm={12} lg={12}>
-                        <Input
-                            googleTranslate={this.props.googleTranslate}
-                            googleTranslateFromCache={this.props.googleTranslateFromCache}
-                            baiduTranslate={this.props.baiduTranslate}
-                            baiduTranslateFromCache={this.props.baiduTranslateFromCache}
-                            bingTranslate={this.props.bingTranslate}
-                            bingTranslateFromCache={this.props.bingTranslateFromCache}
-                            youdaoTranslate={this.props.youdaoTranslate}
-                            youdaoTranslateFromCache={this.props.youdaoTranslateFromCache}
-                            oxfordTranslate={this.props.oxfordTranslate}
-                            oxfordTranslateFromCache={this.props.oxfordTranslateFromCache}
-                            oxfordFetchExamples={this.props.oxfordFetchExamples}
-                            oxfordFetchExamplesFromCache={this.props.oxfordFetchExamplesFromCache}
-                            setCurrentText={this.props.setCurrentText}
-                            record={this.props.record}
-                            cleanCache={this.props.cleanCache}
-                            cache={this.props.utils.cache}
-                        />
-                        <StatusIndicator
-                            currentText={this.props.utils.currentText}
-                            isLoading={this.props.recordResult.isLoading}
-                            isSuccess={this.props.recordResult.isSuccess}
-                        />
-                    </Col>
-                </Row>
+                <Input
+                    googleTranslate={this.props.googleTranslate}
+                    googleTranslateFromCache={this.props.googleTranslateFromCache}
+                    baiduTranslate={this.props.baiduTranslate}
+                    baiduTranslateFromCache={this.props.baiduTranslateFromCache}
+                    bingTranslate={this.props.bingTranslate}
+                    bingTranslateFromCache={this.props.bingTranslateFromCache}
+                    youdaoTranslate={this.props.youdaoTranslate}
+                    youdaoTranslateFromCache={this.props.youdaoTranslateFromCache}
+                    oxfordTranslate={this.props.oxfordTranslate}
+                    oxfordTranslateFromCache={this.props.oxfordTranslateFromCache}
+                    oxfordFetchExamples={this.props.oxfordFetchExamples}
+                    oxfordFetchExamplesFromCache={this.props.oxfordFetchExamplesFromCache}
+                    setCurrentText={this.props.setCurrentText}
+                    record={this.props.record}
+                    cleanCache={this.props.cleanCache}
+                    cache={this.props.utils.cache}
+                    suggestions={['hello', 'apple', 'cache', 'eppppp']}
+                />
                 <Row noGutters={true}>
                     <Col sm={12} lg={6}>
                         <LoadingWrapper

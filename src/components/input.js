@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
-import autosize from 'autosize';
+
+import { Button, InputGroup, Form } from 'react-bootstrap';
 import { throttle, debounce } from 'throttle-debounce';
 
 import { checkIfMandarin, checkIfSentence } from '../utils';
@@ -18,9 +18,6 @@ export default class Input extends Component {
     }
 
     handleChange(event) {
-        // auto resize the textarea to let use see all the input
-        autosize(event.target)
-
         let searchString = event.target.value;
         const inputData = {
             text: searchString.trim(),
@@ -121,16 +118,23 @@ export default class Input extends Component {
 
     render() {
         return (
-            <Form.Control
-                as="textarea"
-                placeholder="Please input here..."
-                onChange={this.handleChange}
-                autoComplete="false"
-                autoFocus
-                minLength="2"
-                rows="1"
-                id="input-search-bar"
-            />
+            <InputGroup size="lg">
+                <Form.Control
+                    as="input"
+                    type="search"
+                    autoComplete="false"
+                    autoFocus
+                    id="input-search-bar"
+                    placeholder="translate word or sentence for english and mandarin..."
+                    onChange={this.handleChange}
+                    list="suggestions"
+                />
+                <InputGroup.Append>
+                    <Button variant="outline-dark" type="button" onClick={this.onClick} block>
+                        Search
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
         );
     }
 }

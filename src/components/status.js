@@ -30,7 +30,7 @@ export default class StatusIndicator extends Component {
                         </span>
                     </Col>
                     <Col sm={4} lg={4}>
-                        <span textAlign={ "center" }>
+                        <span style={{ textAlign: "center" }}>
                             {this.props.isLoading ? "isLoading" : this.props.isSuccess ? "Yes" : "No"}
                         </span>
                     </Col>
