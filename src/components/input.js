@@ -102,6 +102,7 @@ export default class Input extends Component {
     }
 
     handleClick() {
+        this.setState({ matchedOption: this.props.currentText });
         const inputData = {
             text: this.props.currentText.trim(),
             isEnglish: !checkIfMandarin(this.props.currentText.trim()),

@@ -16,6 +16,8 @@ translation:
             example extendable
         google:
             copy style from google translation
+        youdao:
+            copy style from youdao
         use color to distinguish the result
         input box default stay center
         apple website icon
