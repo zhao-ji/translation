@@ -2,7 +2,6 @@ import axios from 'axios';
 import md5 from 'md5';
 
 import { secrets } from './secrets';
-import { utilsActions } from './utilsAction';
 
 export const translationActions = {
     googleTranslate: kwargs => dispatch => {
@@ -15,29 +14,15 @@ export const translationActions = {
                 target: kwargs.isEnglish ? "zh-cn" : "en",
             }
         };
-        axios.get(secrets.googleUrl, args).then(response => {
-            dispatch({
-                type: "GOOGLE_TRANSLATION_SUCCESS",
-                result: response.data.data.translations[0].translatedText,
-                kwargs
-            });
-            dispatch(utilsActions.addCache({
-                source: "google",
-                text: kwargs.text,
-                result: response.data.data.translations[0].translatedText,
-            }));
-        }).catch(error => {
-            console.error(error);
-            dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
-        })
-    },
-    googleTranslateFromCache: kwargs => dispatch => {
-        dispatch({ type: "GOOGLE_TRANSLATION_TRY", kwargs });
-        dispatch({
-            type: "GOOGLE_TRANSLATION_SUCCESS",
-            result: kwargs.cache,
-            kwargs
-        });
+        axios
+            .get(secrets.googleUrl, args)
+            .then(response => {
+                dispatch({ type: "GOOGLE_TRANSLATION_SUCCESS", result: response.data.data.translations[0].translatedText, kwargs });
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
+            })
     },
     baiduTranslate: kwargs => dispatch => {
         dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
@@ -54,28 +39,11 @@ export const translationActions = {
             }
         };
         axios.get(secrets.baiduUrl, args).then(response => {
-            dispatch({
-                type: "BAIDU_TRANSLATION_SUCCESS",
-                result: response.data.trans_result[0].dst,
-                kwargs
-            });
-            dispatch(utilsActions.addCache({
-                source: "baidu",
-                text: kwargs.text,
-                result: response.data.trans_result[0].dst,
-            }));
+            dispatch({ type: "BAIDU_TRANSLATION_SUCCESS", result: response.data.trans_result[0].dst, kwargs });
         }).catch(error => {
             console.error(error);
             dispatch({ type: "BAIDU_TRANSLATION_ERROR", error: error, kwargs });
         })
-    },
-    baiduTranslateFromCache: kwargs => dispatch => {
-        dispatch({ type: "BAIDU_TRANSLATION_TRY", kwargs });
-        dispatch({
-            type: "BAIDU_TRANSLATION_SUCCESS",
-            result: kwargs.cache,
-            kwargs
-        });
     },
     youdaoTranslate: kwargs => dispatch => {
         dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
@@ -86,28 +54,11 @@ export const translationActions = {
             }
         };
         axios.get(secrets.youdaoUrl, args).then(response => {
-            dispatch({
-                type: "YOUDAO_TRANSLATION_SUCCESS",
-                result: response.data,
-                kwargs
-            });
-            dispatch(utilsActions.addCache({
-                source: "youdao",
-                text: kwargs.text,
-                result: response.data,
-            }));
+            dispatch({ type: "YOUDAO_TRANSLATION_SUCCESS", result: response.data, kwargs });
         }).catch(error => {
             console.error(error);
             dispatch({ type: "YOUDAO_TRANSLATION_ERROR", error: error, kwargs });
         })
-    },
-    youdaoTranslateFromCache: kwargs => dispatch => {
-        dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
-        dispatch({
-            type: "YOUDAO_TRANSLATION_SUCCESS",
-            result: kwargs.cache,
-            kwargs
-        });
     },
     bingTranslate: kwargs => dispatch => {
         dispatch({ type: "BING_TRANSLATION_TRY", kwargs });
@@ -127,7 +78,8 @@ export const translationActions = {
         };
 
         if (kwargs.isSentence) {
-            return axios.post(secrets.bingTranslateUrl, data, config)
+            return axios
+                .post(secrets.bingTranslateUrl, data, config)
                 .then(translateResponse => {
                     dispatch({
                         type: "BING_TRANSLATION_SUCCESS",
@@ -136,13 +88,6 @@ export const translationActions = {
                         },
                         kwargs
                     });
-                    dispatch(utilsActions.addCache({
-                        source: "bing",
-                        text: kwargs.text,
-                        result: {
-                            translation: translateResponse.data[0].translations[0].text,
-                        }
-                    }));
                 })
                 .catch(error => {
                     console.error(error);
@@ -156,7 +101,8 @@ export const translationActions = {
         function getBingDictionLookup () {
             return axios.post(secrets.bingDictionaryLookupUrl, data, config)
         }
-        axios.all([getBingTranslation(), getBingDictionLookup()])
+        axios
+            .all([getBingTranslation(), getBingDictionLookup()])
             .then(axios.spread((translateResponse, dictionaryResponse) => {
                 const dictionary = dictionaryResponse.data[0].translations;
                 if (dictionary.length === 0) {
@@ -168,14 +114,6 @@ export const translationActions = {
                         },
                         kwargs
                     });
-                    dispatch(utilsActions.addCache({
-                        source: "bing",
-                        text: kwargs.text,
-                        result: {
-                            translation: translateResponse.data[0].translations[0].text,
-                            dictionary: dictionary,
-                        },
-                    }));
                     return
                 }
 
@@ -194,7 +132,8 @@ export const translationActions = {
                         Translation: item.normalizedTarget,
                     })
                 );
-                axios.post(secrets.bingDictionaryExampleUrl, exampleRequestData, config)
+                axios
+                    .post(secrets.bingDictionaryExampleUrl, exampleRequestData, config)
                     .then(response => {
                         const dictionaryData = dictionary.map(
                             (item, index) => ({ ...item, ...response.data[index] })
@@ -207,14 +146,6 @@ export const translationActions = {
                             },
                             kwargs
                         });
-                        dispatch(utilsActions.addCache({
-                            source: "bing",
-                            text: kwargs.text,
-                            result: {
-                                translation: translateResponse.data[0].translations[0].text,
-                                dictionary: dictionaryData,
-                            },
-                        }));
                     })
                     .catch(error => {
                         console.error(error);
@@ -226,66 +157,30 @@ export const translationActions = {
                 dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
-    bingTranslateFromCache: kwargs => dispatch => {
-        dispatch({ type: "BING_TRANSLATION_TRY", kwargs });
-        dispatch({
-            type: "BING_TRANSLATION_SUCCESS",
-            result: kwargs.cache,
-            kwargs
-        });
-    },
     oxfordTranslate: kwargs => dispatch => {
         dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
 
-        axios.get(secrets.oxfordEntryUrl + kwargs.text.toLowerCase()).then(response => {
-            dispatch({
-                type: "OXFORD_TRANSLATION_SUCCESS",
-                result: response.data.results,
-                kwargs
-            });
-            dispatch(utilsActions.addCache({
-                source: "oxford",
-                text: kwargs.text,
-                result: response.data.results,
-            }));
-        }).catch(error => {
-            console.error(error);
-            dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
-        })
-    },
-    oxfordTranslateFromCache: kwargs => dispatch => {
-        dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
-        dispatch({
-            type: "OXFORD_TRANSLATION_SUCCESS",
-            result: kwargs.cache,
-            kwargs
-        });
+        axios
+            .get(secrets.oxfordEntryUrl + kwargs.text.toLowerCase())
+            .then(response => {
+                dispatch({ type: "OXFORD_TRANSLATION_SUCCESS", result: response.data.results, kwargs });
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
+            })
     },
     oxfordFetchExamples: kwargs => dispatch => {
         dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
 
-        axios.get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase()).then(response => {
-            dispatch({
-                type: "OXFORD_FETCH_EXAMPLES_SUCCESS",
-                result: response.data.results,
-                kwargs
-            });
-            dispatch(utilsActions.addCache({
-                source: "oxfordExamples",
-                text: kwargs.text,
-                result: response.data.results,
-            }));
-        }).catch(error => {
-            console.error(error);
-            dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
-        })
-    },
-    oxfordFetchExamplesFromCache: kwargs => dispatch => {
-        dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
-        dispatch({
-            type: "OXFORD_FETCH_EXAMPLES_SUCCESS",
-            result: kwargs.cache,
-            kwargs
-        });
+        axios
+            .get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase())
+            .then(response => {
+                dispatch({ type: "OXFORD_FETCH_EXAMPLES_SUCCESS", result: response.data.results, kwargs });
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
+            })
     },
 }

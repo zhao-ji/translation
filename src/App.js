@@ -19,23 +19,18 @@ class App extends Component {
         return (
             <Container fluid={true}>
                 <Input
-                    googleTranslate={this.props.googleTranslate}
-                    googleTranslateFromCache={this.props.googleTranslateFromCache}
-                    baiduTranslate={this.props.baiduTranslate}
-                    baiduTranslateFromCache={this.props.baiduTranslateFromCache}
-                    bingTranslate={this.props.bingTranslate}
-                    bingTranslateFromCache={this.props.bingTranslateFromCache}
-                    youdaoTranslate={this.props.youdaoTranslate}
-                    youdaoTranslateFromCache={this.props.youdaoTranslateFromCache}
-                    oxfordTranslate={this.props.oxfordTranslate}
-                    oxfordTranslateFromCache={this.props.oxfordTranslateFromCache}
-                    oxfordFetchExamples={this.props.oxfordFetchExamples}
-                    oxfordFetchExamplesFromCache={this.props.oxfordFetchExamplesFromCache}
                     setCurrentText={this.props.setCurrentText}
-                    record={this.props.record}
                     cleanCache={this.props.cleanCache}
+                    fetchSuggestion={this.props.fetchSuggestion}
                     cache={this.props.utils.cache}
-                    suggestions={['hello', 'apple', 'cache', 'eppppp']}
+                    currentText={this.props.utils.currentText}
+                    googleTranslate={this.props.googleTranslate}
+                    baiduTranslate={this.props.baiduTranslate}
+                    bingTranslate={this.props.bingTranslate}
+                    youdaoTranslate={this.props.youdaoTranslate}
+                    oxfordTranslate={this.props.oxfordTranslate}
+                    oxfordFetchExamples={this.props.oxfordFetchExamples}
+                    record={this.props.record}
                 />
                 <Row noGutters={true}>
                     <Col sm={12} lg={6}>
