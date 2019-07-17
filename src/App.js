@@ -35,6 +35,11 @@ class App extends Component {
                 <Row noGutters={true}>
                     <Col sm={12} lg={6}>
                         <LoadingWrapper
+                            loading={this.props.translation.oxfordTranslation.isLoading}
+                            match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
+                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
+                        </LoadingWrapper>
+                        <LoadingWrapper
                             loading={this.props.translation.google.isLoading}
                             match={this.props.translation.google.text === this.props.utils.currentText}>
                             <Result.GoogleResult result={this.props.translation.google.result}/>
@@ -43,11 +48,6 @@ class App extends Component {
                             loading={this.props.translation.bing.isTranslationLoading}
                             match={this.props.translation.bing.text === this.props.utils.currentText}>
                             <Result.BingResult result={this.props.translation.bing.result}/>
-                        </LoadingWrapper>
-                        <LoadingWrapper
-                            loading={this.props.translation.oxfordTranslation.isLoading}
-                            match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
-                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
                         </LoadingWrapper>
                     </Col>
                     <Col sm={12} lg={6}>

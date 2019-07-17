@@ -1,6 +1,54 @@
 import React, { Component } from 'react';
+
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { TranslationCard, TranslationCardItems } from '../utils';
+
+class Origin extends Component {
+    render() {
+        return (
+            <section>
+                <h3> <strong> Origin </strong> </h3>
+                <div>
+                    <p> {this.props.origin} </p>
+                </div>
+            </section>
+        );
+    }
+}
+
+class Pronunciation extends Component {
+    render() {
+        return (
+            <section>
+                <h3> <strong> Origin </strong> </h3>
+                <div>
+                    <p> {this.props.origin} </p>
+                </div>
+            </section>
+        );
+    }
+}
+
+class NewTranslationResult extends Component {
+    render() {
+        if (!this.props.result || this.props.result.length === 0 || !this.props.result[0].lexicalEntries) {
+            return null;
+        }
+        const word = this.props.result[0].id;
+        const origin = this.props.result[0].entries[0].etymologies[0];
+        const pronunciation = this.props.result[0].pronunciation[0];
+        return (
+            <>
+                <span class="hw">{this.props.result[0]}</span>
+                <Origin origin={origin} />
+                <Pronunciation word={word} pronunciation={pronunciation} />
+            </>
+        );
+    }
+}
 
 class TranslationResult extends Component {
     constructor(props) {
@@ -22,7 +70,6 @@ class TranslationResult extends Component {
         }</>);
     }
 }
-
 
 class EntryCard extends Component {
     constructor(props) {
@@ -201,10 +248,11 @@ class AudioPlayer extends Component {
 
     render() {
         return (
-            <span
-                className={this.state.isPlaying ? "yellow-horn" : "horn"}
-                onClick={this.onClick}>
-            </span>
+            <FontAwesomeIcon
+                icon={faVolumeUp}
+                onClick={this.onClick}
+                pulse={this.state.isPlaying ? true : false}
+            />
         );
     }
 }
@@ -212,6 +260,7 @@ class AudioPlayer extends Component {
 const OxfordResult = {
     TranslationResult: TranslationResult,
     ExamplesResult: ExamplesResult,
+    NewTranslationResult: NewTranslationResult,
 }
 
 export default OxfordResult;
