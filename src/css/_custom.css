@@ -3,8 +3,20 @@
 }
 
 #input-search-bar {
-    text-align: center;
+    text-align: left;
     font-size: 1.5em;
+}
+.option {
+    text-align: left;
+}
+@media screen and (min-width: 48em) {
+    #input-search-bar {
+        text-align: center;
+        font-size: 1.5em;
+    }
+    .option {
+        text-align: center;
+    }
 }
 
 .weak {

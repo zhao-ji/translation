@@ -29,6 +29,7 @@ class Suggestions extends Component {
                         key={index}
                         data-value={item}
                         onClick={this.props.onClickSuggestion}
+                        className="option"
                         action>
                         {this.props.currentText}<b>{item.slice(this.props.currentText.length)}</b>
                     </ListGroup.Item>
