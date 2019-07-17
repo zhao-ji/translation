@@ -30,7 +30,7 @@ class Suggestions extends Component {
                         data-value={item}
                         onClick={this.props.onClickSuggestion}
                         action>
-                        {item}
+                        {this.props.currentText}<b>{item.slice(this.props.currentText.length)}</b>
                     </ListGroup.Item>
                 ))}
             </ListGroup>
@@ -62,12 +62,11 @@ export default class Input extends Component {
     handleChange(event) {
         let searchString = event.target.value;
         const inputData = {
-            text: searchString.trim(),
             isEnglish: !checkIfMandarin(searchString),
             isSentence: checkIfSentence(searchString),
         };
 
-        this.props.setCurrentText({ text: inputData.text });
+        this.props.setCurrentText({ text: searchString });
 
         if (!searchString || !searchString.trim()) {
             // input is empty string or only contains spaces
@@ -78,21 +77,21 @@ export default class Input extends Component {
                 prevState.tasks.map(task => task.cancel());
                 return {tasks: []};
             })
-        } else if (searchString.trim() === this.props.currentText) {
+        } else if (searchString === this.props.currentText) {
             // user add spaces in the end or begening of sentence
             // the input does change, but we don't need to trigger a HTTP request
             // we do nothing
-        } else if (inputData.isEnglish && !inputData.isSentence && searchString.length >= 2) {
+        } else if (inputData.isEnglish && searchString.length <= 20) {
             // input is english and not a sentence
             // there is high possibility to be a single word
             // we throttle the HTTP request(more often than debounce)
-            if (!(inputData.text in this.props.cache)) {
+            if (!(searchString in this.props.cache)) {
                 const throttleObj = throttle(200, this.props.fetchSuggestion);
                 this.setState((prevState, props) => {
                     prevState.tasks.push(throttleObj);
                     return { tasks: prevState.tasks };
                 });
-                throttleObj(inputData);
+                throttleObj({text: searchString});
             }
         } else {
             // what's wrong with our check?
@@ -103,9 +102,9 @@ export default class Input extends Component {
 
     handleClick() {
         const inputData = {
-            text: this.props.currentText,
-            isEnglish: !checkIfMandarin(this.props.currentText),
-            isSentence: checkIfSentence(this.props.currentText),
+            text: this.props.currentText.trim(),
+            isEnglish: !checkIfMandarin(this.props.currentText.trim()),
+            isSentence: checkIfSentence(this.props.currentText.trim()),
         };
         this.props.googleTranslate(inputData);
         this.props.baiduTranslate(inputData);

@@ -17,8 +17,6 @@ translation:
         google:
             copy style from google translation
         use color to distinguish the result
-        status indicator icon
-        clear icon
         input box default stay center
         apple website icon
         translation result full screen
