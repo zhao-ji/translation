@@ -1,10 +1,14 @@
 {
   "name": "translation",
-  "homepage": "http://translation.minganci.org",
+  "homepage": "https://translation.minganci.org",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "autosize": "^4.0.2",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "install": "^0.12.2",
