@@ -4,12 +4,13 @@ import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { TranslationCard, TranslationCardItems } from '../utils';
+import { ConsoleLog, TranslationCard, TranslationCardItems } from '../utils';
 
-class Origin extends Component {
+class OriginSection extends Component {
     render() {
         return (
             <section>
+                <hr/>
                 <h3> <strong> Origin </strong> </h3>
                 <div>
                     <p> {this.props.origin} </p>
@@ -19,14 +20,74 @@ class Origin extends Component {
     }
 }
 
-class Pronunciation extends Component {
+class PronunciationSection extends Component {
     render() {
         return (
             <section>
-                <h3> <strong> Origin </strong> </h3>
+                <hr/>
+                <h3> <strong> Pronunciation </strong> </h3>
                 <div>
-                    <p> {this.props.origin} </p>
+                    <p> {this.props.word} {this.props.pronunciations} </p>
                 </div>
+            </section>
+        );
+    }
+}
+
+class DefinitionSection extends Component {
+    render() {
+        return (
+            <section>
+                <hr/>
+                <h3> <strong>{ this.props.lexicalEntry.lexicalCategory.text } </strong></h3>
+                { this.props.lexicalEntry.entries.map(entry => (
+                    <>
+                    {entry.senses.map((sense, index) => (
+                        <li>
+                            {index + 1}
+                            {sense.domains && sense.domains.length > 0 &&
+                                    <span>{sense.domains[0].text}</span>
+                            }
+                            {sense.domains && sense.domains.length > 0 &&
+                                    <br/>
+                            }
+                            {sense.notes && sense.notes.length > 0 
+                                    ?
+                                    <span>[{sense.notes[0].text}] {sense.definitions[0]} </span>
+                                    :
+                                    <span>{sense.definitions[0]} </span>
+                            }
+                            <ConsoleLog>{sense}</ConsoleLog>
+                            {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
+                                sense.examples.map(example => (
+                                    ("notes" in example) && example.notes && example.notes.length > 0 
+                                        ?
+                                        <p>[{example.notes[0].text}] {example.text} </p>
+                                        :
+                                        <p>{example.text}</p>
+                                    
+                                ))
+                            }
+                            {sense.subsenses && sense.subsenses.length > 0 &&sense.subsenses.map((subsense, subIndex) => (
+                                <li>
+                                    {(index + 1) + "." + (subIndex + 1)}
+                                    {
+                                        ("definitions" in subsense) && subsense.definitions.length > 0 
+                                        ?
+                                        subsense.definitions[0]
+                                        :
+                                        ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
+                                            <span> short for {subsense.shortDefinitions[0]} </span>
+                                    }
+                                    {subsense.examples && subsense.examples.length > 0 && subsense.examples.map(example => (
+                                        <p>{example.text}</p>
+                                    ))}
+                                </li>
+                            ))}
+                        </li>
+                    ))}
+                    </>
+                ))}
             </section>
         );
     }
@@ -38,14 +99,18 @@ class NewTranslationResult extends Component {
             return null;
         }
         const word = this.props.result[0].id;
-        const origin = this.props.result[0].entries[0].etymologies[0];
-        const pronunciation = this.props.result[0].pronunciation[0];
+        const origin = this.props.result[0].lexicalEntries[0].entries[0].etymologies[0];
+        const pronunciation = this.props.result[0].lexicalEntries[0].pronunciations[0];
         return (
-            <>
-                <span class="hw">{this.props.result[0]}</span>
-                <Origin origin={origin} />
-                <Pronunciation word={word} pronunciation={pronunciation} />
-            </>
+            <Card>
+                <Card.Header>
+                    <span>Oxford</span>
+                </Card.Header>
+                <span class="hw">{word}</span>
+                {this.props.result[0].lexicalEntries.map(lexicalEntry => <DefinitionSection lexicalEntry={lexicalEntry} />)}
+                <OriginSection origin={origin} />
+                <PronunciationSection word={word} pronunciation={pronunciation} />
+            </Card>
         );
     }
 }
