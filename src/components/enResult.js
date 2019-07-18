@@ -150,8 +150,16 @@ class AudioPlayer extends Component {
     }
 }
 
+class WebsterResult extends Component {
+    render() {
+        console.log(this.props.result);
+        return false;
+    }
+}
+
 const EnResult = {
     OxfordResult: OxfordResult,
+    WebsterResult: WebsterResult,
 }
 
 export default EnResult;

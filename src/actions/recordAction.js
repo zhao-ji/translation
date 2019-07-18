@@ -5,7 +5,7 @@ export const recordActions = {
     record: kwargs => dispatch => {
         dispatch({ type: "RECORD_TRY", kwargs });
 
-        axios.post(secrets.recordURL, { word: kwargs.text })
+        axios.post(secrets.recordUrl, { word: kwargs.text })
             .then(response => {
                 dispatch({ type: "RECORD_SUCCESS", kwargs });
             })

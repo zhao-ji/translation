@@ -29,6 +29,7 @@ class App extends Component {
                     bingTranslate={this.props.bingTranslate}
                     youdaoTranslate={this.props.youdaoTranslate}
                     oxfordTranslate={this.props.oxfordTranslate}
+                    websterTranslate={this.props.websterTranslate}
                     record={this.props.record}
                 />
                 <Row noGutters={true}>
@@ -65,6 +66,13 @@ class App extends Component {
                             loading={this.props.translation.oxford.isLoading}
                             match={this.props.translation.oxford.text === this.props.utils.currentText}>
                             <EnResult.OxfordResult result={this.props.translation.oxford.result}/>
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.webster.isLoading}
+                            match={this.props.translation.webster.text === this.props.utils.currentText}>
+                            <EnResult.WebsterResult result={this.props.translation.webster.result}/>
                         </LoadingWrapper>
                     </Col>
                 </Row>
