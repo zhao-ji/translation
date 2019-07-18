@@ -114,7 +114,6 @@ export default class Input extends Component {
         this.props.youdaoTranslate(inputData);
         if (inputData.isEnglish && !inputData.isSentence) {
             this.props.oxfordTranslate(inputData);
-            this.props.oxfordFetchExamples(inputData);
         }
         this.props.record(inputData);
     }

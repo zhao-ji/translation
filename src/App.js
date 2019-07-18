@@ -29,7 +29,6 @@ class App extends Component {
                     bingTranslate={this.props.bingTranslate}
                     youdaoTranslate={this.props.youdaoTranslate}
                     oxfordTranslate={this.props.oxfordTranslate}
-                    oxfordFetchExamples={this.props.oxfordFetchExamples}
                     record={this.props.record}
                 />
                 <Row noGutters={true}>
@@ -66,13 +65,6 @@ class App extends Component {
                             loading={this.props.translation.oxfordTranslation.isLoading}
                             match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
                             <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
-                        </LoadingWrapper>
-                    </Col>
-                    <Col lg={6} sm={12}>
-                        <LoadingWrapper
-                            loading={this.props.translation.oxfordExamples.isLoading}
-                            match={this.props.translation.oxfordExamples.text === this.props.utils.currentText}>
-                            <OxfordResult.ExamplesResult result={this.props.translation.oxfordExamples.result}/>
                         </LoadingWrapper>
                     </Col>
                 </Row>

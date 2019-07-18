@@ -170,17 +170,4 @@ export const translationActions = {
                 dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
-    oxfordFetchExamples: kwargs => dispatch => {
-        dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
-
-        axios
-            .get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase())
-            .then(response => {
-                dispatch({ type: "OXFORD_FETCH_EXAMPLES_SUCCESS", result: response.data.results, kwargs });
-            })
-            .catch(error => {
-                console.error(error);
-                dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
-            })
-    },
 }
