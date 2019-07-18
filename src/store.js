@@ -26,14 +26,14 @@ function initialState() {
                 isTranslationLoading: false,
                 isExampleLoading: false
             },
-            oxfordTranslation: {
+            oxford: {
                 text: null,
                 result: null,
                 isLoading: false
             },
-            oxfordExamples: {
+            webster: {
                 text: null,
-                result: [],
+                result: null,
                 isLoading: false
             },
         },

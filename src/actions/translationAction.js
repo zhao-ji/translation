@@ -170,4 +170,22 @@ export const translationActions = {
                 dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
+    websterTranslate: kwargs => dispatch => {
+        dispatch({ type: "WEBSTER_TRANSLATION_TRY", kwargs });
+
+        const config = {
+            params: {
+                key: secrets.websterKey,
+            },
+        };
+        axios
+            .get(secrets.websterUrl + kwargs.text.toLowerCase(), config)
+            .then(response => {
+                dispatch({ type: "WEBSTER_TRANSLATION_SUCCESS", result: response.data, kwargs });
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error: error, kwargs });
+            })
+    },
 }

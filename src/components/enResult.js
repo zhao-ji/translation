@@ -92,7 +92,7 @@ class DefinitionSection extends Component {
     }
 }
 
-class TranslationResult extends Component {
+class OxfordResult extends Component {
     render() {
         if (!this.props.result || this.props.result.length === 0 || !this.props.result[0].lexicalEntries) {
             return null;
@@ -150,8 +150,8 @@ class AudioPlayer extends Component {
     }
 }
 
-const OxfordResult = {
-    TranslationResult: TranslationResult,
+const EnResult = {
+    OxfordResult: OxfordResult,
 }
 
-export default OxfordResult;
+export default EnResult;

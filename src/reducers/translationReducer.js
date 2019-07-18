@@ -84,7 +84,7 @@ export default (state = {}, action) => {
             return newState
         }
         case 'OXFORD_TRANSLATION_TRY': {
-            newState.oxfordTranslation = {
+            newState.oxford = {
                 text: action.kwargs.text,
                 result: null,
                 isLoading: true
@@ -92,12 +92,29 @@ export default (state = {}, action) => {
             return newState
         }
         case 'OXFORD_TRANSLATION_SUCCESS': {
-            newState.oxfordTranslation.result = action.result;
+            newState.oxford.result = action.result;
             newState.oxfordTranslation.isLoading = false;
             return newState
         }
         case 'OXFORD_TRANSLATION_ERROR': {
-            newState.oxfordTranslation.isLoading = false;
+            newState.oxford.isLoading = false;
+            return newState
+        }
+        case 'WEBSTER_TRANSLATION_TRY': {
+            newState.webster = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'WEBSTER_TRANSLATION_SUCCESS': {
+            newState.webster.result = action.result;
+            newState.websterTranslation.isLoading = false;
+            return newState
+        }
+        case 'WEBSTER_TRANSLATION_ERROR': {
+            newState.webster.isLoading = false;
             return newState
         }
         default:

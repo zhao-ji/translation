@@ -8,7 +8,7 @@ import { recordActions } from './actions/recordAction'
 import { utilsActions } from './actions/utilsAction'
 
 import Input from './components/input';
-import OxfordResult from './components/oxfordResult';
+import EnResult from './components/enResult';
 import Result from './components/result';
 
 import { LoadingWrapper } from './utils';
@@ -62,9 +62,9 @@ class App extends Component {
                     </Col>
                     <Col lg={6} sm={12}>
                         <LoadingWrapper
-                            loading={this.props.translation.oxfordTranslation.isLoading}
-                            match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
-                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
+                            loading={this.props.translation.oxford.isLoading}
+                            match={this.props.translation.oxford.text === this.props.utils.currentText}>
+                            <EnResult.OxfordResult result={this.props.translation.oxford.result}/>
                         </LoadingWrapper>
                     </Col>
                 </Row>
