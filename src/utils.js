@@ -5,6 +5,11 @@ import { ListGroup } from 'react-bootstrap';
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[ .,:;!?。，：；！？]/
 
+export const ConsoleLog = ({ children }) => {
+  console.log(children);
+  return false;
+};
+
 export const LoadingWrapper = ({ loading, match, children }) => {
     if (!loading && match) {
         return (<>{ children }</>);
