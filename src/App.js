@@ -33,34 +33,42 @@ class App extends Component {
                     record={this.props.record}
                 />
                 <Row noGutters={true}>
-                    <Col sm={12} lg={6}>
-                        <LoadingWrapper
-                            loading={this.props.translation.oxfordTranslation.isLoading}
-                            match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
-                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
-                        </LoadingWrapper>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.google.isLoading}
                             match={this.props.translation.google.text === this.props.utils.currentText}>
                             <Result.GoogleResult result={this.props.translation.google.result}/>
                         </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.baidu.isLoading}
+                            match={this.props.translation.baidu.text === this.props.utils.currentText}>
+                            <Result.BaiduResult result={this.props.translation.baidu.result}/>
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.youdao.isLoading}
+                            match={this.props.translation.youdao.text === this.props.utils.currentText}>
+                            <Result.YoudaoResult result={this.props.translation.youdao.result}/>
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.bing.isTranslationLoading}
                             match={this.props.translation.bing.text === this.props.utils.currentText}>
                             <Result.BingResult result={this.props.translation.bing.result}/>
                         </LoadingWrapper>
                     </Col>
-                    <Col sm={12} lg={6}>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
-                            loading={this.props.translation.baidu.isLoading}
-                            match={this.props.translation.baidu.text === this.props.utils.currentText}>
-                            <Result.BaiduResult result={this.props.translation.baidu.result}/>
+                            loading={this.props.translation.oxfordTranslation.isLoading}
+                            match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
+                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
                         </LoadingWrapper>
-                        <LoadingWrapper
-                            loading={this.props.translation.youdao.isLoading}
-                            match={this.props.translation.youdao.text === this.props.utils.currentText}>
-                            <Result.YoudaoResult result={this.props.translation.youdao.result}/>
-                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.oxfordExamples.isLoading}
                             match={this.props.translation.oxfordExamples.text === this.props.utils.currentText}>
