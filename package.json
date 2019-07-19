@@ -1,6 +1,6 @@
 {
   "name": "translation",
-  "homepage": "https://translation.minganci.org",
+  "homepage": "http://translation.minganci.org",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

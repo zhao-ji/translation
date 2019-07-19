@@ -100,7 +100,10 @@ class OxfordResult extends Component {
             return null;
         }
         const word = this.props.result[0].id;
-        const origin = this.props.result[0].lexicalEntries[0].entries[0].etymologies[0];
+        let origin = false;
+        if ("etymologies" in this.props.result[0].lexicalEntries[0].entries[0]) {
+            origin = this.props.result[0].lexicalEntries[0].entries[0].etymologies[0];
+        }
         const pronunciation = this.props.result[0].lexicalEntries[0].pronunciations[0];
         return (
             <Card>
@@ -113,7 +116,7 @@ class OxfordResult extends Component {
                         {this.props.result[0].lexicalEntries.map(
                             lexicalEntry => <DefinitionSection lexicalEntry={lexicalEntry} />
                         )}
-                        <OriginSection origin={origin} />
+                        {origin && <OriginSection origin={origin} />}
                         <PronunciationSection word={word} item={pronunciation} />
                     </Card.Text>
                 </Card.Body>
