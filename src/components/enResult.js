@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import { Card } from 'react-bootstrap';
-import { faVolumeUp } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { ConsoleLog } from '../utils';
 
 class OriginSection extends Component {
     render() {
@@ -150,10 +152,120 @@ class AudioPlayer extends Component {
     }
 }
 
+class WebsterDefinitionSection extends Component {
+    render() {
+        return (
+            <>
+                <hr/>
+                <p class="fl">
+                    { this.props.item.fl}
+                </p>
+                <p class="pronun">
+                    / {("prs" in this.props.item.hwi) && this.props.item.hwi.prs[0].mw} /
+                </p>
+                <p class="ins">
+                    {("ins" in this.props.item) && this.props.item.ins.map(item => (
+                        <span> {item.il} {item.if} </span>
+                    ))}
+                </p>
+                <p class="meta">
+                    {this.props.item.meta.stems.map(stem => (<span>{stem}</span>))}
+                </p>
+                <p class="definition">
+                    {("def" in this.props.item) && this.props.item.def[0].sseq.map(item=> (<div>
+                        <ConsoleLog>{item}</ConsoleLog>
+                        {item.map(i => (
+                            <span>
+                                {i[1].dt[0][1]}
+                                {("subsense" in i[1]) && i[1].subsense.dt[0][1]}
+                            </span>
+                        ))}
+                    </div>))}
+                </p>
+                <p class="short-definition">
+                    {("shortdef" in this.props.item) && this.props.item.shortdef.map(item=> (<span>
+                        {item}
+                    </span>))}
+                </p>
+                <p class="other-word">
+                    {("uros" in this.props.item.meta) && this.props.item.meta.uros.map(item => (
+                        <div>
+                            {item.fl}
+                            {item.ure} \{item.prs[0].mw}\
+                        </div>
+                    ))}
+                </p>
+                <p class="origin">
+                    Origin: {("et" in this.props.item) && this.props.item.et[0][1]}
+                    First known use: {("date" in this.props.item) && this.props.item.date}
+                </p>
+            </>
+        )
+    }
+}
+
+class NoMoreThan2Display extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isExtended: false
+        }
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.setState({
+            isExtended: !this.state.isExtended
+        })
+    }
+
+    render() {
+        if (this.props.children.length < 3) {
+            return (
+                <>{this.props.children}</>
+            );
+        }
+        if (this.state.isExtended) {
+            return (
+                <>
+                <div>
+                    <button className="pull-right" onClick={this.handleClick}> Collapse </button>
+                </div>
+                {this.props.children}
+                </>
+            );
+        }
+        return (
+            <>
+                {this.props.children.slice(0, 2)}
+                <div>
+                    <button className="pull-right" onClick={this.handleClick}> Show More </button>
+                </div>
+            </>
+        );
+    }
+}
+
 class WebsterResult extends Component {
     render() {
-        console.log(this.props.result);
-        return false;
+        if (!this.props.result || this.props.result.length === 0) {
+            return null;
+        }
+        return (
+            <Card>
+                <Card.Header> Mariam Webster </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        <NoMoreThan2Display>
+                            {this.props.result.map(
+                                item => <WebsterDefinitionSection item={item} />
+                            )}
+                        </NoMoreThan2Display>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+        );
     }
 }
 

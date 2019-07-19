@@ -93,7 +93,7 @@ export default (state = {}, action) => {
         }
         case 'OXFORD_TRANSLATION_SUCCESS': {
             newState.oxford.result = action.result;
-            newState.oxfordTranslation.isLoading = false;
+            newState.oxford.isLoading = false;
             return newState
         }
         case 'OXFORD_TRANSLATION_ERROR': {
@@ -110,7 +110,7 @@ export default (state = {}, action) => {
         }
         case 'WEBSTER_TRANSLATION_SUCCESS': {
             newState.webster.result = action.result;
-            newState.websterTranslation.isLoading = false;
+            newState.webster.isLoading = false;
             return newState
         }
         case 'WEBSTER_TRANSLATION_ERROR': {

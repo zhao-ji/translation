@@ -2,6 +2,9 @@ translation:
     http2 connection reuse for api
     uglify the secret
     build analysis
+    syntax:
+        ubsense.examples && subsense.examples.length > 0 && subsense.examples.map
+        children
     test case
         jest
         enzyme
@@ -77,6 +80,7 @@ the techs I do not know:
     react:
         unittest
         integration test
+        hooks
     AWS:
         lambda
         storage
