@@ -156,6 +156,44 @@ class AudioPlayer extends Component {
 }
 
 class WebsterDefinitionSection extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+
+        this.renderDefinition = this.renderDefinition.bind(this);
+        this.showDefinition = this.showDefinition.bind(this);
+    }
+
+    showDefinition(i) {
+        switch(i[0]) {
+            case "sense":
+                return (
+                    <>
+                        <span> { ("dt" in i[1]) && i[1].dt[0][1]} </span>
+                        {("sdsense" in i[1]) && <span> {i[1].sdsense.sd} &nbsp; {i[1].sdsense.dt[0][1]} </span> }
+                    </>
+                );
+            case "pseq":
+                return (
+                    <>
+                        {i[1].map(this.showDefinition)}
+                    </>
+                );
+            default:
+                console.log(i);
+                return false;
+        }
+    }
+
+    renderDefinition(i) {
+        return (
+            <li>
+                {this.showDefinition(i)}
+            </li>
+        );
+    }
+
     render() {
         return (
             <>
@@ -177,14 +215,8 @@ class WebsterDefinitionSection extends Component {
             </p>
             <ol>
                 {("def" in this.props.item) && this.props.item.def[0].sseq.map(item=> (<li>
-                    <ConsoleLog>{item}</ConsoleLog>
                     <ol>
-                        {item.map(i => (
-                            <li>
-                                <span> {i[1].dt[0][1]} </span>
-                                {("sdsense" in i[1]) && <span> {i[1].sdsense.sd} &nbsp; {i[1].sdsense.dt[0][1]} </span> }
-                            </li>
-                        ))}
+                        {item.map(this.renderDefinition)}
                     </ol>
                 </li>))}
             </ol>
@@ -264,7 +296,7 @@ class WebsterResult extends Component {
         }
         return (
             <Card>
-                <Card.Header> Mariam Webster </Card.Header>
+                <Card.Header> Merriam Webster </Card.Header>
                 <Card.Body>
                     <Card.Text>
                         <NoMoreThan2Display>
