@@ -160,33 +160,36 @@ class WebsterDefinitionSection extends Component {
                 <p class="fl">
                     { this.props.item.fl}
                 </p>
+            {
+                ("prs" in this.props.item.hwi) && 
                 <p class="pronun">
-                    / {("prs" in this.props.item.hwi) && this.props.item.hwi.prs[0].mw} /
+                / {this.props.item.hwi.prs[0].mw} /
                 </p>
-                <p class="ins">
-                    {("ins" in this.props.item) && this.props.item.ins.map(item => (
-                        <span> {item.il} {item.if} </span>
-                    ))}
-                </p>
-                <p class="meta">
-                    {this.props.item.meta.stems.map(stem => (<span>{stem}</span>))}
-                </p>
-                <p class="definition">
-                    {("def" in this.props.item) && this.props.item.def[0].sseq.map(item=> (<div>
-                        <ConsoleLog>{item}</ConsoleLog>
+            }
+            {("ins" in this.props.item) && this.props.item.ins.map(item => (
+                <p class="ins"> {item.il}: {item.if} </p>
+            ))}
+            <p class="meta">
+                {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
+            </p>
+            <ol>
+                {("def" in this.props.item) && this.props.item.def[0].sseq.map(item=> (<li>
+                    <ConsoleLog>{item}</ConsoleLog>
+                    <ol>
                         {item.map(i => (
-                            <span>
-                                {i[1].dt[0][1]}
-                                {("subsense" in i[1]) && i[1].subsense.dt[0][1]}
-                            </span>
+                            <li>
+                                <span> {i[1].dt[0][1]} </span>
+                                {("sdsense" in i[1]) && <span> {i[1].sdsense.sd} &nbsp; {i[1].sdsense.dt[0][1]} </span> }
+                            </li>
                         ))}
-                    </div>))}
-                </p>
-                <p class="short-definition">
-                    {("shortdef" in this.props.item) && this.props.item.shortdef.map(item=> (<span>
-                        {item}
-                    </span>))}
-                </p>
+                    </ol>
+                </li>))}
+            </ol>
+            <p class="short-definition">
+                <ol>
+                    {("shortdef" in this.props.item) && this.props.item.shortdef.map(item=> (<li> {item} </li>))}
+                </ol>
+            </p>
                 <p class="other-word">
                     {("uros" in this.props.item.meta) && this.props.item.meta.uros.map(item => (
                         <div>
@@ -195,10 +198,14 @@ class WebsterDefinitionSection extends Component {
                         </div>
                     ))}
                 </p>
-                <p class="origin">
+            <p class="origin">
+                <div>
                     Origin: {("et" in this.props.item) && this.props.item.et[0][1]}
+                </div>
+                <div>
                     First known use: {("date" in this.props.item) && this.props.item.date}
-                </p>
+                </div>
+            </p>
             </>
         )
     }
