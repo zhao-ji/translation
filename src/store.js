@@ -31,6 +31,11 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            oxfordExamples: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
             webster: {
                 text: null,
                 result: null,

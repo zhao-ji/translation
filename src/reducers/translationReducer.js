@@ -100,6 +100,23 @@ export default (state = {}, action) => {
             newState.oxford.isLoading = false;
             return newState
         }
+        case 'OXFORD_FETCH_EXAMPLES_TRY': {
+            newState.oxfordExamples = {
+                text: action.kwargs.text,
+                result: [],
+                isLoading: true
+            };
+            return newState
+        }
+        case 'OXFORD_FETCH_EXAMPLES_SUCCESS': {
+            newState.oxfordExamples.result = action.result;
+            newState.oxfordExamples.isLoading = false;
+            return newState
+        }
+        case 'OXFORD_FETCH_EXAMPLES_ERROR': {
+            newState.oxfordExamples.isLoading = false;
+            return newState
+        }
         case 'WEBSTER_TRANSLATION_TRY': {
             newState.webster = {
                 text: action.kwargs.text,
