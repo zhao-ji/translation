@@ -4,7 +4,7 @@ translation:
     build analysis
     syntax:
         ubsense.examples && subsense.examples.length > 0 && subsense.examples.map
-        children
+        children collapse(done)
     test case
         jest
         enzyme
@@ -23,7 +23,7 @@ translation:
         input box default stay center
         apple website icon
         translation result full screen
-        输入框离得远一点
+        输入框离得远一点(done)
 
 side project:
     china network divide stream

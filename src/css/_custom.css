@@ -1,6 +1,9 @@
 .pull-right {
     float: right;
 }
+#search-component {
+    margin-top: 0.5em;
+}
 
 #input-search-bar {
     text-align: left;

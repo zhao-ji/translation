@@ -129,7 +129,7 @@ export default class Input extends Component {
     render() {
         return (
             <>
-                <InputGroup size="lg">
+                <InputGroup size="lg" id="search-component">
                     <Form.Control
                         as="input"
                         type="search"
