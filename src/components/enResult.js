@@ -4,8 +4,18 @@ import { Card } from 'react-bootstrap';
 import { faVolumeUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ConsoleLog, Comment } from '../utils';
+import { CollapsableList, ConsoleLog, Comment, LoadingWrapper } from '../utils';
 
+
+const Example = ({ text, word }) => {
+    let parts = text.split(new RegExp(`(${word})`, 'gi'));
+    return (<>{
+        parts.map((part, index) =>
+            part.toLowerCase() === word.toLowerCase()
+            ? <mark key={index}>{part}</mark> : part
+        )
+    }</>);
+}
 
 class ExampleSection extends Component {
     render() {
@@ -14,11 +24,27 @@ class ExampleSection extends Component {
                 <hr/>
                 <h3 class="other-aspect">Examples</h3>
                 <p class="other-aspect-body">
-                    <NoMoreThan2Display>
-                        {this.props.items.map((item, index) => (
-                            <></>
-                        ))}
-                    </NoMoreThan2Display>
+                    {
+                        this.props.examples.map(result => (
+                            <>
+                            {result.lexicalEntries.map(entry => (
+                                <ol>
+                                    <CollapsableList>
+                                        {entry.sentences.map(item => (
+                                            <li>
+                                                <Example text={item.text} word={this.props.word} />
+                                                {
+                                                    item.regions && item.regions.length > 0 &&
+                                                        <small className="weak pull-right"> Region: {item.regions[0].text} </small>
+                                                }
+                                            </li>
+                                        ))}
+                                    </CollapsableList>
+                                </ol>
+                            ))}
+                            </>
+                        ))
+                    }
                 </p>
             </>
         );
@@ -128,7 +154,6 @@ class OxfordResult extends Component {
         if (!this.props.result || this.props.result.length === 0 || !this.props.result[0].lexicalEntries) {
             return null;
         }
-        const word = this.props.result[0].id;
         let origin = false;
         if ("etymologies" in this.props.result[0].lexicalEntries[0].entries[0]) {
             origin = this.props.result[0].lexicalEntries[0].entries[0].etymologies[0];
@@ -139,14 +164,19 @@ class OxfordResult extends Component {
                 <Card.Header> Oxford </Card.Header>
                 <Card.Body>
                     <Card.Title>
-                        <span class="title"> {word} </span>
+                        <span class="title"> {this.props.text} </span>
                     </Card.Title>
                     <Card.Text>
                         {this.props.result[0].lexicalEntries.map(
                             lexicalEntry => <DefinitionSection lexicalEntry={lexicalEntry} />
                         )}
                         {origin && <OriginSection origin={origin} />}
-                        <PronunciationSection word={word} item={pronunciation} />
+                        <PronunciationSection word={this.props.text} item={pronunciation} />
+                        <LoadingWrapper
+                            loading={this.props.examples.isLoading}
+                            match={this.props.examples.text === this.props.text}>
+                            <ExampleSection examples={this.props.examples.result} word={this.props.text} />
+                        </LoadingWrapper>
                     </Card.Text>
                 </Card.Body>
             </Card>
@@ -280,49 +310,6 @@ class WebsterDefinitionSection extends Component {
     }
 }
 
-class NoMoreThan2Display extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isExtended: false
-        }
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick() {
-        this.setState({
-            isExtended: !this.state.isExtended
-        })
-    }
-
-    render() {
-        if (this.props.children.length < 3) {
-            return (
-                <>{this.props.children}</>
-            );
-        }
-        if (this.state.isExtended) {
-            return (
-                <>
-                <div>
-                    <button className="pull-right" onClick={this.handleClick}> Collapse </button>
-                </div>
-                {this.props.children}
-                </>
-            );
-        }
-        return (
-            <>
-                {this.props.children.slice(0, 2)}
-                <div>
-                    <button className="pull-right" onClick={this.handleClick}> Show More </button>
-                </div>
-            </>
-        );
-    }
-}
-
 class WebsterResult extends Component {
     render() {
         if (!this.props.result || this.props.result.length === 0) {
@@ -336,11 +323,11 @@ class WebsterResult extends Component {
                         <span class="title"> {this.props.text} </span>
                     </Card.Title>
                     <Card.Text>
-                        <NoMoreThan2Display>
+                        <CollapsableList>
                             {this.props.result.map(
                                 item => <WebsterDefinitionSection item={item}/>
                             )}
-                        </NoMoreThan2Display>
+                        </CollapsableList>
                     </Card.Text>
                 </Card.Body>
             </Card>

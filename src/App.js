@@ -50,8 +50,8 @@ class App extends Component {
                             match={this.props.translation.oxford.text === this.props.utils.currentText}>
                             <EnResult.OxfordResult
                                 result={this.props.translation.oxford.result}
-                                text={this.props.utils.currentText}
                                 examples={this.props.translation.oxfordExamples}
+                                text={this.props.utils.currentText}
                             />
                         </LoadingWrapper>
                     </Col>

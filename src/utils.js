@@ -1,6 +1,5 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
-import { ListGroup } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[ .,:;!?。，：；！？]/
@@ -63,3 +62,43 @@ export function checkIfSentence(text) {
     }
     return punctuationRegex.test(text);
 }
+
+export class CollapsableList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: false
+        }
+        this.onToggle = this.onToggle.bind(this);
+    }
+
+    onToggle() {
+        this.setState({show: !this.state.show})
+    }
+
+    render() {
+        return (
+            <>
+            {
+                !this.state.show && this.props.children.length > this.props.limit ?
+                this.props.children.slice(0, this.props.limit) :
+                this.props.children
+            }
+            <Row>
+                <Col lg={12} md={12} sm={12}>
+                    {
+                        this.props.children.length > this.props.limit ?
+                        <Button block size="sm" variant="light" onClick={this.onToggle}>
+                            {this.state.show ? "Less" : "More"}
+                        </Button>: null
+                    }
+                </Col>
+            </Row>
+            </>
+        );
+    }
+}
+
+CollapsableList.defaultProps = {
+    limit: 3
+};
