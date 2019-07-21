@@ -4,7 +4,26 @@ import { Card } from 'react-bootstrap';
 import { faVolumeUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ConsoleLog } from '../utils';
+import { ConsoleLog, Comment } from '../utils';
+
+
+class ExampleSection extends Component {
+    render() {
+        return (
+            <>
+                <hr/>
+                <h3 class="other-aspect">Examples</h3>
+                <p class="other-aspect-body">
+                    <NoMoreThan2Display>
+                        {this.props.items.map((item, index) => (
+                            <></>
+                        ))}
+                    </NoMoreThan2Display>
+                </p>
+            </>
+        );
+    }
+}
 
 class OriginSection extends Component {
     render() {
@@ -25,7 +44,9 @@ class PronunciationSection extends Component {
                 <hr/>
                 <h3 class="other-aspect">
                     Pronunciation
-                    <a href="https://www.lexico.com/en/grammar/key-to-pronunciation" target="_blank">
+                    <a
+                        href="https://www.lexico.com/en/grammar/key-to-pronunciation"
+                        rel="noopener noreferrer" target="_blank">
                         <FontAwesomeIcon icon={faQuestionCircle} size="xs"/>
                     </a>
                 </h3>
@@ -169,7 +190,6 @@ class WebsterDefinitionSection extends Component {
         this.state = {
         }
 
-        this.renderDefinition = this.renderDefinition.bind(this);
         this.showDefinition = this.showDefinition.bind(this);
     }
 
@@ -184,63 +204,69 @@ class WebsterDefinitionSection extends Component {
                 );
             case "pseq":
                 return (
-                    <>
+                    <ol type="1">
                         {i[1].map(this.showDefinition)}
-                    </>
+                    </ol>
                 );
             default:
                 console.log(i);
-                return false;
+                return <ConsoleLog>{i}</ConsoleLog>;
         }
-    }
-
-    renderDefinition(i) {
-        return (
-            <li>
-                {this.showDefinition(i)}
-            </li>
-        );
     }
 
     render() {
         return (
             <>
-                <hr/>
-                <p class="fl">
-                    { this.props.item.fl}
-                </p>
-            {
-                ("prs" in this.props.item.hwi) && 
-                <p class="pronun">
-                / {this.props.item.hwi.prs[0].mw} /
-                </p>
-            }
-            {("ins" in this.props.item) && this.props.item.ins.map(item => (
-                <p class="ins"> {item.il}: {item.if} </p>
+            <hr/>
+            <p>
+                <span class="fl">
+                    { this.props.item.fl }
+                </span>
+                &nbsp;
+                <span class="fl">
+                    { ("hw" in this.props.item.hwi) && this.props.item.hwi.hw } |
+                </span>
+                &nbsp;
+                <span class="fl">
+                    \{ ("prs" in this.props.item.hwi) && this.props.item.hwi.prs[0].mw}\
+                </span>
+            </p>
+            <p>
+                <span class="fl">
+                    {("ins" in this.props.item) && this.props.item.ins.map(item => (
+                        <>{item.il} {item.if}</>
+                    ))}
+                </span>
+            </p>
+            {("def" in this.props.item) && this.props.item.def.map(def => (
+                <>
+                    <span>{def.vd}</span>
+                    <ol type="1">
+                        {def.sseq.map(item=> (<li>{item.map(this.showDefinition)}</li>))}
+                    </ol>
+                </>
             ))}
+            <Comment>
+                <p class="short-definition">
+                    <ol>
+                        {("shortdef" in this.props.item) 
+                            && this.props.item.shortdef.map(item=> (<li> {item} </li>))}
+                    </ol>
+                </p>
+            </Comment>
+            <p class="other-word">
+                {("uros" in this.props.item.meta) && this.props.item.meta.uros.map(item => (
+                    <div>
+                        {item.fl}
+                        {item.ure} \{item.prs[0].mw}\
+                    </div>
+                ))}
+            </p>
             <p class="meta">
                 {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
             </p>
-            <ol>
-                {("def" in this.props.item) && this.props.item.def[0].sseq.map(item=> (<li>
-                    <ol>
-                        {item.map(this.renderDefinition)}
-                    </ol>
-                </li>))}
-            </ol>
-            <p class="short-definition">
-                <ol>
-                    {("shortdef" in this.props.item) && this.props.item.shortdef.map(item=> (<li> {item} </li>))}
-                </ol>
-            </p>
-                <p class="other-word">
-                    {("uros" in this.props.item.meta) && this.props.item.meta.uros.map(item => (
-                        <div>
-                            {item.fl}
-                            {item.ure} \{item.prs[0].mw}\
-                        </div>
-                    ))}
-                </p>
+            <Comment>
+            </Comment>
             <p class="origin">
                 <div>
                     Origin: {("et" in this.props.item) && this.props.item.et[0][1]}
@@ -306,10 +332,13 @@ class WebsterResult extends Component {
             <Card>
                 <Card.Header> Merriam Webster </Card.Header>
                 <Card.Body>
+                    <Card.Title>
+                        <span class="title"> {this.props.text} </span>
+                    </Card.Title>
                     <Card.Text>
                         <NoMoreThan2Display>
                             {this.props.result.map(
-                                item => <WebsterDefinitionSection item={item} />
+                                item => <WebsterDefinitionSection item={item}/>
                             )}
                         </NoMoreThan2Display>
                     </Card.Text>

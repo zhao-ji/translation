@@ -63,3 +63,8 @@
 .other-aspect-body:first-letter {
     text-transform: uppercase;
 }
+
+.fl {
+    font-size: 26px;
+    color: blue;
+}
