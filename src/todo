@@ -18,9 +18,12 @@ translation:
             copy style from google translation
         youdao:
             copy style from youdao
+        webster:
+            bc meaning
         input box default stay center
         apple website icon
         translation result full screen
+        输入框离得远一点
 
 side project:
     china network divide stream

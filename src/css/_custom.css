@@ -33,7 +33,7 @@
 .definition {
     margin-left: 0.2em;
     line-height: 1.5em;
-    display: inline-block;
+    display: block;
 }
 .definition:first-letter {
     text-transform: uppercase;

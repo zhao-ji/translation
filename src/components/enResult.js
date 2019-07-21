@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Card } from 'react-bootstrap';
-import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ConsoleLog } from '../utils';
@@ -23,11 +23,19 @@ class PronunciationSection extends Component {
         return (
             <>
                 <hr/>
-                <h3 class="other-aspect">Pronunciation</h3>
+                <h3 class="other-aspect">
+                    Pronunciation
+                    <a href="https://www.lexico.com/en/grammar/key-to-pronunciation" target="_blank">
+                        <FontAwesomeIcon icon={faQuestionCircle} size="xs"/>
+                    </a>
+                </h3>
                 <p class="other-aspect-body">
                     {this.props.word}
-                    &nbsp; /{this.props.item.phoneticSpelling}/
-                    &nbsp; <AudioPlayer src={this.props.item.audioFile} />
+                    {this.props.item.map((item, index) => (
+                        <span key={index}>
+                            &nbsp; /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
+                        </span>
+                    ))}
                 </p>
             </>
         );
@@ -104,7 +112,7 @@ class OxfordResult extends Component {
         if ("etymologies" in this.props.result[0].lexicalEntries[0].entries[0]) {
             origin = this.props.result[0].lexicalEntries[0].entries[0].etymologies[0];
         }
-        const pronunciation = this.props.result[0].lexicalEntries[0].pronunciations[0];
+        const pronunciation = this.props.result[0].lexicalEntries[0].pronunciations;
         return (
             <Card>
                 <Card.Header> Oxford </Card.Header>
