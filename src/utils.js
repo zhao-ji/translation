@@ -10,6 +10,10 @@ export const ConsoleLog = ({ children }) => {
   return false;
 };
 
+export const Comment = ({ children }) => {
+  return false;
+};
+
 export const LoadingWrapper = ({ loading, match, children }) => {
     if (!loading && match) {
         return (<>{ children }</>);
