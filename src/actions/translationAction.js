@@ -172,15 +172,33 @@ export const translationActions = {
     },
     oxfordFetchExamples: kwargs => dispatch => {
         dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
-
+        
         axios
-            .get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase())
+        .get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase())
+        .then(response => {
+            dispatch({ type: "OXFORD_FETCH_EXAMPLES_SUCCESS", result: response.data.results, kwargs });
+        })
+        .catch(error => {
+            console.error(error);
+            dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
+        })
+    },
+    websterTranslate: kwargs => dispatch => {
+        dispatch({ type: "WEBSTER_TRANSLATION_TRY", kwargs });
+
+        const config = {
+            params: {
+                key: secrets.websterKey,
+            },
+        };
+        axios
+            .get(secrets.websterUrl + kwargs.text.toLowerCase(), config)
             .then(response => {
-                dispatch({ type: "OXFORD_FETCH_EXAMPLES_SUCCESS", result: response.data.results, kwargs });
+                dispatch({ type: "WEBSTER_TRANSLATION_SUCCESS", result: response.data, kwargs });
             })
             .catch(error => {
                 console.error(error);
-                dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
+                dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
 }

@@ -1,7 +1,14 @@
+/*
+ * global style
+ */
 .pull-right {
     float: right;
 }
+#search-component {
+    margin-top: 0.5em;
+}
 
+/*input component style*/
 #input-search-bar {
     text-align: left;
     font-size: 1.5em;
@@ -19,23 +26,77 @@
     }
 }
 
-.weak {
-    font-weight: lighter;
+/* webster style
+ */
+.pronun {
+    color: #225f73;
+    letter-spacing: 0.1em;
+}
+.webster-ins {
+    color: #225f73;
+    margin-right: 0.3em;
+}
+.webster-head-word {
+    font-size: 3em;
+}
+.webster-word-type {
+    font-size: 1.7em;
+    color: #225f73;
+    margin-left: 0.3em;
+}
+.webster-difinition-item {
+    color: #225f73;
+    margin-left: 0.2em;
+    line-height: 1.5em;
+    display: block;
+}
+.webster-difinition-item:first-letter {
+    text-transform: uppercase;
 }
 
-.horn {
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 24px !important;
-    width: 24px !important;
-    background-image: -webkit-image-set(url('https://ssl.gstatic.com/translate/1x_mobile.png') 1x,url('https://ssl.gstatic.com/translate/2x_mobile.png') 2x);
+/* oxford style
+ */
+.title {
+    font-size: 2em;
+    font-weight: 700;
 }
-
-.yellow-horn {
-    background-repeat: no-repeat;
-    background-color: yellow;
+.lexical-category {
+    color: orange;
+    margin-left: 0.6em;
+}
+.note {
+    color: green;
+}
+.definition {
+    margin-left: 0.2em;
+    line-height: 1.5em;
+    display: block;
+}
+.definition:first-letter {
+    text-transform: uppercase;
+}
+.definition:after {
+    content: ".";
+}
+.example {
+    quotes: '\2018' '\2019';
+    margin-left: 0.2em;
+    line-height: 1.5em;
+    font-weight: 550;
+}
+.example:before {
+    content: open-quote;
+}
+.example:after {
+    content: close-quote;
+}
+.other-aspect {
+    margin-left: 0.6em;
+}
+.other-aspect-body {
+    margin: 1.2em;
     display: inline-block;
-    height: 24px !important;
-    width: 24px !important;
-    background-image: -webkit-image-set(url('https://ssl.gstatic.com/translate/1x_mobile.png') 1x,url('https://ssl.gstatic.com/translate/2x_mobile.png') 2x);
+}
+.other-aspect-body:first-letter {
+    text-transform: uppercase;
 }

@@ -115,6 +115,7 @@ export default class Input extends Component {
         if (inputData.isEnglish && !inputData.isSentence) {
             this.props.oxfordTranslate(inputData);
             this.props.oxfordFetchExamples(inputData);
+            this.props.websterTranslate(inputData);
         }
         this.props.record(inputData);
     }
@@ -128,7 +129,7 @@ export default class Input extends Component {
     render() {
         return (
             <>
-                <InputGroup size="lg">
+                <InputGroup size="lg" id="search-component">
                     <Form.Control
                         as="input"
                         type="search"

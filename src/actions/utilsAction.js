@@ -17,7 +17,7 @@ export const utilsActions = {
             }
         };
         axios
-            .get(secrets.datamuseURL, args)
+            .get(secrets.datamuseUrl, args)
             .then(response => {
                 dispatch({
                     type: "FETCH_SUGGESTION_SUCCESS",

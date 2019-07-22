@@ -8,7 +8,7 @@ import { recordActions } from './actions/recordAction'
 import { utilsActions } from './actions/utilsAction'
 
 import Input from './components/input';
-import OxfordResult from './components/oxfordResult';
+import EnResult from './components/enResult';
 import Result from './components/result';
 
 import { LoadingWrapper } from './utils';
@@ -30,41 +30,57 @@ class App extends Component {
                     youdaoTranslate={this.props.youdaoTranslate}
                     oxfordTranslate={this.props.oxfordTranslate}
                     oxfordFetchExamples={this.props.oxfordFetchExamples}
+                    websterTranslate={this.props.websterTranslate}
                     record={this.props.record}
                 />
                 <Row noGutters={true}>
-                    <Col sm={12} lg={6}>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.google.isLoading}
                             match={this.props.translation.google.text === this.props.utils.currentText}>
                             <Result.GoogleResult result={this.props.translation.google.result}/>
                         </LoadingWrapper>
-                        <LoadingWrapper
-                            loading={this.props.translation.bing.isTranslationLoading}
-                            match={this.props.translation.bing.text === this.props.utils.currentText}>
-                            <Result.BingResult result={this.props.translation.bing.result}/>
-                        </LoadingWrapper>
-                        <LoadingWrapper
-                            loading={this.props.translation.oxfordTranslation.isLoading}
-                            match={this.props.translation.oxfordTranslation.text === this.props.utils.currentText}>
-                            <OxfordResult.TranslationResult result={this.props.translation.oxfordTranslation.result}/>
-                        </LoadingWrapper>
                     </Col>
-                    <Col sm={12} lg={6}>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.baidu.isLoading}
                             match={this.props.translation.baidu.text === this.props.utils.currentText}>
                             <Result.BaiduResult result={this.props.translation.baidu.result}/>
                         </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.youdao.isLoading}
                             match={this.props.translation.youdao.text === this.props.utils.currentText}>
                             <Result.YoudaoResult result={this.props.translation.youdao.result}/>
                         </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
                         <LoadingWrapper
-                            loading={this.props.translation.oxfordExamples.isLoading}
-                            match={this.props.translation.oxfordExamples.text === this.props.utils.currentText}>
-                            <OxfordResult.ExamplesResult result={this.props.translation.oxfordExamples.result}/>
+                            loading={this.props.translation.bing.isTranslationLoading}
+                            match={this.props.translation.bing.text === this.props.utils.currentText}>
+                            <Result.BingResult result={this.props.translation.bing.result}/>
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.webster.isLoading}
+                            match={this.props.translation.webster.text === this.props.utils.currentText}>
+                            <EnResult.WebsterResult
+                                result={this.props.translation.webster.result}
+                                text={this.props.utils.currentText}
+                            />
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.oxford.isLoading}
+                            match={this.props.translation.oxford.text === this.props.utils.currentText}>
+                            <EnResult.OxfordResult
+                                result={this.props.translation.oxford.result}
+                                examples={this.props.translation.oxfordExamples}
+                                text={this.props.utils.currentText}
+                            />
                         </LoadingWrapper>
                     </Col>
                 </Row>
