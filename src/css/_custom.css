@@ -1,4 +1,6 @@
-//global style
+/*
+ * global style
+ */
 .pull-right {
     float: right;
 }
@@ -6,7 +8,7 @@
     margin-top: 0.5em;
 }
 
-//input component style
+/*input component style*/
 #input-search-bar {
     text-align: left;
     font-size: 1.5em;
@@ -24,13 +26,36 @@
     }
 }
 
-// webster style
-.fl {
-    font-size: 26px;
-    color: blue;
+/* webster style
+ */
+.pronun {
+    color: #225f73;
+    letter-spacing: 0.1em;
+}
+.webster-ins {
+    color: #225f73;
+    margin-right: 0.3em;
+}
+.webster-head-word {
+    font-size: 3em;
+}
+.webster-word-type {
+    font-size: 1.7em;
+    color: #225f73;
+    margin-left: 0.3em;
+}
+.webster-difinition-item {
+    color: #225f73;
+    margin-left: 0.2em;
+    line-height: 1.5em;
+    display: block;
+}
+.webster-difinition-item:first-letter {
+    text-transform: uppercase;
 }
 
-// oxford style
+/* oxford style
+ */
 .title {
     font-size: 2em;
     font-weight: 700;

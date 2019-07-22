@@ -25,7 +25,7 @@ class ExampleSection extends Component {
             <>
                 <hr/>
                 <h3 class="other-aspect">Examples</h3>
-                <p class="other-aspect-body">
+                <div class="other-aspect-body">
                     {
                         this.props.examples.map(result => (
                             <>
@@ -35,9 +35,10 @@ class ExampleSection extends Component {
                                         {entry.sentences.map(item => (
                                             <li>
                                                 <Example text={item.text} word={this.props.word} />
-                                                {
-                                                    item.regions && item.regions.length > 0 &&
-                                                        <small className="weak pull-right"> Region: {item.regions[0].text} </small>
+                                                {item.regions && item.regions.length > 0 &&
+                                                    <small className="weak pull-right">
+                                                        Region: {item.regions[0].text}
+                                                    </small>
                                                 }
                                             </li>
                                         ))}
@@ -47,7 +48,7 @@ class ExampleSection extends Component {
                             </>
                         ))
                     }
-                </p>
+                </div>
             </>
         );
     }
@@ -229,60 +230,86 @@ class WebsterDefinitionSection extends Component {
         switch(i[0]) {
             case "sense":
                 return (
-                    <>
-                        { ("dt" in i[1]) && TagResolver(i[1].dt[0][1])}
-                        {("sdsense" in i[1]) && <span> {i[1].sdsense.sd} &nbsp; {TagResolver(i[1].sdsense.dt[0][1])} </span> }
-                    </>
+                    <li>
+                    {("dt" in i[1]) && ("text" === i[1].dt[0][0]) && TagResolver(i[1].dt[0][1])}
+                    {("sdsense" in i[1]) &&
+                        <div>
+                        <i> {i[1].sdsense.sd} </i>{TagResolver(i[1].sdsense.dt[0][1])} 
+                        </div>
+                    }
+                    </li>
                 );
             case "pseq":
                 return (
-                    <ol type="1">
-                        {i[1].map(this.showDefinition)}
-                    </ol>
+                    <li>
+                        <ol type="1">
+                            {i[1].map(this.showDefinition)}
+                        </ol>
+                    </li>
                 );
             default:
-                return <ConsoleLog>{i}</ConsoleLog>;
+                return <ConsoleLog>{i}<Comment></Comment></ConsoleLog>;
         }
+    }
+
+    generateAudio(sound) {
+        let prefix;
+        switch (true) {
+            case sound.audio.startsWith("bix"):
+                prefix = "bix";
+                break;
+            case sound.audio.startsWith("gg"):
+                prefix = "gg";
+                break;
+            case sound.audio.startsWith("_"):
+                prefix = "number";
+                break;
+            case sound.audio.match(/^\d/):
+                prefix = "number";
+                break;
+            default:
+                prefix = sound.audio[0];
+                break;
+        }
+        return <AudioPlayer src={secrets.websterSoundBaseUrl + prefix + "/" + sound.audio + ".wav"}/>;
     }
 
     render() {
         const HeadWord = R.pathOr(false, ["hwi", "hw"], this.props.item);
         const Pronun = R.pathOr(false, ["hwi", "prs", 0, "mw"], this.props.item);
         const Sound = R.pathOr(false, ["hwi", "prs", 0, "sound"], this.props.item);
-        const Ins = R.pathOr([], ["hwi", "ins"], this.props.item);
+        const Ins = R.pathOr([], ["ins"], this.props.item);
         const Def = R.pathOr([], ["def"], this.props.item);
         const Origin = R.pathOr(false, ["et", 0, 1], this.props.item);
         const From = R.pathOr(false, ["date"], this.props.item);
         return (
             <>
-            <hr/>
-            <p className="fl">
-                {HeadWord && <span> {HeadWord} </span>}
-                &nbsp;
-                <span>| { this.props.item.fl } |</span>
-                &nbsp;
-                {Pronun && <span> \{Pronun}\ </span>}
-                {Sound && <AudioPlayer src={secrets.websterSoundBaseUrl + Sound.audio[0] + "/" + Sound.audio + ".wav"} />}
-            </p>
             <p>
-                {Ins.length>0 && Ins.map(item => (<span>{item.il}: {item.if}</span>))}
+                <span class="webster-head-word">{HeadWord}</span>
+                <span class="webster-word-type"> { this.props.item.fl } </span>
             </p>
+            <p class="pronun">
+                {Pronun &&
+                    <span>\{Pronun} {Sound && this.generateAudio(Sound)}\</span>
+                }
+            </p>
+            {Ins.length>0 &&
+                (<p>Different Shape: {Ins.map(item =>
+                    (<span><i class="webster-ins">{item.il}</i> {item.if}</span>)
+                )}</p>)
+            }
             {Def.length > 0 && Def.map(def => (
                 <>
-                    <span>{def.vd}</span>
-                    <ol type="1">
-                        {def.sseq.map(item=> (<li>{item.map(this.showDefinition)}</li>))}
-                    </ol>
+                <p>{def.vd}</p>
+                <ol type="1">
+                    {def.sseq.map(item=> (<li class="webster-definition-item">
+                        <ol type="a">
+                            {item.map(this.showDefinition)}
+                        </ol>
+                    </li>))}
+                </ol>
                 </>
             ))}
-            <Comment>
-                <p class="short-definition">
-                    <ol>
-                        {("shortdef" in this.props.item) 
-                            && this.props.item.shortdef.map(item=> (<li> {item} </li>))}
-                    </ol>
-                </p>
-            </Comment>
             <p class="other-word">
                 {("uros" in this.props.item.meta) && this.props.item.meta.uros.map(item => (
                     <div>
@@ -292,12 +319,15 @@ class WebsterDefinitionSection extends Component {
                 ))}
             </p>
             <p class="meta">
-                {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
+                Related Word: {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
             </p>
-            <p class="origin">
-                { Origin && <div> Origin: {TagResolver(Origin)} </div> }
-                { From && <div> First known use: {TagResolver(From)} </div> }
+            <p>
+                { Origin && <span> Origin: {TagResolver(Origin)} </span> }
             </p>
+            <p>
+                { From && <span> First Known Use: {TagResolver(From)} </span> }
+            </p>
+            <hr/>
             </>
         )
     }
@@ -312,13 +342,10 @@ class WebsterResult extends Component {
             <Card>
                 <Card.Header> Merriam Webster </Card.Header>
                 <Card.Body>
-                    <Card.Title>
-                        <span class="title"> {this.props.text} </span>
-                    </Card.Title>
                     <Card.Text>
                         <CollapsableList>
                             {this.props.result.map(
-                                item => <WebsterDefinitionSection item={item}/>
+                                item => <WebsterDefinitionSection item={item} total={this.props.result.length}/>
                             )}
                         </CollapsableList>
                     </Card.Text>

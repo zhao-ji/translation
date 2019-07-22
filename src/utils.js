@@ -105,7 +105,6 @@ CollapsableList.defaultProps = {
 
 export function TagResolver(text) {
     // webster tag resolver
-    console.log(text);
     const newString = text
         .replace(/{bc}/g, "")
         .replace(/{ldquo}/g, "“")
@@ -121,7 +120,6 @@ export function TagResolver(text) {
         .replace(/\{sc\}/g, "<small>")
         .replace(/\{\/sc\}/g, "</small>")
         .replace(/\{.*\}/g, "")
-    console.log(newString);
     if (!newString) {
         return false;
     }
