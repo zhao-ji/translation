@@ -102,3 +102,28 @@ export class CollapsableList extends Component {
 CollapsableList.defaultProps = {
     limit: 3
 };
+
+export function TagResolver(text) {
+    // webster tag resolver
+    console.log(text);
+    const newString = text
+        .replace(/{bc}/g, "")
+        .replace(/{ldquo}/g, "“")
+        .replace(/{rdquo}/g, "”")
+        .replace(/\{b\}/g, "<strong>")
+        .replace(/\{\/b\}/g, "</strong>")
+        .replace(/\{inf\}/g, "<sub>")
+        .replace(/\{\/inf\}/g, "</sub>")
+        .replace(/\{sup\}/g, "<sup>")
+        .replace(/\{\/sup\}/g, "</sup>")
+        .replace(/\{it\}/g, "<i>")
+        .replace(/\{\/it\}/g, "</i>")
+        .replace(/\{sc\}/g, "<small>")
+        .replace(/\{\/sc\}/g, "</small>")
+        .replace(/\{.*\}/g, "")
+    console.log(newString);
+    if (!newString) {
+        return false;
+    }
+    return <span dangerouslySetInnerHTML={{__html: newString}} />;
+}

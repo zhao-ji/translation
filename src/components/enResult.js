@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as R from 'ramda'
 
 import { secrets } from '../actions/secrets';
-import { CollapsableList, ConsoleLog, Comment, LoadingWrapper } from '../utils';
+import { CollapsableList, ConsoleLog, Comment, LoadingWrapper, TagResolver } from '../utils';
 
 
 const Example = ({ text, word }) => {
@@ -230,8 +230,8 @@ class WebsterDefinitionSection extends Component {
             case "sense":
                 return (
                     <>
-                        <span> { ("dt" in i[1]) && i[1].dt[0][1]} </span>
-                        {("sdsense" in i[1]) && <span> {i[1].sdsense.sd} &nbsp; {i[1].sdsense.dt[0][1]} </span> }
+                        { ("dt" in i[1]) && TagResolver(i[1].dt[0][1])}
+                        {("sdsense" in i[1]) && <span> {i[1].sdsense.sd} &nbsp; {TagResolver(i[1].sdsense.dt[0][1])} </span> }
                     </>
                 );
             case "pseq":
@@ -295,8 +295,8 @@ class WebsterDefinitionSection extends Component {
                 {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
             </p>
             <p class="origin">
-                { Origin && <div> Origin: {Origin} </div> }
-                { From && <div> First known use: {From} </div> }
+                { Origin && <div> Origin: {TagResolver(Origin)} </div> }
+                { From && <div> First known use: {TagResolver(From)} </div> }
             </p>
             </>
         )
