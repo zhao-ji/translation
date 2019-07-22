@@ -1,3 +1,4 @@
+//global style
 .pull-right {
     float: right;
 }
@@ -5,6 +6,7 @@
     margin-top: 0.5em;
 }
 
+//input component style
 #input-search-bar {
     text-align: left;
     font-size: 1.5em;
@@ -22,6 +24,13 @@
     }
 }
 
+// webster style
+.fl {
+    font-size: 26px;
+    color: blue;
+}
+
+// oxford style
 .title {
     font-size: 2em;
     font-weight: 700;
@@ -65,9 +74,4 @@
 }
 .other-aspect-body:first-letter {
     text-transform: uppercase;
-}
-
-.fl {
-    font-size: 26px;
-    color: blue;
 }

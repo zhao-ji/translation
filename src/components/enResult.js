@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
 import { faVolumeUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as R from 'ramda'
 
+import { secrets } from '../actions/secrets';
 import { CollapsableList, ConsoleLog, Comment, LoadingWrapper } from '../utils';
 
 
@@ -239,36 +241,33 @@ class WebsterDefinitionSection extends Component {
                     </ol>
                 );
             default:
-                console.log(i);
                 return <ConsoleLog>{i}</ConsoleLog>;
         }
     }
 
     render() {
+        const HeadWord = R.pathOr(false, ["hwi", "hw"], this.props.item);
+        const Pronun = R.pathOr(false, ["hwi", "prs", 0, "mw"], this.props.item);
+        const Sound = R.pathOr(false, ["hwi", "prs", 0, "sound"], this.props.item);
+        const Ins = R.pathOr([], ["hwi", "ins"], this.props.item);
+        const Def = R.pathOr([], ["def"], this.props.item);
+        const Origin = R.pathOr(false, ["et", 0, 1], this.props.item);
+        const From = R.pathOr(false, ["date"], this.props.item);
         return (
             <>
             <hr/>
-            <p>
-                <span class="fl">
-                    { this.props.item.fl }
-                </span>
+            <p className="fl">
+                {HeadWord && <span> {HeadWord} </span>}
                 &nbsp;
-                <span class="fl">
-                    { ("hw" in this.props.item.hwi) && this.props.item.hwi.hw } |
-                </span>
+                <span>| { this.props.item.fl } |</span>
                 &nbsp;
-                <span class="fl">
-                    \{ ("prs" in this.props.item.hwi) && this.props.item.hwi.prs[0].mw}\
-                </span>
+                {Pronun && <span> \{Pronun}\ </span>}
+                {Sound && <AudioPlayer src={secrets.websterSoundBaseUrl + Sound.audio[0] + "/" + Sound.audio + ".wav"} />}
             </p>
             <p>
-                <span class="fl">
-                    {("ins" in this.props.item) && this.props.item.ins.map(item => (
-                        <>{item.il} {item.if}</>
-                    ))}
-                </span>
+                {Ins.length>0 && Ins.map(item => (<span>{item.il}: {item.if}</span>))}
             </p>
-            {("def" in this.props.item) && this.props.item.def.map(def => (
+            {Def.length > 0 && Def.map(def => (
                 <>
                     <span>{def.vd}</span>
                     <ol type="1">
@@ -295,15 +294,9 @@ class WebsterDefinitionSection extends Component {
             <p class="meta">
                 {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
             </p>
-            <Comment>
-            </Comment>
             <p class="origin">
-                <div>
-                    Origin: {("et" in this.props.item) && this.props.item.et[0][1]}
-                </div>
-                <div>
-                    First known use: {("date" in this.props.item) && this.props.item.date}
-                </div>
+                { Origin && <div> Origin: {Origin} </div> }
+                { From && <div> First known use: {From} </div> }
             </p>
             </>
         )
