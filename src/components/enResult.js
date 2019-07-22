@@ -282,6 +282,8 @@ class WebsterDefinitionSection extends Component {
         const Def = R.pathOr([], ["def"], this.props.item);
         const Origin = R.pathOr(false, ["et", 0, 1], this.props.item);
         const From = R.pathOr(false, ["date"], this.props.item);
+        const Uros = R.pathOr(false, ["meta", "uros"], this.props.item);
+        const Stems = R.pathOr(false, ["meta", "stems"], this.props.item);
         return (
             <>
             <p>
@@ -311,16 +313,17 @@ class WebsterDefinitionSection extends Component {
                 </>
             ))}
             <p class="other-word">
-                {("uros" in this.props.item.meta) && this.props.item.meta.uros.map(item => (
+                {Uros.length > 0 && Uros.map(item => (
                     <div>
                         {item.fl}
                         {item.ure} \{item.prs[0].mw}\
                     </div>
                 ))}
             </p>
-            <p class="meta">
-                Related Word: {this.props.item.meta.stems.map(stem => (<span>{stem}&nbsp;</span>))}
-            </p>
+            {
+                Stems.length > 0 && 
+                <p class="meta"> Related Word: {Stems.map(stem => (<span>{stem}&nbsp;</span>))} </p>
+            }
             <p>
                 { Origin && <span> Origin: {TagResolver(Origin)} </span> }
             </p>
@@ -336,7 +339,10 @@ class WebsterDefinitionSection extends Component {
 class WebsterResult extends Component {
     render() {
         if (!this.props.result || this.props.result.length === 0) {
-            return null;
+            return false;
+        }
+        if (typeof this.props.result[0] === "string") {
+            return false;
         }
         return (
             <Card>

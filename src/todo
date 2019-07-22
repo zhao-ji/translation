@@ -3,7 +3,7 @@ translation:
     uglify the secret
     build analysis
     syntax:
-        ubsense.examples && subsense.examples.length > 0 && subsense.examples.map
+        ubsense.examples && subsense.examples.length > 0 && subsense.examples.map(done by ramda)
         children collapse(done)
     test case
         jest
@@ -12,14 +12,13 @@ translation:
         oxford:
             the sauruslinks
             cross reference
-        webster
     style change:
         google:
             copy style from google translation
         youdao:
             copy style from youdao
         webster:
-            bc meaning
+            bc meaning(done)
         input box default stay center
         apple website icon
         translation result full screen
