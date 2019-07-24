@@ -77,20 +77,27 @@ export class CollapsableList extends Component {
     }
 
     render() {
+        if (!this.props.children) {
+            return false;
+        }
+        const tooLong = this.props.children.length > this.props.limit;
+        const extraCount = this.props.children.length - this.props.limit;
         return (
             <>
             {
-                !this.state.show && this.props.children.length > this.props.limit ?
+                tooLong && !this.state.show ?
                 this.props.children.slice(0, this.props.limit) :
                 this.props.children
             }
+            <br/>
             <Row>
                 <Col lg={12} md={12} sm={12}>
                     {
-                        this.props.children.length > this.props.limit ?
+                        tooLong ?
                         <Button block size="sm" variant="light" onClick={this.onToggle}>
-                            {this.state.show ? "Less" : "More"}
-                        </Button>: null
+                            {this.state.show ? "Less" : "More (extra " + extraCount + ")"}
+                        </Button> :
+                        null
                     }
                 </Col>
             </Row>
