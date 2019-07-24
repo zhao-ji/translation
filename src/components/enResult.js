@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as R from 'ramda'
 
 import { secrets } from '../actions/secrets';
-import { CollapsableList, ConsoleLog, Comment, LoadingWrapper, TagResolver } from '../utils';
+import { CollapsableList, ConsoleLog, Comment, LoadingWrapper, starReplace, TagResolver } from '../utils';
 
 
 const Example = ({ text, word }) => {
@@ -287,7 +287,7 @@ class WebsterDefinitionSection extends Component {
         return (
             <>
             <p>
-                <span class="webster-head-word">{HeadWord}</span>
+                <span class="webster-head-word">{starReplace(HeadWord)}</span>
                 <span class="webster-word-type"> { this.props.item.fl } </span>
             </p>
             <p class="pronun">
@@ -297,7 +297,7 @@ class WebsterDefinitionSection extends Component {
             </p>
             {Ins.length>0 &&
                 (<p>Different Shape: {Ins.map(item =>
-                    (<span><i class="webster-ins">{item.il}</i> {item.if}</span>)
+                    (<span><i class="webster-ins">{item.il}</i> {starReplace(item.if)}</span>)
                 )}</p>)
             }
             {Def.length > 0 && Def.map(def => (

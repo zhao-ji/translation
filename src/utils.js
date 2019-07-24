@@ -4,6 +4,13 @@ import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[ .,:;!?。，：；！？]/
 
+export const starReplace = (text) => {
+    if (!text) {
+        return false;
+    }
+    return text.split("*").join("\u00B7");
+};
+
 export const ConsoleLog = ({ children }) => {
   console.log(children);
   return false;
