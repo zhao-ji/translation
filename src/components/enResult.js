@@ -112,7 +112,10 @@ class DefinitionSection extends Component {
                                     sense.notes && sense.notes.length > 0 &&
                                         <span class="note">[{sense.notes[0].text}]</span>
                                 }
-                                <span class="definition">{sense.definitions[0]}</span>
+                                {
+                                    sense.definitions && sense.definitions.length > 0 &&
+                                        <span class="definition">[{sense.definitions[0]}]</span>
+                                }
                             </p>
                             {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
                                 sense.examples.map(example => (
