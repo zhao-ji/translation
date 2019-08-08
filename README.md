@@ -22,5 +22,4 @@
       - cross reference
   - style change:
       - input box default stay center
-      - apple website icon
       - translation result full screen
