@@ -21,33 +21,32 @@ const Example = ({ text, word }) => {
 
 class ExampleSection extends Component {
     render() {
+        let entries = [];
+        this.props.examples.map(example => {
+            entries = entries.concat(example.lexicalEntries);
+        });
         return (
             <>
                 <hr/>
-                <h3 class="other-aspect">Examples</h3>
-                <div class="other-aspect-body">
-                    {
-                        this.props.examples.map(result => (
-                            <>
-                            {result.lexicalEntries.map(entry => (
-                                <ol>
-                                    <CollapsableList>
-                                        {entry.sentences.map(item => (
-                                            <li>
-                                                <Example text={item.text} word={this.props.word} />
-                                                {item.regions && item.regions.length > 0 &&
-                                                    <small className="weak pull-right">
-                                                        Region: {item.regions[0].text}
-                                                    </small>
-                                                }
-                                            </li>
-                                        ))}
-                                    </CollapsableList>
-                                </ol>
-                            ))}
-                            </>
-                        ))
-                    }
+                <h3 className="other-aspect">Examples</h3>
+                <div className="other-aspect-body">
+                    {entries.map((entry, index1) => (
+                        <ol key={index1}>
+                            <h5 className="example-category">{entry.lexicalCategory.text}</h5>
+                            <CollapsableList>
+                                {entry.sentences.map((item, index) => (
+                                    <li key={index}>
+                                        <Example text={item.text} word={this.props.word} />
+                                        {item.regions && item.regions.length > 0 &&
+                                                <small className="weak pull-right">
+                                                    Region: {item.regions[0].text}
+                                                </small>
+                                        }
+                                    </li>
+                                ))}
+                            </CollapsableList>
+                        </ol>
+                    ))}
                 </div>
             </>
         );
@@ -59,8 +58,8 @@ class OriginSection extends Component {
         return (
             <>
                 <hr/>
-                <h3 class="other-aspect">Origin</h3>
-                <p class="other-aspect-body"> {this.props.origin} </p>
+                <h3 className="other-aspect">Origin</h3>
+                <p className="other-aspect-body"> {this.props.origin} </p>
             </>
         );
     }
@@ -71,7 +70,7 @@ class PronunciationSection extends Component {
         return (
             <>
                 <hr/>
-                <h3 class="other-aspect">
+                <h3 className="other-aspect">
                     Pronunciation
                     <a
                         href="https://www.lexico.com/en/grammar/key-to-pronunciation"
@@ -79,7 +78,7 @@ class PronunciationSection extends Component {
                         <FontAwesomeIcon icon={faQuestionCircle} size="xs"/>
                     </a>
                 </h3>
-                <p class="other-aspect-body">
+                <p className="other-aspect-body">
                     {this.props.word}
                     {this.props.item.map((item, index) => (
                         <span key={index}>
@@ -97,52 +96,54 @@ class DefinitionSection extends Component {
         return (
             <>
                 <hr/>
-                <h3 class="lexical-category">
+                <h3 className="lexical-category">
                     { this.props.lexicalEntry.lexicalCategory.text }
                 </h3>
-                { this.props.lexicalEntry.entries.map(entry => (
-                    <ol type="1">
+                { this.props.lexicalEntry.entries.map((entry, index2) => (
+                    <ol type="1" key={index2}>
                     {entry.senses.map((sense, index) => (
-                        <li>
+                        <li key={index}>
                             {sense.domains && sense.domains.length > 0 &&
-                                <p class="note">{sense.domains[0].text}</p>
+                                <p className="note">{sense.domains[0].text}</p>
                             }
                             <p>
                                 {
                                     sense.notes && sense.notes.length > 0 &&
-                                        <span class="note">[{sense.notes[0].text}]</span>
+                                        <span className="note">[{sense.notes[0].text}]</span>
                                 }
                                 {
                                     sense.definitions && sense.definitions.length > 0 &&
-                                        <span class="definition">[{sense.definitions[0]}]</span>
+                                        <span className="definition">[{sense.definitions[0]}]</span>
                                 }
                             </p>
                             {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
-                                sense.examples.map(example => (
-                                    <p>
+                                sense.examples.map((example, index) => (
+                                    <p key={index}>
                                         {
                                             ("notes" in example) && example.notes && example.notes.length > 0 &&
-                                                <span class="note">[{example.notes[0].text}]</span>
+                                                <span className="note">[{example.notes[0].text}]</span>
                                         }
-                                        <span class="example"><em>{example.text}</em></span>
+                                        <span className="example"><em>{example.text}</em></span>
                                     </p>
                                     
                                 ))
                             }
                             <ol type="1">
                             {sense.subsenses && sense.subsenses.length > 0 &&sense.subsenses.map((subsense, subIndex) => (
-                                <li>
+                                <li key={subIndex}>
                                     {
                                         ("definitions" in subsense) && subsense.definitions.length > 0 
                                         ?
-                                            <p class="definition">{subsense.definitions[0]}</p>
+                                            <p className="definition">{subsense.definitions[0]}</p>
                                         :
                                         ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
-                                            <p class="definition"> short for {subsense.shortDefinitions[0]} </p>
+                                            <p className="definition"> short for {subsense.shortDefinitions[0]} </p>
                                     }
-                                    {subsense.examples && subsense.examples.length > 0 && subsense.examples.map(example => (
-                                        <p class="example"><em>{example.text}</em></p>
-                                    ))}
+                                    {subsense.examples && subsense.examples.length > 0 && subsense.examples.map(
+                                        (example, index) => (
+                                            <p key={index} className="example"><em>{example.text}</em></p>
+                                        )
+                                    )}
                                 </li>
                             ))}
                             </ol>
@@ -170,20 +171,18 @@ class OxfordResult extends Component {
                 <Card.Header> Oxford </Card.Header>
                 <Card.Body>
                     <Card.Title>
-                        <span class="title"> {this.props.text} </span>
+                        <span className="title"> {this.props.text} </span>
                     </Card.Title>
-                    <Card.Text>
-                        {this.props.result[0].lexicalEntries.map(
-                            lexicalEntry => <DefinitionSection lexicalEntry={lexicalEntry} />
-                        )}
-                        {origin && <OriginSection origin={origin} />}
-                        <PronunciationSection word={this.props.text} item={pronunciation} />
-                        <LoadingWrapper
-                            loading={this.props.examples.isLoading}
-                            match={this.props.examples.text === this.props.text}>
-                            <ExampleSection examples={this.props.examples.result} word={this.props.text} />
-                        </LoadingWrapper>
-                    </Card.Text>
+                    <PronunciationSection word={this.props.text} item={pronunciation} />
+                    {this.props.result[0].lexicalEntries.map(
+                        (lexicalEntry, index) => <DefinitionSection key={index} lexicalEntry={lexicalEntry} />
+                    )}
+                    {origin && <OriginSection origin={origin} />}
+                    <LoadingWrapper
+                        loading={this.props.examples.isLoading}
+                        match={this.props.examples.text === this.props.text}>
+                        <ExampleSection examples={this.props.examples.result} word={this.props.text} />
+                    </LoadingWrapper>
                 </Card.Body>
             </Card>
         );
@@ -290,24 +289,24 @@ class WebsterDefinitionSection extends Component {
         return (
             <>
             <p>
-                <span class="webster-head-word">{starReplace(HeadWord)}</span>
-                <span class="webster-word-type"> { this.props.item.fl } </span>
+                <span className="webster-head-word">{starReplace(HeadWord)}</span>
+                <span className="webster-word-type"> { this.props.item.fl } </span>
             </p>
-            <p class="pronun">
+            <p className="pronun">
                 {Pronun &&
                     <span>\{Pronun} {Sound && this.generateAudio(Sound)}\</span>
                 }
             </p>
             {Ins.length>0 &&
-                (<p>Different Shape: {Ins.map(item =>
-                    (<span><i class="webster-ins">{item.il}</i> {starReplace(item.if)}</span>)
+                (<p>Different Shape: {Ins.map((item, index) =>
+                    (<span key={index}><i className="webster-ins">{item.il}</i> {starReplace(item.if)}</span>)
                 )}</p>)
             }
             {Def.length > 0 && Def.map(def => (
                 <>
                 <p>{def.vd}</p>
                 <ol type="1">
-                    {def.sseq.map(item=> (<li class="webster-definition-item">
+                    {def.sseq.map(item=> (<li className="webster-definition-item">
                         <ol type="a">
                             {item.map(this.showDefinition)}
                         </ol>
@@ -315,7 +314,7 @@ class WebsterDefinitionSection extends Component {
                 </ol>
                 </>
             ))}
-            <p class="other-word">
+            <p className="other-word">
                 {Uros.length > 0 && Uros.map(item => (
                     <div>
                         {item.fl}
@@ -325,7 +324,7 @@ class WebsterDefinitionSection extends Component {
             </p>
             {
                 Stems.length > 0 && 
-                <p class="meta"> Related Word: {Stems.map(stem => (<span>{stem}&nbsp;</span>))} </p>
+                <p className="meta"> Related Word: {Stems.map(stem => (<span>{stem}&nbsp;</span>))} </p>
             }
             <p>
                 { Origin && <span> Origin: {TagResolver(Origin)} </span> }
@@ -351,13 +350,11 @@ class WebsterResult extends Component {
             <Card>
                 <Card.Header> Merriam Webster </Card.Header>
                 <Card.Body>
-                    <Card.Text>
-                        <CollapsableList>
-                            {this.props.result.map(
-                                item => <WebsterDefinitionSection item={item} total={this.props.result.length}/>
-                            )}
-                        </CollapsableList>
-                    </Card.Text>
+                    <CollapsableList>
+                        {this.props.result.map((item, index) =>
+                            <WebsterDefinitionSection key={index} item={item} total={this.props.result.length}/>
+                        )}
+                    </CollapsableList>
                 </Card.Body>
             </Card>
         );

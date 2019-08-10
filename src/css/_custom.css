@@ -100,3 +100,7 @@
 .other-aspect-body:first-letter {
     text-transform: uppercase;
 }
+.example-category {
+    margin-left: -0.8em;
+    color: orange;
+}
