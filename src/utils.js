@@ -133,6 +133,7 @@ export function TagResolver(text) {
         .replace(/\{\/it\}/g, "</i>")
         .replace(/\{sc\}/g, "<small>")
         .replace(/\{\/sc\}/g, "</small>")
+        .replace(/\{sx\|([a-z0-9\s]+)\|\|\}/g, "$1")
         .replace(/\{.*\}/g, "")
     if (!newString) {
         return false;
