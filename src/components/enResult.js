@@ -308,9 +308,7 @@ class WebsterDefinitionSection extends Component {
                 <p>{def.vd}</p>
                 <ol type="1">
                     {def.sseq.map(item=> (<li className="webster-definition-item">
-                        <ol type="a">
-                            {item.map(this.showDefinition)}
-                        </ol>
+                        <ul> {item.map(this.showDefinition)} </ul>
                     </li>))}
                 </ol>
                 </>
