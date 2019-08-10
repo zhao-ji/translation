@@ -24,6 +24,7 @@ class ExampleSection extends Component {
         let entries = [];
         this.props.examples.map(example => {
             entries = entries.concat(example.lexicalEntries);
+            return 0;
         });
         return (
             <>
