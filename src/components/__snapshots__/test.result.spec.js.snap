@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BaiduResult /> render() default correctly 1`] = `
+<TranslationCard
+  header="Baidu"
+/>
+`;
+
+exports[`<GoogleResult /> render() default correctly 1`] = `
+<TranslationCard
+  header="Google"
+/>
+`;

@@ -1,4 +1,4 @@
-import {checkIfSentence, checkIfMandarin} from './utils'
+import {checkIfSentence, checkIfMandarin} from './utils';
 
 it("check if it is a sentence", () => {
     expect(checkIfSentence("")).toEqual(false);
@@ -10,7 +10,7 @@ it("check if it is a sentence", () => {
     expect(checkIfSentence("你好, 你好")).toEqual(true);
     expect(checkIfSentence("你好")).toEqual(false);
     expect(checkIfSentence("你好?")).toEqual(true);
-})
+});
 
 it("check if it is in mandarin", () => {
     expect(checkIfMandarin("你好")).toEqual(true);
@@ -23,4 +23,4 @@ it("check if it is in mandarin", () => {
     expect(checkIfMandarin("")).toEqual(false);
     expect(checkIfMandarin(",")).toEqual(false);
     expect(checkIfMandarin(null)).toEqual(false);
-})
+});
