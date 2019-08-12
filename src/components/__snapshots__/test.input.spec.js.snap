@@ -38,33 +38,208 @@ exports[`<Input /> render() default correctly 1`] = `
 </Fragment>
 `;
 
-exports[`<Suggestions /> render() default correctly 1`] = `<Fragment />`;
-
-exports[`<Suggestions /> render() render suggestions 1`] = `
-<ForwardRef>
-  <Bootstrap(ListGroupItem)
-    action={true}
-    className="option"
-    data-value="hello"
-    key="0"
-    onClick={[Function]}
+exports[`<Input /> render() set currentText 1`] = `
+<Fragment>
+  <Bootstrap(InputGroup)
+    id="search-component"
+    size="lg"
   >
-    hello
-    <b />
-  </Bootstrap(ListGroupItem)>
-  <Bootstrap(ListGroupItem)
-    action={true}
-    className="option"
-    data-value="hello world"
-    key="1"
-    onClick={[Function]}
-  >
-    hello
-    <b>
-       world
-    </b>
-  </Bootstrap(ListGroupItem)>
-</ForwardRef>
+    <FormControl
+      as="input"
+      autoComplete="off"
+      autoFocus={true}
+      defaultValue=""
+      id="input-search-bar"
+      key=""
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      placeholder="translate word or sentence for english and mandarin..."
+      type="search"
+    />
+    <InputGroupAppend>
+      <Button
+        active={false}
+        block={true}
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+        variant="outline-dark"
+      >
+        Search
+      </Button>
+    </InputGroupAppend>
+  </Bootstrap(InputGroup)>
+  <Suggestions
+    currentText="hello"
+    matchedOption=""
+    onClickSuggestion={[Function]}
+  />
+</Fragment>
 `;
 
-exports[`<Suggestions /> render() suggestions does not match 1`] = `<Fragment />`;
+exports[`<Input /> search default correctly 1`] = `
+<Input
+  cache={Array []}
+>
+  <Bootstrap(InputGroup)
+    id="search-component"
+    size="lg"
+  >
+    <InputGroup
+      bsPrefix="input-group"
+      id="search-component"
+      size="lg"
+    >
+      <div
+        className="input-group input-group-lg"
+        id="search-component"
+      >
+        <FormControl
+          as="input"
+          autoComplete="off"
+          autoFocus={true}
+          defaultValue=""
+          id="input-search-bar"
+          key=""
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          placeholder="translate word or sentence for english and mandarin..."
+          type="search"
+        >
+          <input
+            autoComplete="off"
+            autoFocus={true}
+            className="form-control"
+            defaultValue=""
+            id="input-search-bar"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="translate word or sentence for english and mandarin..."
+            type="search"
+          />
+        </FormControl>
+        <InputGroupAppend>
+          <div
+            className="input-group-append"
+          >
+            <Button
+              active={false}
+              block={true}
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+              variant="outline-dark"
+            >
+              <button
+                className="btn btn-outline-dark btn-block"
+                disabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                Search
+              </button>
+            </Button>
+          </div>
+        </InputGroupAppend>
+      </div>
+    </InputGroup>
+  </Bootstrap(InputGroup)>
+  <Suggestions
+    cache={Array []}
+    matchedOption=""
+    onClickSuggestion={[Function]}
+  />
+</Input>
+`;
+
+exports[`<Input /> search word 1`] = `
+<Input
+  baiduTranslate={[MockFunction]}
+  bingTranslate={[MockFunction]}
+  cache={Array []}
+  currentText="hello hello hello hello hello"
+  googleTranslate={[MockFunction]}
+  oxfordFetchExamples={[MockFunction]}
+  oxfordTranslate={[MockFunction]}
+  record={[MockFunction]}
+  setCurrentText={[MockFunction]}
+  websterTranslate={[MockFunction]}
+  youdaoTranslate={[MockFunction]}
+>
+  <Bootstrap(InputGroup)
+    id="search-component"
+    size="lg"
+  >
+    <InputGroup
+      bsPrefix="input-group"
+      id="search-component"
+      size="lg"
+    >
+      <div
+        className="input-group input-group-lg"
+        id="search-component"
+      >
+        <FormControl
+          as="input"
+          autoComplete="off"
+          autoFocus={true}
+          defaultValue=""
+          id="input-search-bar"
+          key=""
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          placeholder="translate word or sentence for english and mandarin..."
+          type="search"
+        >
+          <input
+            autoComplete="off"
+            autoFocus={true}
+            className="form-control"
+            defaultValue=""
+            id="input-search-bar"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="translate word or sentence for english and mandarin..."
+            type="search"
+          />
+        </FormControl>
+        <InputGroupAppend>
+          <div
+            className="input-group-append"
+          >
+            <Button
+              active={false}
+              block={true}
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+              variant="outline-dark"
+            >
+              <button
+                className="btn btn-outline-dark btn-block"
+                disabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                Search
+              </button>
+            </Button>
+          </div>
+        </InputGroupAppend>
+      </div>
+    </InputGroup>
+  </Bootstrap(InputGroup)>
+  <Suggestions
+    cache={Array []}
+    currentText="hello hello hello hello hello"
+    matchedOption=""
+    onClickSuggestion={[Function]}
+  />
+</Input>
+`;
+
+exports[`<Suggestions /> render() default correctly 1`] = `""`;
+
+exports[`<Suggestions /> render() render suggestions 1`] = `""`;
+
+exports[`<Suggestions /> render() suggestions does not match 1`] = `""`;

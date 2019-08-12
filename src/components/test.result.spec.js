@@ -5,8 +5,14 @@ import toJson from 'enzyme-to-json';
 import Result from './result';
 
 describe('<GoogleResult />', () => {
-    describe('render()', () => {
+    describe('render', () => {
         test('default correctly', () => {
+            const props = {
+            };
+            const component = shallow(<Result.GoogleResult {...props}/>);
+            expect(toJson(component)).toMatchSnapshot();
+        });
+        test('render result', () => {
             const props = {
                 title: "hello",
             };
@@ -18,7 +24,13 @@ describe('<GoogleResult />', () => {
 
 describe('<BaiduResult />', () => {
     describe('render()', () => {
-        test('default correctly', () => {
+        test('default', () => {
+            const props = {
+            };
+            const component = shallow(<Result.BaiduResult {...props}/>);
+            expect(toJson(component)).toMatchSnapshot();
+        });
+        test('render result', () => {
             const props = {
                 title: "hello",
             };
