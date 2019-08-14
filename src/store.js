@@ -33,7 +33,7 @@ function initialState() {
             },
             oxfordExamples: {
                 text: null,
-                result: null,
+                result: [],
                 isLoading: false
             },
             webster: {

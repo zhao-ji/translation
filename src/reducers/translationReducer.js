@@ -134,6 +134,24 @@ export default (state = {}, action) => {
             newState.webster.isLoading = false;
             return newState
         }
+        case 'CLEAN_EN_EN_RESULT': {
+            newState.oxford = {
+                text: null,
+                result: null,
+                isLoading: false
+            };
+            newState.oxfordExamples = {
+                text: null,
+                result: [],
+                isLoading: false
+            };
+            newState.webster = {
+                text: null,
+                result: null,
+                isLoading: false
+            };
+            return newState
+        }
         default:
             return newState;
     }

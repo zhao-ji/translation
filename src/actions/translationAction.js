@@ -201,4 +201,7 @@ export const translationActions = {
                 dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
+    cleanEnEnResult: kwargs => dispatch => {
+        dispatch({ type: "CLEAN_EN_EN_RESULT", kwargs });
+    },
 }
