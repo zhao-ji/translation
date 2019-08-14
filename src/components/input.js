@@ -14,12 +14,16 @@ class Suggestions extends Component {
 
     render() {
         if (this.props.matchedOption === this.props.currentText) {
-            return (<></>);
+            return false;
+        } else if (this.props.matchedOption && this.props.currentText) {
+            if (this.props.matchedOption.trim() === this.props.currentText.trim()) {
+                return false;
+            }
         }
 
         const items = this.props.cache[this.props.currentText];
         if (!items || !items.result || items.result.length === 0) {
-            return (<></>);
+            return false;
         }
 
         return (
@@ -116,6 +120,8 @@ export default class Input extends Component {
             this.props.oxfordTranslate(inputData);
             this.props.oxfordFetchExamples(inputData);
             this.props.websterTranslate(inputData);
+        } else {
+            this.props.cleanEnEnResult();
         }
         this.props.record(inputData);
     }

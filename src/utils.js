@@ -20,11 +20,17 @@ export const Comment = ({ children }) => {
   return false;
 };
 
-export const LoadingWrapper = ({ loading, match, children }) => {
-    if (!loading && match) {
-        return (<>{ children }</>);
+export const LoadingWrapper = ({ loading, currentText, resultText, children }) => {
+    if (!loading) {
+        if (currentText === resultText) {
+            return children;
+        } else if (currentText && resultText) {
+            if (currentText.trim() === resultText.trim()) {
+                return children;
+            }
+        }
     }
-    return null
+    return false;
 }
 
 export function TranslationCard (props) {
