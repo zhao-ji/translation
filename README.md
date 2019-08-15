@@ -8,6 +8,8 @@
   - Youdao
   - Oxford Dictionary
   - Marriam Webster
+  - Amazon
+  - Urban Dictionary
 
 ### Known Issues
 
