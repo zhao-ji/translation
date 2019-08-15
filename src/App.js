@@ -26,8 +26,10 @@ class App extends Component {
                     fetchSuggestion={this.props.fetchSuggestion}
                     googleTranslate={this.props.googleTranslate}
                     baiduTranslate={this.props.baiduTranslate}
-                    bingTranslate={this.props.bingTranslate}
                     youdaoTranslate={this.props.youdaoTranslate}
+                    bingTranslate={this.props.bingTranslate}
+                    amazonTranslate={this.props.amazonTranslate}
+                    urbanTranslate={this.props.urbanTranslate}
                     oxfordTranslate={this.props.oxfordTranslate}
                     oxfordFetchExamples={this.props.oxfordFetchExamples}
                     websterTranslate={this.props.websterTranslate}
@@ -51,6 +53,24 @@ class App extends Component {
                             resultText={this.props.translation.baidu.text}
                             >
                             <Result.BaiduResult result={this.props.translation.baidu.result}/>
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.amazon.isLoading}
+                            currentText={this.props.utils.currentText}
+                            resultText={this.props.translation.amazon.text}
+                            >
+                            <Result.AmazonResult result={this.props.translation.amazon.result}/>
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.urban.isTranslationLoading}
+                            currentText={this.props.utils.currentText}
+                            resultText={this.props.translation.urban.text}
+                            >
+                            <EnResult.UrbanResult result={this.props.translation.urban.result}/>
                         </LoadingWrapper>
                     </Col>
                     <Col lg={6} sm={12}>

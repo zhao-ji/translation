@@ -140,9 +140,15 @@ export function TagResolver(text) {
         .replace(/\{sc\}/g, "<small>")
         .replace(/\{\/sc\}/g, "</small>")
         .replace(/\{sx\|([a-z0-9\s]+)\|\|\}/g, "$1")
-        .replace(/\{.*\}/g, "")
+        .replace(/\{.*\}/g, "");
     if (!newString) {
         return false;
     }
+    return <span dangerouslySetInnerHTML={{__html: newString}} />;
+}
+
+export function UrbanDictionaryTagResolver(text) {
+    // webster tag resolver
+    const newString = text.replace(/\[/g, "<strong>").replace(/\]/g, "</strong>");
     return <span dangerouslySetInnerHTML={{__html: newString}} />;
 }

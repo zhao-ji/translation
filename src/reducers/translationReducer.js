@@ -83,6 +83,42 @@ export default (state = {}, action) => {
             newState.bing.isExampleLoading = false;
             return newState
         }
+        case 'AMAZON_TRANSLATION_TRY': {
+            newState.amazon = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'AMAZON_TRANSLATION_SUCCESS': {
+            newState.amazon.result = action.result;
+            newState.amazon.isLoading = false;
+            return newState
+        }
+        case 'AMAZON_TRANSLATION_ERROR': {
+            newState.amazon.isLoading = false;
+            return newState
+        }
+        case 'URBAN_TRANSLATION_TRY': {
+            newState.urban = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'URBAN_TRANSLATION_SUCCESS': {
+            newState.urban.result = action.result.sort(function(a, b){
+                return b.thumbs_up - a.thumbs_up;
+            });
+            newState.urban.isLoading = false;
+            return newState
+        }
+        case 'URBAN_TRANSLATION_ERROR': {
+            newState.urban.isLoading = false;
+            return newState
+        }
         case 'OXFORD_TRANSLATION_TRY': {
             newState.oxford = {
                 text: action.kwargs.text,
@@ -135,6 +171,11 @@ export default (state = {}, action) => {
             return newState
         }
         case 'CLEAN_EN_EN_RESULT': {
+            newState.urban = {
+                text: null,
+                result: null,
+                isLoading: false
+            };
             newState.oxford = {
                 text: null,
                 result: null,
