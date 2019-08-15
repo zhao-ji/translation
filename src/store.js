@@ -26,6 +26,16 @@ function initialState() {
                 isTranslationLoading: false,
                 isExampleLoading: false
             },
+            amazon: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
+            urban: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
             oxford: {
                 text: null,
                 result: null,

@@ -31,6 +31,10 @@ class BaiduResult extends Component {
     }
 }
 
+const AmazonResult = (props) => {
+    return <TranslationCard header="Amazon" title={props.result} />;
+}
+
 class BingResult extends Component {
     constructor(props) {
         super(props);
@@ -132,6 +136,7 @@ class YoudaoResult extends Component {
 const Result = {
     GoogleResult: GoogleResult,
     BaiduResult: BaiduResult,
+    AmazonResult: AmazonResult,
     YoudaoResult: YoudaoResult,
     BingResult: BingResult,
 }

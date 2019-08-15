@@ -6,8 +6,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as R from 'ramda'
 
 import { secrets } from '../actions/secrets';
-import { CollapsableList, ConsoleLog, Comment, LoadingWrapper, starReplace, TagResolver } from '../utils';
+import { 
+    CollapsableList, ConsoleLog, Comment,
+    LoadingWrapper, starReplace,
+    TranslationCard, TagResolver, UrbanDictionaryTagResolver,
+} from '../utils';
 
+
+const UrbanResult = (props) => {
+    if (!props.result) {
+        return false;
+    }
+    let title = UrbanDictionaryTagResolver(props.result[0].definition);
+    return <TranslationCard header="Urban Dictionary" title={title} />;
+}
 
 const Example = ({ text, word }) => {
     let parts = text.split(new RegExp(`(${word})`, 'gi'));
@@ -361,6 +373,7 @@ class WebsterResult extends Component {
 }
 
 const EnResult = {
+    UrbanResult: UrbanResult,
     OxfordResult: OxfordResult,
     WebsterResult: WebsterResult,
 }

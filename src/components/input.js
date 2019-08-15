@@ -114,9 +114,11 @@ export default class Input extends Component {
         };
         this.props.googleTranslate(inputData);
         this.props.baiduTranslate(inputData);
-        this.props.bingTranslate(inputData);
         this.props.youdaoTranslate(inputData);
+        this.props.bingTranslate(inputData);
+        this.props.amazonTranslate(inputData);
         if (inputData.isEnglish && !inputData.isSentence) {
+            this.props.urbanTranslate(inputData);
             this.props.oxfordTranslate(inputData);
             this.props.oxfordFetchExamples(inputData);
             this.props.websterTranslate(inputData);

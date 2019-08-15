@@ -157,6 +157,36 @@ export const translationActions = {
                 dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
             })
     },
+    amazonTranslate: kwargs => dispatch => {
+        dispatch({ type: "AMAZON_TRANSLATION_TRY", kwargs });
+
+        let args = {
+            params: {
+                text: kwargs.text,
+            }
+        };
+        axios.get(secrets.amazonUrl, args).then(response => {
+            dispatch({ type: "AMAZON_TRANSLATION_SUCCESS", result: response.data.result, kwargs });
+        }).catch(error => {
+            console.error(error);
+            dispatch({ type: "AMAZON_TRANSLATION_ERROR", error: error, kwargs });
+        })
+    },
+    urbanTranslate: kwargs => dispatch => {
+        dispatch({ type: "URBAN_TRANSLATION_TRY", kwargs });
+
+        let args = {
+            params: {
+                text: kwargs.text,
+            }
+        };
+        axios.get(secrets.urbanDictionaryUrl, args).then(response => {
+            dispatch({ type: "URBAN_TRANSLATION_SUCCESS", result: response.data.result, kwargs });
+        }).catch(error => {
+            console.error(error);
+            dispatch({ type: "URBAN_TRANSLATION_ERROR", error: error, kwargs });
+        })
+    },
     oxfordTranslate: kwargs => dispatch => {
         dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
 
