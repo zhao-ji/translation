@@ -37,7 +37,7 @@ class App extends Component {
                     record={this.props.record}
                 />
                 <Row noGutters={true}>
-                    <Col lg={6} sm={12}>
+                    <Col lg={4} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.google.isLoading}
                             currentText={this.props.utils.currentText}
@@ -46,7 +46,7 @@ class App extends Component {
                             <Result.GoogleResult result={this.props.translation.google.result}/>
                         </LoadingWrapper>
                     </Col>
-                    <Col lg={6} sm={12}>
+                    <Col lg={4} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.baidu.isLoading}
                             currentText={this.props.utils.currentText}
@@ -55,22 +55,13 @@ class App extends Component {
                             <Result.BaiduResult result={this.props.translation.baidu.result}/>
                         </LoadingWrapper>
                     </Col>
-                    <Col lg={6} sm={12}>
+                    <Col lg={4} sm={12}>
                         <LoadingWrapper
                             loading={this.props.translation.amazon.isLoading}
                             currentText={this.props.utils.currentText}
                             resultText={this.props.translation.amazon.text}
                             >
                             <Result.AmazonResult result={this.props.translation.amazon.result}/>
-                        </LoadingWrapper>
-                    </Col>
-                    <Col lg={6} sm={12}>
-                        <LoadingWrapper
-                            loading={this.props.translation.urban.isTranslationLoading}
-                            currentText={this.props.utils.currentText}
-                            resultText={this.props.translation.urban.text}
-                            >
-                            <EnResult.UrbanResult result={this.props.translation.urban.result}/>
                         </LoadingWrapper>
                     </Col>
                     <Col lg={6} sm={12}>
@@ -114,6 +105,15 @@ class App extends Component {
                                 examples={this.props.translation.oxfordExamples}
                                 text={this.props.utils.currentText}
                             />
+                        </LoadingWrapper>
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        <LoadingWrapper
+                            loading={this.props.translation.urban.isTranslationLoading}
+                            currentText={this.props.utils.currentText}
+                            resultText={this.props.translation.urban.text}
+                            >
+                            <EnResult.UrbanResult result={this.props.translation.urban.result}/>
                         </LoadingWrapper>
                     </Col>
                 </Row>
