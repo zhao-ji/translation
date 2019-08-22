@@ -163,6 +163,8 @@ export const translationActions = {
         let args = {
             params: {
                 text: kwargs.text,
+                source: kwargs.isEnglish ? "en" : "zh",
+                target: kwargs.isEnglish ? "zh" : "en",
             }
         };
         axios.get(secrets.amazonUrl, args).then(response => {
