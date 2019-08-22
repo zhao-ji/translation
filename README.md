@@ -17,11 +17,12 @@
   - uglify the secret
   - build analysis
   - test case
-      - jest
-      - enzyme
+      - test the method
   - dictionary content:
       - the sauruslinks
       - cross reference
   - style change:
       - input box default stay center
+      - input box can become textarea
+      - pronunciation stay below the input box
       - translation result full screen
