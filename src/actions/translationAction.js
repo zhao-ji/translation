@@ -126,7 +126,7 @@ export const translationActions = {
                     kwargs
                 });
 
-                const exampleRequestData = dictionary.map(
+                const exampleRequestData = dictionary.slice(0, 10).map(
                     item => ({
                         Text: kwargs.text,
                         Translation: item.normalizedTarget,
