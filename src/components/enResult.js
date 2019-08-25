@@ -14,7 +14,7 @@ import {
 
 
 const UrbanResult = (props) => {
-    if (!props.result) {
+    if (!props.result || props.result.length < 1 ) {
         return false;
     }
     let title = UrbanDictionaryTagResolver(props.result[0].definition);
