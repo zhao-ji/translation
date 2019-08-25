@@ -18,11 +18,17 @@
   - build analysis
   - test case
       - test the method
+  - me
+      - langdao
+      - translation for english(click and load)
   - dictionary content:
       - the sauruslinks
       - cross reference
-  - style change:
+  - chenyi:
       - input box default stay center
-      - input box can become textarea
-      - pronunciation stay below the input box
       - translation result full screen
+  - huning
+      - input box can become textarea
+      - example website
+  - alice
+      - pronunciation stay below the input box
