@@ -107,3 +107,9 @@
 .normal-font-in-h3 {
     font-size: 0.6em;
 }
+
+/* bing style
+ */
+.bing-category {
+    text-transform: capitalize;
+}

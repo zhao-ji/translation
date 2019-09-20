@@ -1,47 +1,21 @@
 import React, { Component } from 'react';
-import { Accordion, Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+
+import { Row, Col } from 'react-bootstrap';
+import { Card, ListGroupItem } from 'react-bootstrap';
+
+import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { TranslationCard, TranslationCardItems } from '../utils';
 
 
-class GoogleResult extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
+const GoogleResult = props => (<TranslationCard header="Google" title={props.result} />);
 
-    render() {
-        return (
-            <TranslationCard header="Google" title={this.props.result} />
-        );
-    }
-}
+const BaiduResult = props => (<TranslationCard header="Baidu" title={props.result} />);
 
-class BaiduResult extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
-    render() {
-        return (
-            <TranslationCard header="Baidu" title={this.props.result} />
-        );
-    }
-}
-
-const AmazonResult = (props) => {
-    return <TranslationCard header="Amazon" title={props.result} />;
-}
+const AmazonResult = props => ( <TranslationCard header="Amazon" title={props.result} />);
 
 class BingResult extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
     render() {
         if (!this.props.result) {
             return null;
@@ -49,53 +23,57 @@ class BingResult extends Component {
         const dictionary = this.props.result.dictionary;
         return (
             <TranslationCard header="Bing" title={this.props.result.translation}>
-                {dictionary && dictionary.length > 0 &&
-                    <Card.Body>
-                        <Card.Title> Dictionary Lookup </Card.Title>
-                        <ListGroup className="list-group-flush">
-                            <Accordion>
-                                {dictionary.map((explain, index) => (
-                                    <ListGroupItem key={index}>
-                                        {explain.posTag}: {explain.displayTarget}
-                                        {explain.examples && explain.examples.length > 0 && <>
-                                            <Accordion.Toggle
-                                                as={Button} variant="outline-info" size="sm"
-                                                className="float-right" eventKey={index}>
-                                                Examples
-                                            </Accordion.Toggle>
-                                            <Accordion.Collapse eventKey={index}>
-                                                <ListGroup className="list-group-flush">
-                                                    {explain.examples.map((item, iIndex) => (
-                                                        <ListGroupItem key={iIndex}>
-                                                            <span>
-                                                                {item.sourcePrefix} <mark> {item.sourceTerm} </mark> {item.sourceSuffix}:
-                                                            </span>
-                                                            <span className="pull-right">
-                                                                {item.targetPrefix} <mark> {item.targetTerm} </mark> {item.targetSuffix}
-                                                            </span>
-                                                        </ListGroupItem>
-                                                    ))}
-                                                </ListGroup>
-                                            </Accordion.Collapse>
-                                        </>}
-                                    </ListGroupItem>
-                                ))}
-                            </Accordion>
-                        </ListGroup>
-                    </Card.Body>
-                }
+                <Card.Body>
+                    <Card.Title> Dictionary Lookup </Card.Title>
+                    {dictionary && dictionary.length > 0 && 
+                        dictionary.map((explain, index) => (<BingExample key={index} explain={explain} />))
+                    }
+                </Card.Body>
             </TranslationCard>
         );
     }
 }
 
-class YoudaoResult extends Component {
+class BingExample extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isExpanded: false,
         }
     }
 
+    onClick = () => {
+        this.setState({ isExpanded: !this.state.isExpanded });
+    }
+
+    render() {
+        const explain = this.props.explain;
+        return (
+            <>
+            <hr />
+            {explain.displayTarget}. <i className="bing-category">{explain.posTag.toLowerCase()}</i>
+            {explain.examples && explain.examples.length > 0 &&
+                <FontAwesomeIcon className="float-right"
+                    onClick={this.onClick} size="lg"
+                    icon={this.state.isExpanded ? faMinusSquare : faPlusSquare}
+                />
+            }
+            {this.state.isExpanded && explain.examples.map((item, iIndex) => (
+                <Row className="mt-3" index={iIndex}>
+                    <Col lg={6} sm={12}>
+                        {item.sourcePrefix} <mark> {item.sourceTerm} </mark> {item.sourceSuffix}:
+                    </Col>
+                    <Col lg={6} sm={12}>
+                        {item.targetPrefix} <mark> {item.targetTerm} </mark> {item.targetSuffix}
+                    </Col>
+                </Row>
+            ))}
+            </>
+        );
+    }
+}
+
+class YoudaoResult extends Component {
     render() {
         if (!this.props.result) {
             return null;
