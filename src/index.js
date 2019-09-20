@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-snapshot';
 import { Provider } from 'react-redux';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -9,7 +9,7 @@ import App from './App';
 import configureStore from './store';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
+render(
     <Provider store={configureStore()}>
         <App />
     </Provider>,
