@@ -9,7 +9,8 @@ import { secrets } from '../actions/secrets';
 import { 
     CollapsableList, ConsoleLog, Comment,
     LoadingWrapper, starReplace,
-    TranslationCard, TagResolver, UrbanDictionaryTagResolver,
+    TranslationCard, TranslationCardWithFullscreenAbility,
+    TagResolver, UrbanDictionaryTagResolver,
 } from '../utils';
 
 
@@ -202,26 +203,23 @@ class OxfordResult extends Component {
         }
         const pronunciation = this.props.result[0].lexicalEntries[0].pronunciations;
         return (
-            <Card>
-                <Card.Header> Oxford </Card.Header>
-                <Card.Body>
-                    <Card.Title>
-                        <span className="title"> {this.props.text} </span>
-                    </Card.Title>
-                    {pronunciation &&
+            <TranslationCardWithFullscreenAbility header={"Oxford"}>
+                <Card.Title>
+                    <span className="title"> {this.props.text} </span>
+                </Card.Title>
+                {pronunciation &&
                         <PronunciationSection word={this.props.text} items={pronunciation} />
-                    }
-                    {this.props.result[0].lexicalEntries.map(
-                        (lexicalEntry, index) => <DefinitionSection key={index} lexicalEntry={lexicalEntry} />
-                    )}
-                    {origin && <OriginSection origin={origin} />}
-                    <LoadingWrapper
-                        loading={this.props.examples.isLoading}
-                        match={this.props.examples.text === this.props.text}>
-                        <ExampleSection examples={this.props.examples.result} word={this.props.text} />
-                    </LoadingWrapper>
-                </Card.Body>
-            </Card>
+                }
+                {this.props.result[0].lexicalEntries.map(
+                    (lexicalEntry, index) => <DefinitionSection key={index} lexicalEntry={lexicalEntry} />
+                )}
+                {origin && <OriginSection origin={origin} />}
+                <LoadingWrapper
+                    loading={this.props.examples.isLoading}
+                    match={this.props.examples.text === this.props.text}>
+                    <ExampleSection examples={this.props.examples.result} word={this.props.text} />
+                </LoadingWrapper>
+            </TranslationCardWithFullscreenAbility>
         );
     }
 }
@@ -382,16 +380,13 @@ class WebsterResult extends Component {
             return false;
         }
         return (
-            <Card>
-                <Card.Header> Merriam Webster </Card.Header>
-                <Card.Body>
-                    <CollapsableList>
-                        {this.props.result.map((item, index) =>
-                            <WebsterDefinitionSection key={index} item={item} total={this.props.result.length}/>
-                        )}
-                    </CollapsableList>
-                </Card.Body>
-            </Card>
+            <TranslationCardWithFullscreenAbility header={"Merriam Webster"}>
+                <CollapsableList>
+                    {this.props.result.map((item, index) =>
+                        <WebsterDefinitionSection key={index} item={item} total={this.props.result.length}/>
+                    )}
+                </CollapsableList>
+            </TranslationCardWithFullscreenAbility>
         );
     }
 }

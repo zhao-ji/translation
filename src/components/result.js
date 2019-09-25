@@ -6,7 +6,10 @@ import { Card, ListGroupItem } from 'react-bootstrap';
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { TranslationCard, TranslationCardItems } from '../utils';
+import { 
+    TranslationCard, TranslationCardItems,
+    TranslationCardWithFullscreenAbility,
+} from '../utils';
 
 
 const GoogleResult = props => (<TranslationCard header="Google" title={props.result} />);
@@ -22,14 +25,11 @@ class BingResult extends Component {
         }
         const dictionary = this.props.result.dictionary;
         return (
-            <TranslationCard header="Bing" title={this.props.result.translation}>
-                <Card.Body>
-                    <Card.Title> Dictionary Lookup </Card.Title>
-                    {dictionary && dictionary.length > 0 && 
-                        dictionary.map((explain, index) => (<BingExample key={index} explain={explain} />))
-                    }
-                </Card.Body>
-            </TranslationCard>
+            <TranslationCardWithFullscreenAbility header="Bing" title={this.props.result.translation}>
+                {dictionary && dictionary.length > 0 && 
+                    dictionary.map((explain, index) => (<BingExample key={index} explain={explain} />))
+                }
+            </TranslationCardWithFullscreenAbility>
         );
     }
 }
@@ -81,7 +81,9 @@ class YoudaoResult extends Component {
         const basicInfo = this.props.result.basic;
         const webInfo = this.props.result.web;
         return (
-            <TranslationCard header="Youdao" title={this.props.result.translation && this.props.result.translation[0]}>
+            <TranslationCardWithFullscreenAbility header="Youdao"
+                title={this.props.result.translation && this.props.result.translation[0]}
+            >
                 {basicInfo && basicInfo.phonetic &&
                     <Card.Body>
                         <Card.Title> Pronounciation </Card.Title>
@@ -106,7 +108,7 @@ class YoudaoResult extends Component {
                         </ListGroupItem>
                     )}
                 />
-            </TranslationCard>
+            </TranslationCardWithFullscreenAbility>
         );
     }
 }

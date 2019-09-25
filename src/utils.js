@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
+import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[ .,:;!?。，：；！？]/
@@ -48,6 +50,37 @@ export function TranslationCard (props) {
     )
 }
 
+
+export class TranslationCardWithFullscreenAbility extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullscreen: false,
+        }
+    }
+
+    toggle = () => {
+        this.setState(prevState => ({fullscreen: !prevState.fullscreen}));
+    }
+
+    render() {
+        return (
+            <Card className={this.state.fullscreen && "fullscreen"}>
+                <Card.Header>
+                    {this.props.header}
+                    <FontAwesomeIcon
+                        icon={this.state.fullscreen ? faCompress : faExpand}
+                        onClick={this.toggle} pull="right" />
+                </Card.Header>
+                <Card.Body>
+                    {this.props.title && <Card.Title> {this.props.title} </Card.Title>}
+                    {this.props.children}
+                </Card.Body>
+            </Card>
+        );
+    }
+}
+
 export function TranslationCardItems(props) {
     if (!props.items || props.items.length < 1) {
         return null;
@@ -80,13 +113,12 @@ export class CollapsableList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: false
+            show: false,
         }
-        this.onToggle = this.onToggle.bind(this);
     }
 
-    onToggle() {
-        this.setState({show: !this.state.show})
+    onToggle = () => {
+        this.setState(prevState => ({show: !prevState.show}));
     }
 
     render() {
