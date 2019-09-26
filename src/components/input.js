@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Button, InputGroup, Form, ListGroup } from 'react-bootstrap';
 
@@ -108,7 +108,7 @@ export default class Input extends Component {
 
     render() {
         return (
-            <>
+            <Fragment>
                 <InputGroup size="lg" id="search-component">
                     <Form.Control
                         as="input"
@@ -134,7 +134,7 @@ export default class Input extends Component {
                     matchedOption={this.state.matchedOption}
                     onClickSuggestion={this.onClickSuggestion}
                 />
-            </>
+            </Fragment>
         );
     }
 }

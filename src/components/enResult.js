@@ -35,14 +35,7 @@ const ExampleSection = ({ examples, word }) => {
                     <h5 className="example-category">{entry.lexicalCategory.text}</h5>
                     <CollapsableList>
                         {entry.sentences.map((item, index) => (
-                            <li key={index}>
-                                <Example text={item.text} word={word} />
-                                {item.regions && item.regions.length > 0 &&
-                                        <small className="weak pull-right">
-                                            Region: {item.regions[0].text}
-                                        </small>
-                                }
-                            </li>
+                            <li key={index}> <Example text={item.text} word={word} /> </li>
                         ))}
                     </CollapsableList>
                 </ol>
