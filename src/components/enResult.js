@@ -71,9 +71,9 @@ const PronunciationSection = ({ word, items }) => (<Fragment>
     <p className="other-aspect-body">
         {word}
         {items.map((item, index) => (
-            <span key={index}>
+            <div key={index}>
                 &nbsp; /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
-            </span>
+            </div>
         ))}
     </p>
 </Fragment>);
@@ -256,7 +256,7 @@ class WebsterDefinitionSection extends Component {
             </p>
             <p className="pronun">
                 {Pronun &&
-                    <span>\{Pronun} {Sound && this.generateAudio(Sound)}\</span>
+                    <span>\{Pronun}\&nbsp;{Sound && this.generateAudio(Sound)}</span>
                 }
             </p>
             {Ins.length>0 &&

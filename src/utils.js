@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
-import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
@@ -186,20 +186,42 @@ export class AudioPlayer extends Component {
 
     onClick = () => {
         const audio = new Audio(this.props.src);
-        audio.play();
-        this.setState({ isPlaying: true });
         audio.addEventListener("ended", () => {
             this.setState({ isPlaying: false });
         });
+        audio.play();
+        this.setState({ isPlaying: true });
     }
 
     render() {
         return (
-            <FontAwesomeIcon
-                icon={faVolumeUp}
-                onClick={this.onClick}
-                pulse={this.state.isPlaying ? true : false}
-            />
+            this.state.isPlaying
+            ? <AudioAnimatePlayer />
+            : <FontAwesomeIcon icon={faVolumeUp} onClick={this.onClick} fixedWidth />
+        );
+    }
+}
+
+class AudioAnimatePlayer extends Component {
+    state = {
+        count: 0,
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(
+            () => this.setState(prevState => ({ count: prevState.count + 1 })),
+            500
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    render() {
+        const iconChoices = [faVolumeOff, faVolumeDown, faVolumeUp, faVolumeDown];
+        return (
+            <FontAwesomeIcon icon={iconChoices[this.state.count % 4]} fixedWidth />
         );
     }
 }
