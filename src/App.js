@@ -11,7 +11,7 @@ import Input from './components/input';
 import EnResult from './components/enResult';
 import Result from './components/result';
 
-import { LoadingWrapper } from './utils';
+import { LoadingWrapper, ErrorBoundary } from './utils';
 import './css/_custom.css';
 
 class App extends Component {
@@ -79,7 +79,9 @@ class App extends Component {
                             currentText={this.props.utils.currentText}
                             resultText={this.props.translation.bing.text}
                             >
-                            <Result.BingResult result={this.props.translation.bing.result}/>
+                                <ErrorBoundary>
+                                    <Result.BingResult result={this.props.translation.bing.result}/>
+                                </ErrorBoundary>
                         </LoadingWrapper>
                     </Col>
                     <Col lg={6} sm={12}>
@@ -88,7 +90,9 @@ class App extends Component {
                             currentText={this.props.utils.currentText}
                             resultText={this.props.translation.webster.text}
                             >
-                            <EnResult.WebsterResult result={this.props.translation.webster.result} />
+                                <ErrorBoundary>
+                                    <EnResult.WebsterResult result={this.props.translation.webster.result} />
+                                </ErrorBoundary>
                         </LoadingWrapper>
                     </Col>
                     <Col lg={6} sm={12}>
@@ -97,11 +101,13 @@ class App extends Component {
                             currentText={this.props.utils.currentText}
                             resultText={this.props.translation.oxford.text}
                             >
-                            <EnResult.OxfordResult
-                                result={this.props.translation.oxford.result}
-                                examples={this.props.translation.oxfordExamples}
-                                text={this.props.utils.currentText}
-                            />
+                                <ErrorBoundary>
+                                    <EnResult.OxfordResult
+                                        result={this.props.translation.oxford.result}
+                                        examples={this.props.translation.oxfordExamples}
+                                        text={this.props.utils.currentText}
+                                    />
+                                </ErrorBoundary>
                         </LoadingWrapper>
                     </Col>
                     <Col lg={6} sm={12}>

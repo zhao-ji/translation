@@ -203,3 +203,22 @@ export class AudioPlayer extends Component {
         );
     }
 }
+
+export class ErrorBoundary extends Component {
+    state = {
+        hasError: false,
+    }
+
+    componentDidCatch(error, info) {
+        this.setState({ hasError: true });
+        console.trace(error);
+        console.trace(info);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h3>Something went wrong.</h3>
+        }
+        return this.props.children;
+    }
+}
