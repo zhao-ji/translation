@@ -4,7 +4,7 @@ import { Button, InputGroup, Form, ListGroup } from 'react-bootstrap';
 
 import { checkIfMandarin, checkIfSentence } from '../utils';
 
-function Suggestions({ cache, currentText, matchedOption, onClickSuggestion }) {
+export function Suggestions({ cache, currentText, matchedOption, onClickSuggestion }) {
     if (matchedOption === currentText) {
         return false;
     } else if (matchedOption && currentText) {

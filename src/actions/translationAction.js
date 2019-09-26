@@ -204,7 +204,7 @@ export const translationActions = {
     },
     oxfordFetchExamples: kwargs => dispatch => {
         dispatch({ type: "OXFORD_FETCH_EXAMPLES_TRY", kwargs });
-        
+
         axios
         .get(secrets.oxfordSentenceUrl + kwargs.text.toLowerCase())
         .then(response => {

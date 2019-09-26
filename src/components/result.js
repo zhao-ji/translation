@@ -6,7 +6,7 @@ import { Card, ListGroupItem } from 'react-bootstrap';
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { 
+import {
     TranslationCard, TranslationCardItems,
     TranslationCardWithFullscreenAbility,
 } from '../utils';
@@ -25,7 +25,7 @@ const BingResult = ({ result }) => {
     const { dictionary, translation } = result;
     return (
         <TranslationCardWithFullscreenAbility header="Bing" title={translation}>
-            {dictionary && dictionary.length > 0 && 
+            {dictionary && dictionary.length > 0 &&
                 dictionary.map((explain, index) => (<BingExample key={index} explain={explain} />))
             }
         </TranslationCardWithFullscreenAbility>

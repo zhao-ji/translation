@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as R from 'ramda'
 
 import { secrets } from '../actions/secrets';
-import { 
+import {
     CollapsableList, ConsoleLog,
     LoadingWrapper, starReplace,
     TranslationCard, TranslationCardWithFullscreenAbility,
@@ -121,7 +121,7 @@ const DefinitionSection = ({ lexicalEntry }) => {
                             <span className="definition">[{sense.definitions[0]}]</span>
                     }
                 </p>
-                {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
+                {("examples" in sense) && sense.examples && sense.examples.length > 0 &&
                     sense.examples.map((example, index) => (
                     <Fragment key={index}>
                     {
@@ -136,7 +136,7 @@ const DefinitionSection = ({ lexicalEntry }) => {
                     {sense.subsenses && sense.subsenses.length > 0 &&sense.subsenses.map((subsense, subIndex) => (
                         <li key={subIndex}>
                             {
-                                ("definitions" in subsense) && subsense.definitions.length > 0 
+                                ("definitions" in subsense) && subsense.definitions.length > 0
                                     ? <p className="definition">{subsense.definitions[0]}</p>
                                     : ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
                                         <p className="definition"> short for {subsense.shortDefinitions[0]} </p>
@@ -198,7 +198,7 @@ class WebsterDefinitionSection extends Component {
                     {("dt" in i[1]) && ("text" === i[1].dt[0][0]) && TagResolver(i[1].dt[0][1])}
                     {("sdsense" in i[1]) &&
                         <div>
-                        <i> {i[1].sdsense.sd} </i>{TagResolver(i[1].sdsense.dt[0][1])} 
+                        <i> {i[1].sdsense.sd} </i>{TagResolver(i[1].sdsense.dt[0][1])}
                         </div>
                     }
                     </li>
@@ -283,7 +283,7 @@ class WebsterDefinitionSection extends Component {
                 ))}
             </p>
             {
-                Stems.length > 0 && 
+                Stems.length > 0 &&
                 <p className="meta"> Related Word: {Stems.map(stem => (<span>{stem}&nbsp;</span>))} </p>
             }
             <p>

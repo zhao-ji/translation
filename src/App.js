@@ -12,7 +12,6 @@ import EnResult from './components/enResult';
 import Result from './components/result';
 
 import { LoadingWrapper, ErrorBoundary } from './utils';
-import './css/_custom.css';
 
 class App extends Component {
     render() {
