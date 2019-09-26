@@ -33,3 +33,5 @@
       - example website
   - alice
       - pronunciation stay below the input box
+  - summer
+      - maori translation
