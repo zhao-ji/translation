@@ -18,20 +18,18 @@ const BaiduResult = props => (<TranslationCard header="Baidu" title={props.resul
 
 const AmazonResult = props => ( <TranslationCard header="Amazon" title={props.result} />);
 
-class BingResult extends Component {
-    render() {
-        if (!this.props.result) {
-            return null;
-        }
-        const dictionary = this.props.result.dictionary;
-        return (
-            <TranslationCardWithFullscreenAbility header="Bing" title={this.props.result.translation}>
-                {dictionary && dictionary.length > 0 && 
-                    dictionary.map((explain, index) => (<BingExample key={index} explain={explain} />))
-                }
-            </TranslationCardWithFullscreenAbility>
-        );
+const BingResult = ({ result }) => {
+    if (!result) {
+        return false;
     }
+    const { dictionary, translation } = result;
+    return (
+        <TranslationCardWithFullscreenAbility header="Bing" title={translation}>
+            {dictionary && dictionary.length > 0 && 
+                dictionary.map((explain, index) => (<BingExample key={index} explain={explain} />))
+            }
+        </TranslationCardWithFullscreenAbility>
+    );
 }
 
 class BingExample extends Component {
@@ -47,7 +45,7 @@ class BingExample extends Component {
     }
 
     render() {
-        const explain = this.props.explain;
+        const { explain, } = this.props;
         return (
             <>
             <hr />
@@ -73,44 +71,39 @@ class BingExample extends Component {
     }
 }
 
-class YoudaoResult extends Component {
-    render() {
-        if (!this.props.result) {
-            return null;
-        }
-        const basicInfo = this.props.result.basic;
-        const webInfo = this.props.result.web;
-        return (
-            <TranslationCardWithFullscreenAbility header="Youdao"
-                title={this.props.result.translation && this.props.result.translation[0]}
-            >
-                {basicInfo && basicInfo.phonetic &&
-                    <Card.Body>
-                        <Card.Title> Pronounciation </Card.Title>
-                        <Card.Text>
-                            /{basicInfo.phonetic}/ &nbsp; { basicInfo["uk-phonetic"] && <>
-                                UK: /{basicInfo["uk-phonetic"]}/ &nbsp; US: /{basicInfo["us-phonetic"]}/
-                                </> }
-                        </Card.Text>
-                    </Card.Body>
-                }
-                <TranslationCardItems
-                    title="Basic" items={basicInfo && basicInfo.explains}
-                    renderMethod={(item, index) => (<ListGroupItem key={index}>{item}</ListGroupItem>)}
-                />
-                <TranslationCardItems
-                    title="Web" items={webInfo}
-                    renderMethod={item => (
-                        <ListGroupItem>
-                            {item.key}: {item.value.map((v, index) => (
-                                <small key={index}> {v} &nbsp; </small>
-                            ))}
-                        </ListGroupItem>
-                    )}
-                />
-            </TranslationCardWithFullscreenAbility>
-        );
+const YoudaoResult = ({ result }) => {
+    if (!result) {
+        return false;
     }
+    const {basic, web, translation} = result;
+    return (
+        <TranslationCardWithFullscreenAbility header="Youdao" title={translation && translation[0]}>
+            {basic && basic.phonetic &&
+                <Card.Body>
+                    <Card.Title> Pronounciation </Card.Title>
+                    <Card.Text>
+                        /{basic.phonetic}/ &nbsp; { basic["uk-phonetic"] && <>
+                            UK: /{basic["uk-phonetic"]}/ &nbsp; US: /{basic["us-phonetic"]}/
+                            </> }
+                    </Card.Text>
+                </Card.Body>
+            }
+            <TranslationCardItems
+                title="Basic" items={basic && basic.explains}
+                renderMethod={(item, index) => (<ListGroupItem key={index}>{item}</ListGroupItem>)}
+            />
+            <TranslationCardItems
+                title="Web" items={web}
+                renderMethod={item => (
+                    <ListGroupItem>
+                        {item.key}: {item.value.map((v, index) => (
+                            <small key={index}> {v} &nbsp; </small>
+                        ))}
+                    </ListGroupItem>
+                )}
+            />
+        </TranslationCardWithFullscreenAbility>
+    );
 }
 
 const Result = {

@@ -88,10 +88,7 @@ class App extends Component {
                             currentText={this.props.utils.currentText}
                             resultText={this.props.translation.webster.text}
                             >
-                            <EnResult.WebsterResult
-                                result={this.props.translation.webster.result}
-                                text={this.props.utils.currentText}
-                            />
+                            <EnResult.WebsterResult result={this.props.translation.webster.result} />
                         </LoadingWrapper>
                     </Col>
                     <Col lg={6} sm={12}>
