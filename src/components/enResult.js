@@ -7,104 +7,90 @@ import * as R from 'ramda'
 
 import { secrets } from '../actions/secrets';
 import { 
-    CollapsableList, ConsoleLog, Comment,
+    CollapsableList, ConsoleLog,
     LoadingWrapper, starReplace,
-    TranslationCard, TagResolver, UrbanDictionaryTagResolver,
+    TranslationCard, TranslationCardWithFullscreenAbility,
+    TagResolver, UrbanDictionaryTagResolver,
 } from '../utils';
 
 
-const UrbanResult = (props) => {
-    if (!props.result || props.result.length < 1 ) {
+const UrbanResult = ({ result }) => {
+    if (!result || result.length < 1 ) {
         return false;
     }
-    let title = UrbanDictionaryTagResolver(props.result[0].definition);
+    const title = UrbanDictionaryTagResolver(result[0].definition);
     return <TranslationCard header="Urban Dictionary" title={title} />;
 }
 
 const Example = ({ text, word }) => {
     let parts = text.split(new RegExp(`(${word})`, 'gi'));
-    return (<>{
-        parts.map((part, index) =>
-            part.toLowerCase() === word.toLowerCase()
-            ? <mark key={index}>{part}</mark> : part
-        )
-    }</>);
+    return <>
+        {
+            parts.map((part, index) =>
+                part.toLowerCase() === word.toLowerCase()
+                ? <mark key={index}>{part}</mark>
+                : part
+            )
+        }
+    </>;
 }
 
-class ExampleSection extends Component {
-    render() {
-        let entries = [];
-        this.props.examples.map(example => {
-            entries = entries.concat(example.lexicalEntries);
-            return 0;
-        });
-        return (
-            <>
-                <hr/>
-                <h3 className="other-aspect">Examples</h3>
-                <div className="other-aspect-body">
-                    {entries.map((entry, index1) => (
-                        <ol key={index1}>
-                            <h5 className="example-category">{entry.lexicalCategory.text}</h5>
-                            <CollapsableList>
-                                {entry.sentences.map((item, index) => (
-                                    <li key={index}>
-                                        <Example text={item.text} word={this.props.word} />
-                                        {item.regions && item.regions.length > 0 &&
-                                                <small className="weak pull-right">
-                                                    Region: {item.regions[0].text}
-                                                </small>
-                                        }
-                                    </li>
-                                ))}
-                            </CollapsableList>
-                        </ol>
-                    ))}
-                </div>
-            </>
-        );
-    }
+const ExampleSection = ({ examples, word }) => {
+    let entries = Array.prototype.concat(...examples.map(example => example.lexicalEntries));
+    return (
+        <>
+        <hr/>
+        <h3 className="other-aspect">Examples</h3>
+        <div className="other-aspect-body">
+            {entries.map((entry, index1) => (
+                <ol key={index1}>
+                    <h5 className="example-category">{entry.lexicalCategory.text}</h5>
+                    <CollapsableList>
+                        {entry.sentences.map((item, index) => (
+                            <li key={index}>
+                                <Example text={item.text} word={word} />
+                                {item.regions && item.regions.length > 0 &&
+                                        <small className="weak pull-right">
+                                            Region: {item.regions[0].text}
+                                        </small>
+                                }
+                            </li>
+                        ))}
+                    </CollapsableList>
+                </ol>
+            ))}
+        </div>
+        </>
+    );
 }
 
-class OriginSection extends Component {
-    render() {
-        return (
-            <>
-                <hr/>
-                <h3 className="other-aspect">Origin</h3>
-                <p className="other-aspect-body"> {this.props.origin} </p>
-            </>
-        );
-    }
-}
+const OriginSection = ({ origin }) => (<>
+    <hr/>
+    <h3 className="other-aspect">Origin</h3>
+    <p className="other-aspect-body"> {origin} </p>
+</>);
 
-class PronunciationSection extends Component {
-    render() {
-        return (
-            <>
-                <hr/>
-                <h3 className="other-aspect">
-                    Pronunciation
-                    <a
-                        href="https://www.lexico.com/en/grammar/key-to-pronunciation"
-                        rel="noopener noreferrer" target="_blank">
-                        <FontAwesomeIcon icon={faQuestionCircle} size="xs"/>
-                    </a>
-                </h3>
-                <p className="other-aspect-body">
-                    {this.props.word}
-                    {this.props.items.map((item, index) => (
-                        <span key={index}>
-                            &nbsp; /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
-                        </span>
-                    ))}
-                </p>
-            </>
-        );
-    }
-}
+const PronunciationSection = ({ word, items }) => (<>
+    <hr/>
+    <h3 className="other-aspect">
+        Pronunciation
+        <a
+            href="https://www.lexico.com/en/grammar/key-to-pronunciation"
+            rel="noopener noreferrer" target="_blank">
+            <FontAwesomeIcon icon={faQuestionCircle} size="xs"/>
+        </a>
+    </h3>
+    <p className="other-aspect-body">
+        {word}
+        {items.map((item, index) => (
+            <span key={index}>
+                &nbsp; /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
+            </span>
+        ))}
+    </p>
+</>);
 
-const PronunciationSectionInEntry = ({items}) => {
+const PronunciationSectionInEntry = ({ items }) => {
     if (!items) {
         return false
     }
@@ -115,80 +101,75 @@ const PronunciationSectionInEntry = ({items}) => {
     ));
 }
 
-class DefinitionSection extends Component {
-    render() {
-        const entries = this.props.lexicalEntry.entries;
-        let pronunciations = null;
-        if (entries && entries.length > 0) {
-            pronunciations = entries[0].pronunciations;
-        }
-        return (
-            <>
-                <hr/>
-                <h3>
-                    <span className="lexical-category">
-                    { this.props.lexicalEntry.lexicalCategory.text }
-                    </span>
-                    &nbsp; &nbsp;
-                    <span className="normal-font-in-h3">
-                        <PronunciationSectionInEntry items={pronunciations}/>
-                    </span>
-                </h3>
-                { this.props.lexicalEntry.entries.map((entry, index2) => (
-                    <ol type="1" key={index2}>
-                    {entry.senses.map((sense, index) => (
-                        <li key={index}>
-                            {sense.domains && sense.domains.length > 0 &&
-                                <p className="note">{sense.domains[0].text}</p>
+const DefinitionSection = ({ lexicalEntry }) => {
+    const entries = lexicalEntry.entries;
+    let pronunciations = entries && entries.length > 0 && entries[0].pronunciations;
+    return (
+        <>
+        <hr/>
+        <h3>
+            <span className="lexical-category">
+                { lexicalEntry.lexicalCategory.text }
+            </span>
+            &nbsp; &nbsp;
+            <span className="normal-font-in-h3">
+                <PronunciationSectionInEntry items={pronunciations}/>
+            </span>
+        </h3>
+        { lexicalEntry.entries.map((entry, index2) => (
+            <ol type="1" key={index2}>
+            {entry.senses.map((sense, index) => (
+                <li key={index}>
+                {sense.domains && sense.domains.length > 0 &&
+                    <p className="note">{sense.domains[0].text}</p>
+                }
+                <p>
+                    {
+                        sense.notes && sense.notes.length > 0 &&
+                            <span className="note">[{sense.notes[0].text}]</span>
+                    }
+                    {
+                        sense.definitions && sense.definitions.length > 0 &&
+                            <span className="definition">[{sense.definitions[0]}]</span>
+                    }
+                </p>
+                {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
+                    sense.examples.map((example, index) => (
+                    <p key={index}>
+                    {
+                        ("notes" in example) && example.notes && example.notes.length > 0 &&
+                        <span className="note">[{example.notes[0].text}]</span>
+                    }
+                        <span className="example"><em>{example.text}</em></span>
+                        </p>
+
+                    ))
+                }
+                <ol type="1">
+                    {sense.subsenses && sense.subsenses.length > 0 &&sense.subsenses.map((subsense, subIndex) => (
+                        <li key={subIndex}>
+                            {
+                                ("definitions" in subsense) && subsense.definitions.length > 0 
+                                ?
+                                <p className="definition">{subsense.definitions[0]}</p>
+                                :
+                                ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
+                                <p className="definition"> short for {subsense.shortDefinitions[0]} </p>
                             }
-                            <p>
-                                {
-                                    sense.notes && sense.notes.length > 0 &&
-                                        <span className="note">[{sense.notes[0].text}]</span>
-                                }
-                                {
-                                    sense.definitions && sense.definitions.length > 0 &&
-                                        <span className="definition">[{sense.definitions[0]}]</span>
-                                }
-                            </p>
-                            {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
-                                sense.examples.map((example, index) => (
-                                    <p key={index}>
-                                        {
-                                            ("notes" in example) && example.notes && example.notes.length > 0 &&
-                                                <span className="note">[{example.notes[0].text}]</span>
-                                        }
-                                        <span className="example"><em>{example.text}</em></span>
-                                    </p>
-                                    
-                                ))
-                            }
-                            <ol type="1">
-                            {sense.subsenses && sense.subsenses.length > 0 &&sense.subsenses.map((subsense, subIndex) => (
-                                <li key={subIndex}>
-                                    {
-                                        ("definitions" in subsense) && subsense.definitions.length > 0 
-                                        ?
-                                            <p className="definition">{subsense.definitions[0]}</p>
-                                        :
-                                        ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
-                                            <p className="definition"> short for {subsense.shortDefinitions[0]} </p>
-                                    }
-                                    {subsense.examples && subsense.examples.length > 0 && subsense.examples.map(
-                                        (example, index) => (
-                                            <p key={index} className="example"><em>{example.text}</em></p>
-                                        )
-                                    )}
-                                </li>
-                            ))}
-                            </ol>
+                            {subsense.examples && subsense.examples.length > 0 && subsense.examples.map(
+                                (example, index) => (
+                                    <p key={index} className="example"><em>{example.text}</em></p>
+                                )
+                            )}
                         </li>
                     ))}
-                    </ol>
-                ))}
-            </>
-        );
-    }
+                </ol>
+            </li>
+            ))}
+            </ol>
+        ))}
+        </>
+    );
 }
 
 class OxfordResult extends Component {
@@ -202,26 +183,23 @@ class OxfordResult extends Component {
         }
         const pronunciation = this.props.result[0].lexicalEntries[0].pronunciations;
         return (
-            <Card>
-                <Card.Header> Oxford </Card.Header>
-                <Card.Body>
-                    <Card.Title>
-                        <span className="title"> {this.props.text} </span>
-                    </Card.Title>
-                    {pronunciation &&
+            <TranslationCardWithFullscreenAbility header={"Oxford"}>
+                <Card.Title>
+                    <span className="title"> {this.props.text} </span>
+                </Card.Title>
+                {pronunciation &&
                         <PronunciationSection word={this.props.text} items={pronunciation} />
-                    }
-                    {this.props.result[0].lexicalEntries.map(
-                        (lexicalEntry, index) => <DefinitionSection key={index} lexicalEntry={lexicalEntry} />
-                    )}
-                    {origin && <OriginSection origin={origin} />}
-                    <LoadingWrapper
-                        loading={this.props.examples.isLoading}
-                        match={this.props.examples.text === this.props.text}>
-                        <ExampleSection examples={this.props.examples.result} word={this.props.text} />
-                    </LoadingWrapper>
-                </Card.Body>
-            </Card>
+                }
+                {this.props.result[0].lexicalEntries.map(
+                    (lexicalEntry, index) => <DefinitionSection key={index} lexicalEntry={lexicalEntry} />
+                )}
+                {origin && <OriginSection origin={origin} />}
+                <LoadingWrapper
+                    loading={this.props.examples.isLoading}
+                    match={this.props.examples.text === this.props.text}>
+                    <ExampleSection examples={this.props.examples.result} word={this.props.text} />
+                </LoadingWrapper>
+            </TranslationCardWithFullscreenAbility>
         );
     }
 }
@@ -232,11 +210,9 @@ class AudioPlayer extends Component {
         this.state = {
             isPlaying: false
         }
-
-        this.onClick = this.onClick.bind(this);
     }
 
-    onClick() {
+    onClick = () => {
         const audio = new Audio(this.props.src);
         audio.play();
         this.setState({ isPlaying: true });
@@ -257,15 +233,7 @@ class AudioPlayer extends Component {
 }
 
 class WebsterDefinitionSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-
-        this.showDefinition = this.showDefinition.bind(this);
-    }
-
-    showDefinition(i) {
+    showDefinition = (i) => {
         switch(i[0]) {
             case "sense":
                 return (
@@ -287,7 +255,7 @@ class WebsterDefinitionSection extends Component {
                     </li>
                 );
             default:
-                return <ConsoleLog>{i}<Comment></Comment></ConsoleLog>;
+                return <ConsoleLog>{i}</ConsoleLog>;
         }
     }
 
@@ -369,31 +337,26 @@ class WebsterDefinitionSection extends Component {
             </p>
             <hr/>
             </>
-        )
+        );
     }
 }
 
-class WebsterResult extends Component {
-    render() {
-        if (!this.props.result || this.props.result.length === 0) {
-            return false;
-        }
-        if (typeof this.props.result[0] === "string") {
-            return false;
-        }
-        return (
-            <Card>
-                <Card.Header> Merriam Webster </Card.Header>
-                <Card.Body>
-                    <CollapsableList>
-                        {this.props.result.map((item, index) =>
-                            <WebsterDefinitionSection key={index} item={item} total={this.props.result.length}/>
-                        )}
-                    </CollapsableList>
-                </Card.Body>
-            </Card>
-        );
+function WebsterResult ({ result }) {
+    if (!result || result.length === 0) {
+        return false;
     }
+    if (typeof result[0] === "string") {
+        return false;
+    }
+    return (
+        <TranslationCardWithFullscreenAbility header={"Merriam Webster"}>
+            <CollapsableList>
+                {result.map((item, index) =>
+                    <WebsterDefinitionSection key={index} item={item} total={result.length}/>
+                )}
+            </CollapsableList>
+        </TranslationCardWithFullscreenAbility>
+    );
 }
 
 const EnResult = {
