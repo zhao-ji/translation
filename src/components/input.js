@@ -1,70 +1,51 @@
 import React, { Component } from 'react';
 
 import { Button, InputGroup, Form, ListGroup } from 'react-bootstrap';
-import { throttle } from 'throttle-debounce';
 
 import { checkIfMandarin, checkIfSentence } from '../utils';
 
-class Suggestions extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+function Suggestions({ cache, currentText, matchedOption, onClickSuggestion }) {
+    if (matchedOption === currentText) {
+        return false;
+    } else if (matchedOption && currentText) {
+        if (matchedOption.trim() === currentText.trim()) {
+            return false;
         }
     }
 
-    render() {
-        if (this.props.matchedOption === this.props.currentText) {
-            return false;
-        } else if (this.props.matchedOption && this.props.currentText) {
-            if (this.props.matchedOption.trim() === this.props.currentText.trim()) {
-                return false;
-            }
-        }
-
-        const items = this.props.cache[this.props.currentText];
-        if (!items || !items.result || items.result.length === 0) {
-            return false;
-        }
-
-        return (
-            <ListGroup>
-                {items.result.map((item, index) => (
-                    <ListGroup.Item
-                        key={index}
-                        data-value={item}
-                        onClick={this.props.onClickSuggestion}
-                        className="option"
-                        action>
-                        {this.props.currentText}<b>{item.slice(this.props.currentText.length)}</b>
-                    </ListGroup.Item>
-                ))}
-            </ListGroup>
-        );
+    const items = cache[currentText];
+    if (!items || !items.result || items.result.length === 0) {
+        return false;
     }
+
+    return (
+        <ListGroup>
+            {items.result.map((item, index) => (
+                <ListGroup.Item
+                    key={index}
+                    data-value={item}
+                    onClick={onClickSuggestion}
+                    className="option" action>
+                    {currentText}<b>{item.slice(currentText.length)}</b>
+                </ListGroup.Item>
+            ))}
+        </ListGroup>
+    );
 }
 
 export default class Input extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tasks: [],
-            matchedOption: "",
-        }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.onClickSuggestion = this.onClickSuggestion.bind(this);
+    state = {
+        matchedOption: "",
     }
 
-    onClickSuggestion(event) {
+    onClickSuggestion = (event) => {
         this.props.setCurrentText({ text: event.currentTarget.dataset.value });
         this.setState({
             matchedOption: event.currentTarget.dataset.value
         });
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         let searchString = event.target.value;
         const inputData = {
             isEnglish: !checkIfMandarin(searchString),
@@ -78,10 +59,6 @@ export default class Input extends Component {
             // it means user clean the input
             // so we need to clean the cache and update the current input state
             this.props.cleanCache()
-            this.setState((prevState, props) => {
-                prevState.tasks.map(task => task.cancel());
-                return {tasks: []};
-            })
         } else if (searchString === this.props.currentText) {
             // user add spaces in the end or begening of sentence
             // the input does change, but we don't need to trigger a HTTP request
@@ -91,12 +68,7 @@ export default class Input extends Component {
             // there is high possibility to be a single word
             // we throttle the HTTP request(more often than debounce)
             if (!(searchString in this.props.cache)) {
-                const throttleObj = throttle(200, this.props.fetchSuggestion);
-                this.setState((prevState, props) => {
-                    prevState.tasks.push(throttleObj);
-                    return { tasks: prevState.tasks };
-                });
-                throttleObj({text: searchString});
+                this.props.fetchSuggestion({text: searchString});
             }
         } else {
             // what's wrong with our check?
@@ -105,7 +77,7 @@ export default class Input extends Component {
         }
     }
 
-    handleClick() {
+    handleClick = () => {
         this.setState({ matchedOption: this.props.currentText });
         const inputData = {
             text: this.props.currentText.trim(),
@@ -128,9 +100,9 @@ export default class Input extends Component {
         this.props.record(inputData);
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         if(event.key === "Enter") {
-            this.handleClick()
+            this.handleClick();
         }
     }
 

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
@@ -52,11 +53,8 @@ export function TranslationCard (props) {
 
 
 export class TranslationCardWithFullscreenAbility extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fullscreen: false,
-        }
+    state = {
+        fullscreen: false,
     }
 
     toggle = () => {
@@ -110,11 +108,8 @@ export function checkIfSentence(text) {
 }
 
 export class CollapsableList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            show: false,
-        }
+    state = {
+        show: false,
     }
 
     onToggle = () => {
@@ -128,25 +123,24 @@ export class CollapsableList extends Component {
         const tooLong = this.props.children.length > this.props.limit;
         const extraCount = this.props.children.length - this.props.limit;
         return (
-            <>
+            <Fragment>
             {
-                tooLong && !this.state.show ?
-                this.props.children.slice(0, this.props.limit) :
-                this.props.children
+                tooLong && !this.state.show
+                    ? this.props.children.slice(0, this.props.limit)
+                    : this.props.children
             }
             <br/>
             <Row>
                 <Col lg={12} md={12} sm={12}>
                     {
-                        tooLong ?
+                        tooLong &&
                         <Button block size="sm" variant="light" onClick={this.onToggle}>
                             {this.state.show ? "Less" : "More (extra " + extraCount + ")"}
-                        </Button> :
-                        null
+                        </Button>
                     }
                 </Col>
             </Row>
-            </>
+            </Fragment>
         );
     }
 }
@@ -183,4 +177,29 @@ export function UrbanDictionaryTagResolver(text) {
     // webster tag resolver
     const newString = text.replace(/\[/g, "<strong>").replace(/\]/g, "</strong>");
     return <span dangerouslySetInnerHTML={{__html: newString}} />;
+}
+
+export class AudioPlayer extends Component {
+    state = {
+        isPlaying: false,
+    }
+
+    onClick = () => {
+        const audio = new Audio(this.props.src);
+        audio.play();
+        this.setState({ isPlaying: true });
+        audio.addEventListener("ended", () => {
+            this.setState({ isPlaying: false });
+        });
+    }
+
+    render() {
+        return (
+            <FontAwesomeIcon
+                icon={faVolumeUp}
+                onClick={this.onClick}
+                pulse={this.state.isPlaying ? true : false}
+            />
+        );
+    }
 }

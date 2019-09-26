@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Row, Col } from 'react-bootstrap';
 import { Card, ListGroupItem } from 'react-bootstrap';
@@ -33,11 +33,8 @@ const BingResult = ({ result }) => {
 }
 
 class BingExample extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isExpanded: false,
-        }
+    state = {
+        isExpanded: false,
     }
 
     onClick = () => {
@@ -47,7 +44,7 @@ class BingExample extends Component {
     render() {
         const { explain, } = this.props;
         return (
-            <>
+            <Fragment>
             <hr />
             {explain.displayTarget}. <i className="bing-category">{explain.posTag.toLowerCase()}</i>
             {explain.examples && explain.examples.length > 0 &&
@@ -66,7 +63,7 @@ class BingExample extends Component {
                     </Col>
                 </Row>
             ))}
-            </>
+            </Fragment>
         );
     }
 }
@@ -82,9 +79,9 @@ const YoudaoResult = ({ result }) => {
                 <Card.Body>
                     <Card.Title> Pronounciation </Card.Title>
                     <Card.Text>
-                        /{basic.phonetic}/ &nbsp; { basic["uk-phonetic"] && <>
+                        /{basic.phonetic}/ &nbsp; { basic["uk-phonetic"] && <Fragment>
                             UK: /{basic["uk-phonetic"]}/ &nbsp; US: /{basic["us-phonetic"]}/
-                            </> }
+                            </Fragment> }
                     </Card.Text>
                 </Card.Body>
             }

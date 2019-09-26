@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Card } from 'react-bootstrap';
-import { faVolumeUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as R from 'ramda'
 
@@ -10,35 +10,23 @@ import {
     CollapsableList, ConsoleLog,
     LoadingWrapper, starReplace,
     TranslationCard, TranslationCardWithFullscreenAbility,
-    TagResolver, UrbanDictionaryTagResolver,
+    TagResolver, UrbanDictionaryTagResolver, AudioPlayer,
 } from '../utils';
 
 
-const UrbanResult = ({ result }) => {
-    if (!result || result.length < 1 ) {
-        return false;
-    }
-    const title = UrbanDictionaryTagResolver(result[0].definition);
-    return <TranslationCard header="Urban Dictionary" title={title} />;
-}
-
 const Example = ({ text, word }) => {
     let parts = text.split(new RegExp(`(${word})`, 'gi'));
-    return <>
-        {
-            parts.map((part, index) =>
-                part.toLowerCase() === word.toLowerCase()
-                ? <mark key={index}>{part}</mark>
-                : part
-            )
-        }
-    </>;
+    return parts.map((part, index) =>
+        part.toLowerCase() === word.toLowerCase()
+        ? <mark key={index}>{part}</mark>
+        : part
+    );
 }
 
 const ExampleSection = ({ examples, word }) => {
     let entries = Array.prototype.concat(...examples.map(example => example.lexicalEntries));
     return (
-        <>
+        <Fragment>
         <hr/>
         <h3 className="other-aspect">Examples</h3>
         <div className="other-aspect-body">
@@ -60,17 +48,17 @@ const ExampleSection = ({ examples, word }) => {
                 </ol>
             ))}
         </div>
-        </>
+        </Fragment>
     );
 }
 
-const OriginSection = ({ origin }) => (<>
+const OriginSection = ({ origin }) => (<Fragment>
     <hr/>
     <h3 className="other-aspect">Origin</h3>
     <p className="other-aspect-body"> {origin} </p>
-</>);
+</Fragment>);
 
-const PronunciationSection = ({ word, items }) => (<>
+const PronunciationSection = ({ word, items }) => (<Fragment>
     <hr/>
     <h3 className="other-aspect">
         Pronunciation
@@ -88,16 +76,16 @@ const PronunciationSection = ({ word, items }) => (<>
             </span>
         ))}
     </p>
-</>);
+</Fragment>);
 
 const PronunciationSectionInEntry = ({ items }) => {
     if (!items) {
         return false
     }
     return items.map((item, index) => (
-        <span key={index}>
+        <Fragment key={index}>
             /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
-        </span>
+        </Fragment>
     ));
 }
 
@@ -105,7 +93,7 @@ const DefinitionSection = ({ lexicalEntry }) => {
     const entries = lexicalEntry.entries;
     let pronunciations = entries && entries.length > 0 && entries[0].pronunciations;
     return (
-        <>
+        <Fragment>
         <hr/>
         <h3>
             <span className="lexical-category">
@@ -135,14 +123,13 @@ const DefinitionSection = ({ lexicalEntry }) => {
                 </p>
                 {("examples" in sense) && sense.examples && sense.examples.length > 0 && 
                     sense.examples.map((example, index) => (
-                    <p key={index}>
+                    <Fragment key={index}>
                     {
                         ("notes" in example) && example.notes && example.notes.length > 0 &&
                         <span className="note">[{example.notes[0].text}]</span>
                     }
                         <span className="example"><em>{example.text}</em></span>
-                        </p>
-
+                    </Fragment>
                     ))
                 }
                 <ol type="1">
@@ -150,11 +137,9 @@ const DefinitionSection = ({ lexicalEntry }) => {
                         <li key={subIndex}>
                             {
                                 ("definitions" in subsense) && subsense.definitions.length > 0 
-                                ?
-                                <p className="definition">{subsense.definitions[0]}</p>
-                                :
-                                ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
-                                <p className="definition"> short for {subsense.shortDefinitions[0]} </p>
+                                    ? <p className="definition">{subsense.definitions[0]}</p>
+                                    : ("shortDefinitions" in subsense) && subsense.shortDefinitions.length > 0 &&
+                                        <p className="definition"> short for {subsense.shortDefinitions[0]} </p>
                             }
                             {subsense.examples && subsense.examples.length > 0 && subsense.examples.map(
                                 (example, index) => (
@@ -168,7 +153,7 @@ const DefinitionSection = ({ lexicalEntry }) => {
             ))}
             </ol>
         ))}
-        </>
+        </Fragment>
     );
 }
 
@@ -200,34 +185,6 @@ class OxfordResult extends Component {
                     <ExampleSection examples={this.props.examples.result} word={this.props.text} />
                 </LoadingWrapper>
             </TranslationCardWithFullscreenAbility>
-        );
-    }
-}
-
-class AudioPlayer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isPlaying: false
-        }
-    }
-
-    onClick = () => {
-        const audio = new Audio(this.props.src);
-        audio.play();
-        this.setState({ isPlaying: true });
-        audio.addEventListener("ended", () => {
-            this.setState({ isPlaying: false });
-        });
-    }
-
-    render() {
-        return (
-            <FontAwesomeIcon
-                icon={faVolumeUp}
-                onClick={this.onClick}
-                pulse={this.state.isPlaying ? true : false}
-            />
         );
     }
 }
@@ -292,7 +249,7 @@ class WebsterDefinitionSection extends Component {
         const Uros = R.pathOr(false, ["meta", "uros"], this.props.item);
         const Stems = R.pathOr(false, ["meta", "stems"], this.props.item);
         return (
-            <>
+            <Fragment>
             <p>
                 <span className="webster-head-word">{starReplace(HeadWord)}</span>
                 <span className="webster-word-type"> { this.props.item.fl } </span>
@@ -308,14 +265,14 @@ class WebsterDefinitionSection extends Component {
                 )}</p>)
             }
             {Def.length > 0 && Def.map(def => (
-                <>
+                <Fragment>
                 <p>{def.vd}</p>
                 <ol type="1">
                     {def.sseq.map(item=> (<li className="webster-definition-item">
                         <ul> {item.map(this.showDefinition)} </ul>
                     </li>))}
                 </ol>
-                </>
+                </Fragment>
             ))}
             <p className="other-word">
                 {Uros.length > 0 && Uros.map(item => (
@@ -336,7 +293,7 @@ class WebsterDefinitionSection extends Component {
                 { From && <span> First Known Use: {TagResolver(From)} </span> }
             </p>
             <hr/>
-            </>
+            </Fragment>
         );
     }
 }
@@ -357,6 +314,14 @@ function WebsterResult ({ result }) {
             </CollapsableList>
         </TranslationCardWithFullscreenAbility>
     );
+}
+
+const UrbanResult = ({ result }) => {
+    if (!result || result.length < 1 ) {
+        return false;
+    }
+    const title = UrbanDictionaryTagResolver(result[0].definition);
+    return <TranslationCard header="Urban Dictionary" title={title} />;
 }
 
 const EnResult = {
