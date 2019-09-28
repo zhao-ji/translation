@@ -51,7 +51,7 @@ const OriginSection = ({ origin }) => (<Fragment>
     <p className="other-aspect-body"> {origin} </p>
 </Fragment>);
 
-const PronunciationSection = ({ word, items }) => (<Fragment>
+const PronunciationSection = ({ items }) => (<Fragment>
     <hr/>
     <h3 className="other-aspect">
         Pronunciation
@@ -62,10 +62,10 @@ const PronunciationSection = ({ word, items }) => (<Fragment>
         </a>
     </h3>
     <p className="other-aspect-body">
-        {word}
         {items.map((item, index) => (
             <div key={index}>
-                &nbsp; /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
+                /{item.phoneticSpelling}/&nbsp;
+                {item.audioFile && <AudioPlayer src={item.audioFile} />}
             </div>
         ))}
     </p>
@@ -77,14 +77,16 @@ const PronunciationSectionInEntry = ({ items }) => {
     }
     return items.map((item, index) => (
         <Fragment key={index}>
-            /{item.phoneticSpelling}/ <AudioPlayer src={item.audioFile} />
+            /{item.phoneticSpelling}/
+            {item.audioFile && <AudioPlayer src={item.audioFile} />}
+            &nbsp;
         </Fragment>
     ));
 }
 
 const DefinitionSection = ({ lexicalEntry }) => {
     const entries = lexicalEntry.entries;
-    let pronunciations = entries && entries.length > 0 && entries[0].pronunciations;
+    const pronunciations = lexicalEntry.pronunciations;
     return (
         <Fragment>
         <hr/>
@@ -97,7 +99,7 @@ const DefinitionSection = ({ lexicalEntry }) => {
                 <PronunciationSectionInEntry items={pronunciations}/>
             </span>
         </h3>
-        { lexicalEntry.entries.map((entry, index2) => (
+        { entries.map((entry, index2) => (
             <ol type="1" key={index2}>
             {entry.senses.map((sense, index) => (
                 <li key={index}>
@@ -165,9 +167,7 @@ class OxfordResult extends Component {
                 <Card.Title>
                     <span className="title"> {this.props.text} </span>
                 </Card.Title>
-                {pronunciation &&
-                        <PronunciationSection word={this.props.text} items={pronunciation} />
-                }
+                {pronunciation && <PronunciationSection items={pronunciation} />}
                 {this.props.result[0].lexicalEntries.map(
                     (lexicalEntry, index) => <DefinitionSection key={index} lexicalEntry={lexicalEntry} />
                 )}

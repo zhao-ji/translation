@@ -182,12 +182,19 @@ export function UrbanDictionaryTagResolver(text) {
 export class AudioPlayer extends Component {
     state = {
         isPlaying: false,
+        count: 0,
     }
 
     onClick = () => {
         const audio = new Audio(this.props.src);
+        if (this.state.count > 0) {
+            audio.playbackRate = 0.5;
+        }
         audio.addEventListener("ended", () => {
-            this.setState({ isPlaying: false });
+            this.setState(prevState => ({
+                isPlaying: false,
+                count: prevState.count + 1,
+            }));
         });
         audio.play();
         this.setState({ isPlaying: true });
