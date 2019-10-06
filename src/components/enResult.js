@@ -285,7 +285,7 @@ class WebsterDefinitionSection extends Component {
             <p>
                 { From && <span> First Known Use: {TagResolver(From)} </span> }
             </p>
-            <hr/>
+            {this.props.isNotLast && <hr/>}
             </Fragment>
         );
     }
@@ -298,11 +298,12 @@ function WebsterResult ({ result }) {
     if (typeof result[0] === "string") {
         return false;
     }
+    const resultLen = result.length;
     return (
         <TranslationCardWithFullscreenAbility header={"Merriam Webster"}>
             <CollapsableList>
                 {result.map((item, index) =>
-                    <WebsterDefinitionSection key={index} item={item} total={result.length}/>
+                    <WebsterDefinitionSection key={index} item={item} isNotLast={index < resultLen - 1}/>
                 )}
             </CollapsableList>
         </TranslationCardWithFullscreenAbility>
