@@ -119,6 +119,7 @@ export default class Input extends Component {
                         placeholder="translate word or sentence for english and mandarin..."
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
+                        onFocus={event => event.target.select()}
                         defaultValue={this.state.matchedOption}
                         key={this.state.matchedOption}
                     />
