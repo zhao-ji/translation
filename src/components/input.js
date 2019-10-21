@@ -109,7 +109,7 @@ export default class Input extends Component {
     render() {
         return (
             <Fragment>
-                <InputGroup size="lg" id="search-component">
+                <InputGroup size="lg" className="mt-2">
                     <Form.Control
                         as="input"
                         type="search"

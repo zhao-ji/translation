@@ -247,7 +247,7 @@ class WebsterDefinitionSection extends Component {
                 <span className="webster-head-word">{starReplace(HeadWord)}</span>
                 <span className="webster-word-type"> { this.props.item.fl } </span>
             </p>
-            <p className="pronun">
+            <p className="webster-pronun">
                 {Pronun &&
                     <span>\{Pronun}\&nbsp;{Sound && this.generateAudio(Sound)}</span>
                 }
