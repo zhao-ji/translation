@@ -5,18 +5,11 @@ import { Button, InputGroup, Form, ListGroup } from 'react-bootstrap';
 import { checkIfMandarin, checkIfSentence } from '../utils';
 
 export function Suggestions({ cache, currentText, matchedOption, onClickSuggestion }) {
-    if (matchedOption === currentText) {
-        return false;
-    } else if (matchedOption && currentText) {
-        if (matchedOption.trim() === currentText.trim()) {
-            return false;
-        }
-    }
+    if (matchedOption === currentText) return false;
+    if (matchedOption && currentText && (matchedOption.trim() === currentText.trim())) return false;
 
     const items = cache[currentText];
-    if (!items || !items.result || items.result.length === 0) {
-        return false;
-    }
+    if (!items || !items.result || items.result.length === 0) return false;
 
     return (
         <ListGroup>
@@ -101,9 +94,7 @@ export default class Input extends Component {
     }
 
     handleKeyDown = (event) => {
-        if(event.key === "Enter") {
-            this.handleClick();
-        }
+        if(event.key === "Enter") this.handleClick();
     }
 
     render() {

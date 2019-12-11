@@ -6,22 +6,29 @@ import { Card, ListGroupItem } from 'react-bootstrap';
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { string } from 'prop-types';
+
 import {
     TranslationCard, TranslationCardItems,
     TranslationCardWithFullscreenAbility,
 } from '../utils';
 
-
+/**
+ * Google Translation Card, use for display google translation result
+ */
 const GoogleResult = props => (<TranslationCard header="Google" title={props.result} />);
+
+GoogleResult.propTypes = {
+    /** result should be a string */
+    result: string.isRequired,
+};
 
 const BaiduResult = props => (<TranslationCard header="Baidu" title={props.result} />);
 
 const AmazonResult = props => ( <TranslationCard header="Amazon" title={props.result} />);
 
 const BingResult = ({ result }) => {
-    if (!result) {
-        return false;
-    }
+    if (!result) return false;
     const { dictionary, translation } = result;
     return (
         <TranslationCardWithFullscreenAbility header="Bing" title={translation}>
@@ -69,9 +76,7 @@ class BingExample extends Component {
 }
 
 const YoudaoResult = ({ result }) => {
-    if (!result) {
-        return false;
-    }
+    if (!result) return false;
     const {basic, web, translation} = result;
     return (
         <TranslationCardWithFullscreenAbility header="Youdao" title={translation && translation[0]}>

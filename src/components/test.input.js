@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Input, Towards } from './input';
+import Input from './input';
 
 it("check if it is mandarin: this.checkIfMandarin", () => {
     const wrapper = shallow(<Input />);
@@ -29,14 +29,4 @@ it("check if it is sentence: this.checkIfSentence", () => {
     expect(wrapper.instance().checkIfSentence("你好, 你好")).toEqual(true);
     expect(wrapper.instance().checkIfSentence("你好")).toEqual(false);
     expect(wrapper.instance().checkIfSentence("你好?")).toEqual(true);
-});
-
-it("renders language indicator: Towards", () => {
-    const wrapper = shallow(<Towards isMandarin={true} />);
-    const indicateMandarin = "Chinese => English";
-    expect(wrapper.contains(indicateMandarin)).toBe(true);
-
-    const newWrapper = shallow(<Towards isMandarin={false} />);
-    const indicateEnglish = "English => Chinese";
-    expect(newWrapper.contains(indicateEnglish)).toBe(true);
 });
