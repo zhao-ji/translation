@@ -18,11 +18,17 @@
   - test case
       - test the method
   - me
+      - dictionary translation
+      - maccaury for austrailia english
+      - cambridge
       - langdao
+      - langman
       - kolin dictionary
+      - macmillan
       - translation for english(click and load)
       - threshold and debounce in input suggestion
       - url link contains word
+  - error collect
   - dictionary content:
       - the sauruslinks
       - cross reference
@@ -31,3 +37,7 @@
   - huning
       - input box can become textarea
       - example website
+  - detect the network error and notify the user
+  - loading icon
+  - split the english to english into 2 part, 1 part support sentence translation
+  - error report
