@@ -15,6 +15,11 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            deepl: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
             youdao: {
                 text: null,
                 result: null,

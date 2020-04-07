@@ -36,6 +36,23 @@ export default (state = {}, action) => {
             newState.baidu.isLoading = false;
             return newState
         }
+        case 'DEEPL_TRANSLATION_TRY': {
+            newState.deepl = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'DEEPL_TRANSLATION_SUCCESS': {
+            newState.deepl.result = action.result;
+            newState.deepl.isLoading = false;
+            return newState
+        }
+        case 'DEEPL_TRANSLATION_ERROR': {
+            newState.deepl.isLoading = false;
+            return newState
+        }
         case 'YOUDAO_TRANSLATION_TRY': {
             newState.youdao = {
                 text: action.kwargs.text,

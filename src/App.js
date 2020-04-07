@@ -25,6 +25,7 @@ class App extends Component {
                     fetchSuggestion={this.props.fetchSuggestion}
                     googleTranslate={this.props.googleTranslate}
                     baiduTranslate={this.props.baiduTranslate}
+                    deeplTranslate={this.props.deeplTranslate}
                     youdaoTranslate={this.props.youdaoTranslate}
                     bingTranslate={this.props.bingTranslate}
                     amazonTranslate={this.props.amazonTranslate}
@@ -49,6 +50,13 @@ class App extends Component {
                         resultText={this.props.translation.baidu.text}
                     >
                         <Result.BaiduResult result={this.props.translation.baidu.result}/>
+                    </LoadingWrapper>
+                    <LoadingWrapper
+                        loading={this.props.translation.deepl.isLoading}
+                        currentText={this.props.utils.currentText}
+                        resultText={this.props.translation.deepl.text}
+                    >
+                        <Result.DeeplResult result={this.props.translation.deepl.result}/>
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.amazon.isLoading}
