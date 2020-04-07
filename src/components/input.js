@@ -78,6 +78,7 @@ export default class Input extends Component {
             isSentence: checkIfSentence(this.props.currentText.trim()),
         };
         this.props.googleTranslate(inputData);
+        this.props.deeplTranslate(inputData);
         this.props.baiduTranslate(inputData);
         this.props.youdaoTranslate(inputData);
         this.props.bingTranslate(inputData);

@@ -45,6 +45,25 @@ export const translationActions = {
             dispatch({ type: "BAIDU_TRANSLATION_ERROR", error: error, kwargs });
         })
     },
+    deeplTranslate: kwargs => dispatch => {
+        dispatch({ type: "DEEPL_TRANSLATION_TRY", kwargs });
+        let args = {
+            params: {
+                text: kwargs.text,
+                source_lang: kwargs.isEnglish ? "EN" : "ZH",
+                target_lang: kwargs.isEnglish ? "ZH" : "EN",
+            }
+        };
+        axios
+            .get(secrets.deeplUrl, args)
+            .then(response => {
+                dispatch({ type: "DEEPL_TRANSLATION_SUCCESS", result: response.data.translations[0].text, kwargs });
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: "DEEPL_TRANSLATION_ERROR", error: error, kwargs });
+            })
+    },
     youdaoTranslate: kwargs => dispatch => {
         dispatch({ type: "YOUDAO_TRANSLATION_TRY", kwargs });
 

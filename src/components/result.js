@@ -18,6 +18,8 @@ const GoogleResult = props => (<TranslationCard header="Google" title={props.res
 
 const BaiduResult = props => (<TranslationCard header="Baidu" title={props.result} />);
 
+const DeeplResult = props => (<TranslationCard header="Deepl" title={props.result} />);
+
 const AmazonResult = props => ( <TranslationCard header="Amazon" title={props.result} />);
 
 const BingResult = ({ result }) => {
@@ -104,6 +106,7 @@ const YoudaoResult = ({ result }) => {
 const Result = {
     GoogleResult: GoogleResult,
     BaiduResult: BaiduResult,
+    DeeplResult: DeeplResult,
     AmazonResult: AmazonResult,
     YoudaoResult: YoudaoResult,
     BingResult: BingResult,
