@@ -14,6 +14,8 @@
 ### Known Issues
 
   - http2 connection reuse for api
+  - uglify the secret
+  - aws route53 area dns response, china and nz and aus multi-az load balance
   - build analysis
   - test case
       - test the method
