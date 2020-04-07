@@ -8,9 +8,7 @@ const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff6
 const punctuationRegex = /[ .,:;!?。，：；！？]/
 
 export const starReplace = (text) => {
-    if (!text) {
-        return false;
-    }
+    if (!text) return false;
     return text.split("*").join("\u00B7");
 };
 
@@ -24,22 +22,14 @@ export const Comment = ({ children }) => {
 };
 
 export const LoadingWrapper = ({ loading, currentText, resultText, children }) => {
-    if (!loading) {
-        if (currentText === resultText) {
-            return children;
-        } else if (currentText && resultText) {
-            if (currentText.trim() === resultText.trim()) {
-                return children;
-            }
-        }
-    }
+    if (loading) return false;
+    if (currentText === resultText) return children;
+    if (currentText && resultText && currentText.trim() === resultText.trim()) return children;
     return false;
 }
 
 export function TranslationCard (props) {
-    if (!props.title) {
-        return null
-    }
+    if (!props.title) return null;
     return (
         <Card>
             <Card.Header>{props.header}</Card.Header>
@@ -48,7 +38,7 @@ export function TranslationCard (props) {
             </Card.Body>
             {props.children}
         </Card>
-    )
+    );
 }
 
 
@@ -80,9 +70,7 @@ export class TranslationCardWithFullscreenAbility extends Component {
 }
 
 export function TranslationCardItems(props) {
-    if (!props.items || props.items.length < 1) {
-        return null;
-    }
+    if (!props.items || props.items.length < 1) return null;
     return (
         <Card.Body>
             <Card.Title> {props.title} </Card.Title>
@@ -94,16 +82,12 @@ export function TranslationCardItems(props) {
 }
 
 export function checkIfMandarin(text) {
-    if (typeof text !== "string") {
-        return false
-    }
+    if (typeof text !== "string") return false;
     return chineseRegex.test(text);
 }
 
 export function checkIfSentence(text) {
-    if (typeof text !== "string") {
-        return false
-    }
+    if (typeof text !== "string") return false;
     return punctuationRegex.test(text);
 }
 
@@ -117,9 +101,7 @@ export class CollapsableList extends Component {
     }
 
     render() {
-        if (!this.props.children) {
-            return false;
-        }
+        if (!this.props.children) return false;
         const tooLong = this.props.children.length > this.props.limit;
         const extraCount = this.props.children.length - this.props.limit;
         return (
@@ -167,9 +149,7 @@ export function TagResolver(text) {
         .replace(/\{\/sc\}/g, "</small>")
         .replace(/\{sx\|([a-z0-9\s]+)\|\|\}/g, "$1")
         .replace(/\{.*\}/g, "");
-    if (!newString) {
-        return false;
-    }
+    if (!newString) return false;
     return <span dangerouslySetInnerHTML={{__html: newString}} />;
 }
 
@@ -187,9 +167,7 @@ export class AudioPlayer extends Component {
 
     onClick = () => {
         const audio = new Audio(this.props.src);
-        if (this.state.count > 0) {
-            audio.playbackRate = 0.5;
-        }
+        if (this.state.count > 0) audio.playbackRate = 0.6;
         audio.addEventListener("ended", () => {
             this.setState(prevState => ({
                 isPlaying: false,
@@ -245,9 +223,7 @@ export class ErrorBoundary extends Component {
     }
 
     render() {
-        if (this.state.hasError) {
-            return <h3>Something went wrong.</h3>
-        }
+        if (this.state.hasError) return <h3>Something went wrong.</h3>;
         return this.props.children;
     }
 }
