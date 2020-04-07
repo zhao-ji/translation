@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Input /> render() default correctly 1`] = `
+<Fragment>
+  <Bootstrap(InputGroup)
+    id="search-component"
+    size="lg"
+  >
+    <FormControl
+      as="input"
+      autoComplete="off"
+      autoFocus={true}
+      defaultValue=""
+      id="input-search-bar"
+      key=""
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      placeholder="translate word or sentence for english and mandarin..."
+      type="search"
+    />
+    <InputGroupAppend>
+      <Button
+        active={false}
+        block={true}
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+        variant="outline-dark"
+      >
+        Search
+      </Button>
+    </InputGroupAppend>
+  </Bootstrap(InputGroup)>
+  <Suggestions
+    matchedOption=""
+    onClickSuggestion={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`<Suggestions /> render() default correctly 1`] = `<Fragment />`;
+
+exports[`<Suggestions /> render() render suggestions 1`] = `
+<ForwardRef>
+  <Bootstrap(ListGroupItem)
+    action={true}
+    className="option"
+    data-value="hello"
+    key="0"
+    onClick={[Function]}
+  >
+    hello
+    <b />
+  </Bootstrap(ListGroupItem)>
+  <Bootstrap(ListGroupItem)
+    action={true}
+    className="option"
+    data-value="hello world"
+    key="1"
+    onClick={[Function]}
+  >
+    hello
+    <b>
+       world
+    </b>
+  </Bootstrap(ListGroupItem)>
+</ForwardRef>
+`;
+
+exports[`<Suggestions /> render() suggestions does not match 1`] = `<Fragment />`;
