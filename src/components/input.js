@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import * as Sentry from '@sentry/browser';
 import { Button, InputGroup, Form, ListGroup } from 'react-bootstrap';
 
 import { checkIfMandarin, checkIfSentence } from '../utils';
@@ -63,12 +62,6 @@ export default class Input extends Component {
             if (!(searchString in this.props.cache)) {
                 this.props.fetchSuggestion({text: searchString});
             }
-        } else {
-            // what's wrong with our check?
-            Sentry.withScope((scope) => {
-                scope.setExtras(inputData);
-                Sentry.captureMessage("Input inspection error!");
-            });
         }
     }
 
