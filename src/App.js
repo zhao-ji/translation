@@ -11,7 +11,7 @@ import Input from './components/input';
 import EnResult from './components/enResult';
 import Result from './components/result';
 
-import { LoadingWrapper, ErrorBoundary } from './utils';
+import { LoadingWrapper } from './utils';
 
 class App extends Component {
     render() {
@@ -77,9 +77,7 @@ class App extends Component {
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.bing.text}
                     >
-                        <ErrorBoundary>
-                            <Result.BingResult result={this.props.translation.bing.result}/>
-                        </ErrorBoundary>
+                        <Result.BingResult result={this.props.translation.bing.result}/>
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.urban.isTranslationLoading}
@@ -93,22 +91,18 @@ class App extends Component {
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.webster.text}
                     >
-                        <ErrorBoundary>
-                            <EnResult.WebsterResult result={this.props.translation.webster.result} />
-                        </ErrorBoundary>
+                        <EnResult.WebsterResult result={this.props.translation.webster.result} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.oxford.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.oxford.text}
                     >
-                        <ErrorBoundary>
-                            <EnResult.OxfordResult
-                                result={this.props.translation.oxford.result}
-                                examples={this.props.translation.oxfordExamples}
-                                text={this.props.utils.currentText}
-                            />
-                        </ErrorBoundary>
+                        <EnResult.OxfordResult
+                            result={this.props.translation.oxford.result}
+                            examples={this.props.translation.oxfordExamples}
+                            text={this.props.utils.currentText}
+                        />
                     </LoadingWrapper>
                 </CardColumns>
             </Container>

@@ -67,10 +67,6 @@
 
 /* oxford style
  */
-.title {
-    font-size: 2em;
-    font-weight: 700;
-}
 .lexical-category {
     color: orange;
     margin-left: 0.6em;

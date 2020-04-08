@@ -165,7 +165,7 @@ class OxfordResult extends Component {
         return (
             <TranslationCardWithFullscreenAbility header={"Oxford"}>
                 <Card.Title>
-                    <span className="title"> {this.props.text} </span>
+                    <span className="typo-h3"> {this.props.text} </span>
                 </Card.Title>
                 {pronunciation && <PronunciationSection items={pronunciation} />}
                 {this.props.result[0].lexicalEntries.map(

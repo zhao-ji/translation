@@ -1,3 +1,5 @@
+import { ReportAPIErrorToSentry } from '../utils';
+
 export default (state = {}, action) => {
     const newState = Object.assign({}, state);
 
@@ -14,6 +16,7 @@ export default (state = {}, action) => {
         case 'RECORD_ERROR': {
             newState.isLoading = false;
             newState.isSuccess = false;
+            ReportAPIErrorToSentry(action.error, "record", action.kwargs, state);
             return newState
         }
         default:

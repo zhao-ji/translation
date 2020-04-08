@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
+import * as Sentry from '@sentry/browser';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 import { faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,10 +22,33 @@ export const Comment = ({ children }) => {
   return false;
 };
 
+class ErrorBoundary extends Component {
+    state = { hasError: false }
+
+    static getDerivedStateFromError() {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        Sentry.withScope((scope) => {
+            scope.setExtras(errorInfo);
+            Sentry.captureException(error);
+        });
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <TranslationCard header="Oops" title={"Something went wrong!"} />;
+        }
+        return this.props.children;
+    }
+}
+
 export const LoadingWrapper = ({ loading, currentText, resultText, children }) => {
     if (loading) return false;
-    if (currentText === resultText) return children;
-    if (currentText && resultText && currentText.trim() === resultText.trim()) return children;
+    const childrenWithErrorBoundary = (<ErrorBoundary>{children}</ErrorBoundary>);
+    if (currentText === resultText) return childrenWithErrorBoundary;
+    if (currentText && resultText && currentText.trim() === resultText.trim()) return childrenWithErrorBoundary;
     return false;
 }
 
@@ -211,19 +235,9 @@ class AudioAnimatePlayer extends Component {
     }
 }
 
-export class ErrorBoundary extends Component {
-    state = {
-        hasError: false,
-    }
-
-    componentDidCatch(error, info) {
-        this.setState({ hasError: true });
-        console.trace(error);
-        console.trace(info);
-    }
-
-    render() {
-        if (this.state.hasError) return <h3>Something went wrong.</h3>;
-        return this.props.children;
-    }
+export function ReportAPIErrorToSentry(error, ...extraInfo) {
+    Sentry.withScope((scope) => {
+        scope.setExtras(extraInfo);
+        Sentry.captureException(error);
+    });
 }

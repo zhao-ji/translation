@@ -1,3 +1,5 @@
+import { ReportAPIErrorToSentry } from '../utils';
+
 export default (state = {}, action) => {
     const newState = Object.assign({}, state);
 
@@ -17,6 +19,7 @@ export default (state = {}, action) => {
         }
         case 'GOOGLE_TRANSLATION_ERROR': {
             newState.google.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "google", action.kwargs, state);
             return newState
         }
         case 'BAIDU_TRANSLATION_TRY': {
@@ -34,6 +37,7 @@ export default (state = {}, action) => {
         }
         case 'BAIDU_TRANSLATION_ERROR': {
             newState.baidu.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "baidu", action.kwargs, state);
             return newState
         }
         case 'DEEPL_TRANSLATION_TRY': {
@@ -51,6 +55,7 @@ export default (state = {}, action) => {
         }
         case 'DEEPL_TRANSLATION_ERROR': {
             newState.deepl.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "deepl", action.kwargs, state);
             return newState
         }
         case 'YOUDAO_TRANSLATION_TRY': {
@@ -68,6 +73,7 @@ export default (state = {}, action) => {
         }
         case 'YOUDAO_TRANSLATION_ERROR': {
             newState.youdao.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "youdao", action.kwargs, state);
             return newState
         }
         case 'BING_TRANSLATION_TRY': {
@@ -88,6 +94,7 @@ export default (state = {}, action) => {
         case 'BING_TRANSLATION_ERROR': {
             newState.bing.isTranslationLoading = true;
             newState.bing.isExampleLoading = false;
+            ReportAPIErrorToSentry(action.error, "bing", action.kwargs, state);
             return newState
         }
         case 'BING_TRANSLATION_IN_PROGRESS': {
@@ -98,6 +105,7 @@ export default (state = {}, action) => {
         }
         case 'BING_TRANSLATION_EXAMPLE_ERROR': {
             newState.bing.isExampleLoading = false;
+            ReportAPIErrorToSentry(action.error, "bing example", action.kwargs, state);
             return newState
         }
         case 'AMAZON_TRANSLATION_TRY': {
@@ -115,6 +123,7 @@ export default (state = {}, action) => {
         }
         case 'AMAZON_TRANSLATION_ERROR': {
             newState.amazon.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "amazon", action.kwargs, state);
             return newState
         }
         case 'URBAN_TRANSLATION_TRY': {
@@ -134,6 +143,7 @@ export default (state = {}, action) => {
         }
         case 'URBAN_TRANSLATION_ERROR': {
             newState.urban.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "urban dictionary", action.kwargs, state);
             return newState
         }
         case 'OXFORD_TRANSLATION_TRY': {
@@ -151,6 +161,7 @@ export default (state = {}, action) => {
         }
         case 'OXFORD_TRANSLATION_ERROR': {
             newState.oxford.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "oxford", action.kwargs, state);
             return newState
         }
         case 'OXFORD_FETCH_EXAMPLES_TRY': {
@@ -168,6 +179,7 @@ export default (state = {}, action) => {
         }
         case 'OXFORD_FETCH_EXAMPLES_ERROR': {
             newState.oxfordExamples.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "oxford example", action.kwargs, state);
             return newState
         }
         case 'WEBSTER_TRANSLATION_TRY': {
@@ -185,6 +197,7 @@ export default (state = {}, action) => {
         }
         case 'WEBSTER_TRANSLATION_ERROR': {
             newState.webster.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "webster", action.kwargs, state);
             return newState
         }
         case 'CLEAN_EN_EN_RESULT': {
