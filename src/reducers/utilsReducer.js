@@ -1,3 +1,5 @@
+import { ReportAPIErrorToSentry } from '../utils';
+
 export default (state = {}, action) => {
     const newState = Object.assign({}, state);
 
@@ -40,6 +42,7 @@ export default (state = {}, action) => {
         }
         case 'FETCH_SUGGESTION_ERROR': {
             newState.cache[action.kwargs.text].isLoading = false;
+            ReportAPIErrorToSentry(action.error, "suggestion", action.kwargs, state);
             return newState
         }
         default:

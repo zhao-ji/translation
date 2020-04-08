@@ -20,8 +20,7 @@ export const translationActions = {
                 dispatch({ type: "GOOGLE_TRANSLATION_SUCCESS", result: response.data.data.translations[0].translatedText, kwargs });
             })
             .catch(error => {
-                console.error(error);
-                dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error: error, kwargs });
+                dispatch({ type: "GOOGLE_TRANSLATION_ERROR", error, kwargs });
             })
     },
     baiduTranslate: kwargs => dispatch => {
@@ -41,8 +40,7 @@ export const translationActions = {
         axios.get(secrets.baiduUrl, args).then(response => {
             dispatch({ type: "BAIDU_TRANSLATION_SUCCESS", result: response.data.trans_result[0].dst, kwargs });
         }).catch(error => {
-            console.error(error);
-            dispatch({ type: "BAIDU_TRANSLATION_ERROR", error: error, kwargs });
+            dispatch({ type: "BAIDU_TRANSLATION_ERROR", error, kwargs });
         })
     },
     deeplTranslate: kwargs => dispatch => {
@@ -60,8 +58,7 @@ export const translationActions = {
                 dispatch({ type: "DEEPL_TRANSLATION_SUCCESS", result: response.data.translations[0].text, kwargs });
             })
             .catch(error => {
-                console.error(error);
-                dispatch({ type: "DEEPL_TRANSLATION_ERROR", error: error, kwargs });
+                dispatch({ type: "DEEPL_TRANSLATION_ERROR", error, kwargs });
             })
     },
     youdaoTranslate: kwargs => dispatch => {
@@ -75,8 +72,7 @@ export const translationActions = {
         axios.get(secrets.youdaoUrl, args).then(response => {
             dispatch({ type: "YOUDAO_TRANSLATION_SUCCESS", result: response.data, kwargs });
         }).catch(error => {
-            console.error(error);
-            dispatch({ type: "YOUDAO_TRANSLATION_ERROR", error: error, kwargs });
+            dispatch({ type: "YOUDAO_TRANSLATION_ERROR", error, kwargs });
         })
     },
     bingTranslate: kwargs => dispatch => {
@@ -109,8 +105,7 @@ export const translationActions = {
                     });
                 })
                 .catch(error => {
-                    console.error(error);
-                    dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
+                    dispatch({ type: "BING_TRANSLATION_ERROR", error, kwargs });
                 })
         }
 
@@ -167,13 +162,11 @@ export const translationActions = {
                         });
                     })
                     .catch(error => {
-                        console.error(error);
-                        dispatch({ type: "BING_TRANSLATION_EXAMPLE_ERROR", error: error, kwargs });
+                        dispatch({ type: "BING_TRANSLATION_EXAMPLE_ERROR", error, kwargs });
                     })
             }))
             .catch(error => {
-                console.error(error);
-                dispatch({ type: "BING_TRANSLATION_ERROR", error: error, kwargs });
+                dispatch({ type: "BING_TRANSLATION_ERROR", error, kwargs });
             })
     },
     amazonTranslate: kwargs => dispatch => {
@@ -189,8 +182,7 @@ export const translationActions = {
         axios.get(secrets.amazonUrl, args).then(response => {
             dispatch({ type: "AMAZON_TRANSLATION_SUCCESS", result: response.data.result, kwargs });
         }).catch(error => {
-            console.error(error);
-            dispatch({ type: "AMAZON_TRANSLATION_ERROR", error: error, kwargs });
+            dispatch({ type: "AMAZON_TRANSLATION_ERROR", error, kwargs });
         })
     },
     urbanTranslate: kwargs => dispatch => {
@@ -204,8 +196,7 @@ export const translationActions = {
         axios.get(secrets.urbanDictionaryUrl, args).then(response => {
             dispatch({ type: "URBAN_TRANSLATION_SUCCESS", result: response.data.result, kwargs });
         }).catch(error => {
-            console.error(error);
-            dispatch({ type: "URBAN_TRANSLATION_ERROR", error: error, kwargs });
+            dispatch({ type: "URBAN_TRANSLATION_ERROR", error, kwargs });
         })
     },
     oxfordTranslate: kwargs => dispatch => {
@@ -217,8 +208,7 @@ export const translationActions = {
                 dispatch({ type: "OXFORD_TRANSLATION_SUCCESS", result: response.data.results, kwargs });
             })
             .catch(error => {
-                console.error(error);
-                dispatch({ type: "OXFORD_TRANSLATION_ERROR", error: error, kwargs });
+                dispatch({ type: "OXFORD_TRANSLATION_ERROR", error, kwargs });
             })
     },
     oxfordFetchExamples: kwargs => dispatch => {
@@ -230,8 +220,7 @@ export const translationActions = {
             dispatch({ type: "OXFORD_FETCH_EXAMPLES_SUCCESS", result: response.data.results, kwargs });
         })
         .catch(error => {
-            console.error(error);
-            dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error: error, kwargs });
+            dispatch({ type: "OXFORD_FETCH_EXAMPLES_ERROR", error, kwargs });
         })
     },
     websterTranslate: kwargs => dispatch => {
@@ -248,8 +237,7 @@ export const translationActions = {
                 dispatch({ type: "WEBSTER_TRANSLATION_SUCCESS", result: response.data, kwargs });
             })
             .catch(error => {
-                console.error(error);
-                dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error: error, kwargs });
+                dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error, kwargs });
             })
     },
     cleanEnEnResult: kwargs => dispatch => {

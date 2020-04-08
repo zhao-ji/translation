@@ -26,8 +26,7 @@ export const utilsActions = {
                 });
             })
             .catch(error => {
-                console.error(error);
-                dispatch({ type: "FETCH_SUGGESTION_ERROR", error: error, kwargs });
+                dispatch({ type: "FETCH_SUGGESTION_ERROR", error, kwargs });
             })
     },
 }
