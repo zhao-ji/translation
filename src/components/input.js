@@ -78,11 +78,13 @@ export default class Input extends Component {
         this.props.youdaoTranslate(inputData);
         this.props.bingTranslate(inputData);
         this.props.amazonTranslate(inputData);
-        if (inputData.isEnglish && !inputData.isSentence) {
+        if (inputData.isEnglish) {
             this.props.urbanTranslate(inputData);
             this.props.oxfordTranslate(inputData);
             this.props.oxfordFetchExamples(inputData);
-            this.props.websterTranslate(inputData);
+            if (!inputData.isSentence) {
+                this.props.websterTranslate(inputData);
+            }
         } else {
             this.props.cleanEnEnResult();
         }
@@ -91,6 +93,12 @@ export default class Input extends Component {
 
     handleKeyDown = (event) => {
         if(event.key === "Enter") this.handleClick();
+    }
+
+    onFocus = (event) => {
+        event.target.select();
+        // Below line is for iOS mobile device
+        event.target.setSelectionRange(0, 9999);
     }
 
     render() {
@@ -106,7 +114,8 @@ export default class Input extends Component {
                         placeholder="translate word or sentence for english and mandarin..."
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
-                        onFocus={event => event.target.select()}
+                        onMouseUp={event => event.preventDefault()}
+                        onFocus={this.onFocus}
                         defaultValue={this.state.matchedOption}
                         key={this.state.matchedOption}
                     />
