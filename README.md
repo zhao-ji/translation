@@ -5,40 +5,41 @@
   - Google
   - Bing
   - DeepL
+  - Amazon
   - Baidu
   - Youdao
   - Oxford Dictionary
   - Marriam Webster
-  - Amazon
   - Urban Dictionary
 
 ### Known Issues
 
+* operation
   - http2 connection reuse for api
+  - aws route53 area dns response, china and nz and aus multi-az load balance
+  - detect the network error and notify the user
   - build analysis
   - uglify the secret
-  - aws route53 area dns response, china and nz and aus multi-az load balance
+  - threshold and debounce in input suggestion
   - test case
       - test the method
-  - me
-      - dictionary translation
-      - maccaury for austrailia english
-      - cambridge
-      - langdao
-      - langman
-      - kolin dictionary
-      - macmillan
-      - translation for english(click and load)
-      - threshold and debounce in input suggestion
-      - url link contains word
+
+* translation source
+  - dictionary translation
+  - maccaury for austrailia english
+  - cambridge
+  - langdao
+  - langman
+  - kolin dictionary
+  - macmillan
+
+* user experience
+  - loading icon
+  - url link contains word
+  - input box default stay center
+  - input box can become textarea
   - dictionary content:
       - the sauruslinks
       - cross reference
-  - chenyi:
-      - input box default stay center
-  - huning
-      - input box can become textarea
       - example website
-  - detect the network error and notify the user
-  - loading icon
-  - split the english to english into 2 part, 1 part support sentence translation
+      - translation for english(click and load)
