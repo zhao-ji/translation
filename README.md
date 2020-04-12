@@ -24,15 +24,6 @@
   - test case
       - test the method
 
-* translation source
-  - dictionary translation
-  - maccaury for austrailia english
-  - cambridge
-  - langdao
-  - langman
-  - kolin dictionary
-  - macmillan
-
 * user experience
   - loading icon
   - url link contains word
@@ -43,3 +34,14 @@
       - cross reference
       - example website
       - translation for english(click and load)
+
+* translation source
+  - yandex
+  - facebook
+  - macmillan(sent email for creating a developer account)
+  - collins (sent email for creating a developer account)
+  - langdao(old chinese dictionary)
+  - dictionary (no public api)
+  - macquarie(no public api)
+  - cambridge (Too expensive, 1 year renewal fee is 4800 EU)
+  - langman(deprecated, even cannot register a developer account)
