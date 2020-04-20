@@ -78,6 +78,7 @@ export default class Input extends Component {
         this.props.youdaoTranslate(inputData);
         this.props.bingTranslate(inputData);
         this.props.amazonTranslate(inputData);
+        this.props.caiyunTranslate(inputData);
         if (inputData.isEnglish) {
             this.props.urbanTranslate(inputData);
             this.props.oxfordTranslate(inputData);

@@ -29,6 +29,7 @@ class App extends Component {
                     youdaoTranslate={this.props.youdaoTranslate}
                     bingTranslate={this.props.bingTranslate}
                     amazonTranslate={this.props.amazonTranslate}
+                    caiyunTranslate={this.props.caiyunTranslate}
                     urbanTranslate={this.props.urbanTranslate}
                     oxfordTranslate={this.props.oxfordTranslate}
                     oxfordFetchExamples={this.props.oxfordFetchExamples}
@@ -64,6 +65,13 @@ class App extends Component {
                         resultText={this.props.translation.amazon.text}
                     >
                         <Result.AmazonResult result={this.props.translation.amazon.result}/>
+                    </LoadingWrapper>
+                    <LoadingWrapper
+                        loading={this.props.translation.caiyun.isLoading}
+                        currentText={this.props.utils.currentText}
+                        resultText={this.props.translation.caiyun.text}
+                    >
+                        <Result.CaiyunResult result={this.props.translation.caiyun.result}/>
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.youdao.isLoading}

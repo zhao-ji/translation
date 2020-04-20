@@ -82,7 +82,8 @@ export class TranslationCardWithFullscreenAbility extends Component {
                     {this.props.header}
                     <FontAwesomeIcon
                         icon={this.state.fullscreen ? faCompress : faExpand}
-                        onClick={this.toggle} pull="right" />
+                        onClick={this.toggle} pull="right"
+                    />
                 </Card.Header>
                 <Card.Body>
                     {this.props.title && <Card.Title> {this.props.title} </Card.Title>}
@@ -99,7 +100,7 @@ export function TranslationCardItems(props) {
         <Card.Body>
             <Card.Title> {props.title} </Card.Title>
             <ListGroup className="list-group-flush">
-                {props.items.map(item => (props.renderMethod(item)))}
+                {props.items.map(item => props.renderMethod(item))}
             </ListGroup>
         </Card.Body>
     );

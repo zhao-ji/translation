@@ -185,6 +185,26 @@ export const translationActions = {
             dispatch({ type: "AMAZON_TRANSLATION_ERROR", error, kwargs });
         })
     },
+    caiyunTranslate: kwargs => dispatch => {
+        dispatch({ type: "CAIYUN_TRANSLATION_TRY", kwargs });
+        const config = {
+            headers: {
+                "x-authorization": secrets.caiyunKey,
+            },
+        };
+        let data = {
+            source: kwargs.text,
+            trans_type: kwargs.isEnglish ? "en2zh" : "zh2en",
+        };
+        axios
+            .post(secrets.caiyunUrl, data, config)
+            .then(response => {
+                dispatch({ type: "CAIYUN_TRANSLATION_SUCCESS", result: response.data.target, kwargs });
+            })
+            .catch(error => {
+                dispatch({ type: "CAIYUN_TRANSLATION_ERROR", error, kwargs });
+            })
+    },
     urbanTranslate: kwargs => dispatch => {
         dispatch({ type: "URBAN_TRANSLATION_TRY", kwargs });
 

@@ -22,6 +22,8 @@ const DeeplResult = props => (<TranslationCard header="Deepl" title={props.resul
 
 const AmazonResult = props => ( <TranslationCard header="Amazon" title={props.result} />);
 
+const CaiyunResult = props => ( <TranslationCard header="Caiyun" title={props.result} />);
+
 const BingResult = ({ result }) => {
     if (!result) return false;
     const { dictionary, translation } = result;
@@ -87,7 +89,7 @@ const YoudaoResult = ({ result }) => {
             }
             <TranslationCardItems
                 title="Basic" items={basic && basic.explains}
-                renderMethod={(item, index) => (<ListGroupItem key={index}>{item}</ListGroupItem>)}
+                renderMethod={item => (<ListGroupItem>{item}</ListGroupItem>)}
             />
             <TranslationCardItems
                 title="Web" items={web}
@@ -108,6 +110,7 @@ const Result = {
     BaiduResult: BaiduResult,
     DeeplResult: DeeplResult,
     AmazonResult: AmazonResult,
+    CaiyunResult: CaiyunResult,
     YoudaoResult: YoudaoResult,
     BingResult: BingResult,
 }
