@@ -28,6 +28,7 @@ export function Suggestions({ cache, currentText, matchedOption, onClickSuggesti
 export default class Input extends Component {
     state = {
         matchedOption: "",
+        onFocus: false,
     }
 
     onClickSuggestion = (event) => {
@@ -97,9 +98,26 @@ export default class Input extends Component {
     }
 
     onFocus = (event) => {
-        event.target.select();
-        // Below line is for iOS mobile device
-        event.target.setSelectionRange(0, 9999);
+        // only let user select all text in the first time
+        if (!this.state.onFocus) {
+            event.target.select();
+            // Below line is for iOS mobile device
+            event.target.setSelectionRange(0, 9999);
+            this.setState({ onFocus: true });
+        }
+    }
+
+    onBlur = (event) => {
+        this.setState({ onFocus: false });
+    }
+
+    onMouseUP = (event) => {
+        // first time user focus on input,
+        // we prevent default on mouse up to give user a chance to auto select all
+        // second time user click the input
+        // we think user want to edit it
+        // so this is time to let event happen
+        if (!this.state.onFocus) event.preventDefault();
     }
 
     render() {
@@ -115,8 +133,9 @@ export default class Input extends Component {
                         placeholder="translate word or sentence for english and mandarin..."
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
-                        onMouseUp={event => event.preventDefault()}
+                        onMouseUp={this.onMouseUp}
                         onFocus={this.onFocus}
+                        onBlur={this.onBlur}
                         defaultValue={this.state.matchedOption}
                         key={this.state.matchedOption}
                     />
