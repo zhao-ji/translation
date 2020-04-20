@@ -38,10 +38,11 @@
 * translation source
   - yandex
   - facebook
+  - caiyun (https://fanyi.caiyunapp.com/#/api developer account in pending)
   - macmillan(sent email for creating a developer account)
   - collins (sent email for creating a developer account)
+  - langman(deprecated, but still works)
   - langdao(old chinese dictionary)
   - dictionary (no public api)
   - macquarie(no public api)
   - cambridge (Too expensive, 1 year renewal fee is 4800 EU)
-  - langman(deprecated, even cannot register a developer account)
