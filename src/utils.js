@@ -6,7 +6,7 @@ import { faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
-const punctuationRegex = /[ .,:;!?。，：；！？]/
+const punctuationRegex = /[.,:;!?。，：；！？]/;
 
 export const starReplace = (text) => {
     if (!text) return false;
@@ -111,9 +111,19 @@ export function checkIfMandarin(text) {
     return chineseRegex.test(text);
 }
 
-export function checkIfSentence(text) {
-    if (typeof text !== "string") return false;
-    return punctuationRegex.test(text);
+export function checkTextType(text) {
+    if (typeof text !== "string") return "empty";
+    if (punctuationRegex.test(text)) return "sentence";
+    const spaceCount = (text.match(/ /g) || []).length;
+    if (spaceCount > 7) {
+        return "sentence";
+    } else if (spaceCount > 0) {
+        return "phrase";
+    } else if (spaceCount === 0) {
+        return "word";
+    }
+    console.log(text, 'what the hell is this?')
+    return "sentence";
 }
 
 export class CollapsableList extends Component {

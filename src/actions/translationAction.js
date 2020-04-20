@@ -92,7 +92,7 @@ export const translationActions = {
             },
         };
 
-        if (kwargs.isSentence) {
+        if (kwargs.textType === "sentence") {
             return axios
                 .post(secrets.bingTranslateUrl, data, config)
                 .then(translateResponse => {
