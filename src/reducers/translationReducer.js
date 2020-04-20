@@ -126,6 +126,24 @@ export default (state = {}, action) => {
             ReportAPIErrorToSentry(action.error, "amazon", action.kwargs, state);
             return newState
         }
+        case 'CAIYUN_TRANSLATION_TRY': {
+            newState.caiyun = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'CAIYUN_TRANSLATION_SUCCESS': {
+            newState.caiyun.result = action.result;
+            newState.caiyun.isLoading = false;
+            return newState
+        }
+        case 'CAIYUN_TRANSLATION_ERROR': {
+            newState.caiyun.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "caiyun", action.kwargs, state);
+            return newState
+        }
         case 'URBAN_TRANSLATION_TRY': {
             newState.urban = {
                 text: action.kwargs.text,

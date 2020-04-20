@@ -61,14 +61,14 @@ const PronunciationSection = ({ items }) => (<Fragment>
             <FontAwesomeIcon icon={faQuestionCircle} size="xs"/>
         </a>
     </h3>
-    <p className="other-aspect-body">
+    <div className="other-aspect-body">
         {items.map((item, index) => (
             <div key={index}>
                 /{item.phoneticSpelling}/&nbsp;
                 {item.audioFile && <AudioPlayer src={item.audioFile} />}
             </div>
         ))}
-    </p>
+    </div>
 </Fragment>);
 
 const PronunciationSectionInEntry = ({ items }) => {
@@ -183,11 +183,11 @@ class OxfordResult extends Component {
 }
 
 class WebsterDefinitionSection extends Component {
-    showDefinition = (i) => {
+    showDefinition = (i, index) => {
         switch(i[0]) {
             case "sense":
                 return (
-                    <li>
+                    <li key={index}>
                     {("dt" in i[1]) && ("text" === i[1].dt[0][0]) && TagResolver(i[1].dt[0][1])}
                     {("sdsense" in i[1]) &&
                         <div>
@@ -198,12 +198,30 @@ class WebsterDefinitionSection extends Component {
                 );
             case "pseq":
                 return (
-                    <li>
+                    <li key={index}>
                         <ol type="1">
                             {i[1].map(this.showDefinition)}
                         </ol>
                     </li>
                 );
+            case "bs":
+                if (Array.isArray(i[1])) {
+                    return (
+                        <li key={index}>
+                            <ol type="1">
+                                {i[1].map(this.showDefinition)}
+                            </ol>
+                        </li>
+                    );
+                } else if (i[1].hasOwnProperty("sense")) {
+                    return (
+                        <li key={index}>
+                            {("dt" in i[1].sense) && ("text" === i[1].sense.dt[0][0]) && TagResolver(i[1].sense.dt[0][1])}
+                        </li>
+                    );
+                } else {
+                    return <ConsoleLog>{i}</ConsoleLog>;
+                }
             default:
                 return <ConsoleLog>{i}</ConsoleLog>;
         }
@@ -243,61 +261,71 @@ class WebsterDefinitionSection extends Component {
         const Stems = R.pathOr(false, ["meta", "stems"], this.props.item);
         return (
             <Fragment>
-            <p>
-                <span className="webster-head-word">{starReplace(HeadWord)}</span>
-                <span className="webster-word-type"> { this.props.item.fl } </span>
-            </p>
-            <p className="webster-pronun">
+                <p>
+                    <span className="webster-head-word">{starReplace(HeadWord)}</span>
+                    <span className="webster-word-type"> { this.props.item.fl } </span>
+                </p>
                 {Pronun &&
-                    <span>\{Pronun}\&nbsp;{Sound && this.generateAudio(Sound)}</span>
+                    <p className="webster-pronun">
+                        \{Pronun}\
+                        &nbsp;
+                        {Sound && this.generateAudio(Sound)}
+                    </p>
                 }
-            </p>
-            {Ins.length>0 &&
-                (<p>Different Shape: {Ins.map((item, index) =>
-                    (<span key={index}><i className="webster-ins">{item.il}</i> {starReplace(item.if)}</span>)
-                )}</p>)
-            }
-            {Def.length > 0 && Def.map(def => (
-                <Fragment>
-                <p>{def.vd}</p>
-                <ol type="1">
-                    {def.sseq.map(item=> (<li className="webster-definition-item">
-                        <ul> {item.map(this.showDefinition)} </ul>
-                    </li>))}
-                </ol>
-                </Fragment>
-            ))}
-            <p className="other-word">
-                {Uros.length > 0 && Uros.map(item => (
-                    <div>
-                        {item.fl}
-                        {item.ure} \{item.prs[0].mw}\
-                    </div>
+                {Def.length > 0 && Def.map((def, __index) => (
+                    <Fragment key={__index}>
+                    <p>{def.vd}</p>
+                    <ol type="1">
+                        {def.sseq.map((item, _index) => (
+                            <li key={_index} className="webster-definition-item">
+                                <ul> {item.map((i, index) => this.showDefinition(i, index))} </ul>
+                            </li>
+                        ))}
+                    </ol>
+                    </Fragment>
                 ))}
-            </p>
-            {
-                Stems.length > 0 &&
-                <p className="meta"> Related Word: {Stems.map(stem => (<span>{stem}&nbsp;</span>))} </p>
-            }
-            <p>
-                { Origin && <span> Origin: {TagResolver(Origin)} </span> }
-            </p>
-            <p>
-                { From && <span> First Known Use: {TagResolver(From)} </span> }
-            </p>
-            {this.props.isNotLast && <hr/>}
+                {Ins.length > 0 && Ins.map((item, index) => (
+                    <p key={index}>
+                        <i className="webster-ins">{item.il}: </i>
+                        {starReplace(item.if)}
+                    </p>
+                ))}
+                <p className="other-word">
+                    {Uros.length > 0 && Uros.map(item => (
+                        <div>
+                            {item.fl}
+                            {item.ure} \{item.prs[0].mw}\
+                        </div>
+                    ))}
+                </p>
+                {
+                    Stems.length > 0 &&
+                    <p>
+                        <i className="webster-ins">Related Word:</i>
+                        {Stems.map(stem => (<mark key={stem}>{stem}&nbsp;</mark>))}
+                    </p>
+                }
+                { Origin &&
+                    <p>
+                        <i className="webster-ins">Origin:</i>
+                        {TagResolver(Origin)}
+                    </p>
+                }
+                { From &&
+                    <p>
+                        <i className="webster-ins">First Known Use:</i>
+                        {TagResolver(From)}
+                    </p>
+                }
+                {this.props.isNotLast && <hr/>}
             </Fragment>
         );
     }
 }
 
 function WebsterResult ({ result }) {
-    if (!result || result.length === 0) {
-        return false;
-    }
-    if (typeof result[0] === "string") {
-        return false;
-    }
+    if (!result || result.length === 0) return false;
+    if (typeof result[0] === "string") return false;
     const resultLen = result.length;
     return (
         <TranslationCardWithFullscreenAbility header={"Merriam Webster"}>

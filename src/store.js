@@ -36,6 +36,11 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            caiyun: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
             urban: {
                 text: null,
                 result: null,
