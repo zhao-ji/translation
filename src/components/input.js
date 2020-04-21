@@ -83,6 +83,7 @@ export default class Input extends Component {
                 this.props.oxfordTranslate(inputData);
                 this.props.oxfordFetchExamples(inputData);
                 this.props.websterTranslate(inputData);
+                this.props.longmanTranslate(inputData);
             }
         } else {
             this.props.cleanEnEnResult();

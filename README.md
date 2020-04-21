@@ -11,6 +11,7 @@
   - Youdao
   - Oxford Dictionary
   - Marriam Webster
+  - Langman
   - Urban Dictionary
 
 ### Known Issues
@@ -39,12 +40,11 @@
 * translation source
   - yandex
   - facebook
-  - macmillan(sent email for creating a developer account)
+  - macmillan (sent email for creating a developer account)
   - collins (sent email for creating a developer account)
-  - langman(deprecated, but still works)
-  - langdao(old chinese dictionary)
+  - langdao (old chinese dictionary)
   - dictionary (no public api)
-  - macquarie(no public api)
+  - macquarie (no public api)
   - cambridge (Too expensive, 1 year renewal fee is 4800 EU)
 
 ### Some hints

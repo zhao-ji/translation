@@ -260,6 +260,24 @@ export const translationActions = {
                 dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error, kwargs });
             })
     },
+    longmanTranslate: kwargs => dispatch => {
+        dispatch({ type: "LONGMAN_TRANSLATION_TRY", kwargs });
+
+        const config = {
+            params: {
+                apikey: secrets.longmanKey,
+                headword: kwargs.text,
+            },
+        };
+        axios
+            .get(secrets.longmanUrl, config)
+            .then(response => {
+                dispatch({ type: "LONGMAN_TRANSLATION_SUCCESS", result: response.data.results, kwargs });
+            })
+            .catch(error => {
+                dispatch({ type: "LONGMAN_TRANSLATION_ERROR", error, kwargs });
+            })
+    },
     cleanEnEnResult: kwargs => dispatch => {
         dispatch({ type: "CLEAN_EN_EN_RESULT", kwargs });
     },

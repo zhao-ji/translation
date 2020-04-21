@@ -202,7 +202,7 @@ export class AudioPlayer extends Component {
 
     onClick = () => {
         const audio = new Audio(this.props.src);
-        if (this.state.count > 0) audio.playbackRate = 0.6;
+        if (this.state.count > 0) audio.playbackRate = 0.7;
         audio.addEventListener("ended", () => {
             this.setState(prevState => ({
                 isPlaying: false,

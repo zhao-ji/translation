@@ -61,6 +61,11 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            longman: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
         },
         recordResult: {
             isSuccess: null,
