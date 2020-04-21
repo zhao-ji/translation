@@ -218,6 +218,24 @@ export default (state = {}, action) => {
             ReportAPIErrorToSentry(action.error, "webster", action.kwargs, state);
             return newState
         }
+        case 'LONGMAN_TRANSLATION_TRY': {
+            newState.longman = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'LONGMAN_TRANSLATION_SUCCESS': {
+            newState.longman.result = action.result;
+            newState.longman.isLoading = false;
+            return newState
+        }
+        case 'LONGMAN_TRANSLATION_ERROR': {
+            newState.longman.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "longman", action.kwargs, state);
+            return newState
+        }
         case 'CLEAN_EN_EN_RESULT': {
             newState.urban = {
                 text: null,
@@ -235,6 +253,11 @@ export default (state = {}, action) => {
                 isLoading: false
             };
             newState.webster = {
+                text: null,
+                result: null,
+                isLoading: false
+            };
+            newState.longman = {
                 text: null,
                 result: null,
                 isLoading: false

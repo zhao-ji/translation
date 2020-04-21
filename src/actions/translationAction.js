@@ -92,7 +92,7 @@ export const translationActions = {
             },
         };
 
-        if (kwargs.isSentence) {
+        if (kwargs.textType === "sentence") {
             return axios
                 .post(secrets.bingTranslateUrl, data, config)
                 .then(translateResponse => {
@@ -258,6 +258,24 @@ export const translationActions = {
             })
             .catch(error => {
                 dispatch({ type: "WEBSTER_TRANSLATION_ERROR", error, kwargs });
+            })
+    },
+    longmanTranslate: kwargs => dispatch => {
+        dispatch({ type: "LONGMAN_TRANSLATION_TRY", kwargs });
+
+        const config = {
+            params: {
+                apikey: secrets.longmanKey,
+                headword: kwargs.text,
+            },
+        };
+        axios
+            .get(secrets.longmanUrl, config)
+            .then(response => {
+                dispatch({ type: "LONGMAN_TRANSLATION_SUCCESS", result: response.data.results, kwargs });
+            })
+            .catch(error => {
+                dispatch({ type: "LONGMAN_TRANSLATION_ERROR", error, kwargs });
             })
     },
     cleanEnEnResult: kwargs => dispatch => {

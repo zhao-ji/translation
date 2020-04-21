@@ -34,6 +34,7 @@ class App extends Component {
                     oxfordTranslate={this.props.oxfordTranslate}
                     oxfordFetchExamples={this.props.oxfordFetchExamples}
                     websterTranslate={this.props.websterTranslate}
+                    longmanTranslate={this.props.longmanTranslate}
                     cleanEnEnResult={this.props.cleanEnEnResult}
                     record={this.props.record}
                 />
@@ -95,13 +96,6 @@ class App extends Component {
                         <EnResult.UrbanResult result={this.props.translation.urban.result}/>
                     </LoadingWrapper>
                     <LoadingWrapper
-                        loading={this.props.translation.webster.isLoading}
-                        currentText={this.props.utils.currentText}
-                        resultText={this.props.translation.webster.text}
-                    >
-                        <EnResult.WebsterResult result={this.props.translation.webster.result} />
-                    </LoadingWrapper>
-                    <LoadingWrapper
                         loading={this.props.translation.oxford.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.oxford.text}
@@ -111,6 +105,20 @@ class App extends Component {
                             examples={this.props.translation.oxfordExamples}
                             text={this.props.utils.currentText}
                         />
+                    </LoadingWrapper>
+                    <LoadingWrapper
+                        loading={this.props.translation.longman.isLoading}
+                        currentText={this.props.utils.currentText}
+                        resultText={this.props.translation.longman.text}
+                    >
+                        <EnResult.LongmanResult result={this.props.translation.longman.result} />
+                    </LoadingWrapper>
+                    <LoadingWrapper
+                        loading={this.props.translation.webster.isLoading}
+                        currentText={this.props.utils.currentText}
+                        resultText={this.props.translation.webster.text}
+                    >
+                        <EnResult.WebsterResult result={this.props.translation.webster.result} />
                     </LoadingWrapper>
                 </CardColumns>
             </Container>

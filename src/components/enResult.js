@@ -338,6 +338,115 @@ function WebsterResult ({ result }) {
     );
 }
 
+const LongmanPronunciationSection = ({ audio }) => (
+    <>
+        &nbsp;
+        {audio.lang === "British English" ? "UK" : "US"}:
+        &nbsp;
+        <AudioPlayer src={secrets.longmanSoundBaseUrl + audio.url}/>
+    </>
+)
+
+function LongmanDefinitionSection({ definition }) {
+    return (
+        <>
+        {definition.definition && definition.definition.length > 0 && <h5> Definition </h5>}
+        <ol type="1">
+            {definition.definition && definition.definition.length > 0 && definition.definition.map(
+                def => (<li key={def}>{def}</li>)
+            )}
+        </ol>
+        {definition.examples && definition.examples.length > 0 && <h5> Examples </h5>}
+        <ol type="1">
+            {definition.examples && definition.examples.length > 0 && definition.examples.map(
+                (example, index) => (
+                    <li key={index}>
+                        {
+                            example.hasOwnProperty("audio") &&
+                            <AudioPlayer src={secrets.longmanSoundBaseUrl + example.audio[0].url}/>
+                        }
+                        &nbsp;
+                        {example.text}
+                    </li>
+                )
+            )}
+        </ol>
+        {definition.collocation_examples && definition.collocation_examples.length > 0
+            && <h5> Collocation Examples </h5>}
+        <ol type="1">
+            {definition.collocation_examples && definition.collocation_examples.length > 0
+                && definition.collocation_examples.map((example, index) => (
+                    <li key={index}>
+                        <AudioPlayer src={secrets.longmanSoundBaseUrl + example.example.audio[0].url}/>
+                        &nbsp;
+                        {example.example.text}
+                    </li>
+            ))}
+        </ol>
+        {definition.gramatical_examples && definition.gramatical_examples.length > 0
+            && <h5> Gramatical Examples </h5>}
+        <ol type="1">
+            {definition.gramatical_examples && definition.gramatical_examples.length > 0
+                && definition.gramatical_examples.map((example, index) => (
+                    <li key={index}>
+                        <ol key={index}>
+                            {example.examples.map((i, _index) => (
+                                <>
+                                    <AudioPlayer src={secrets.longmanSoundBaseUrl + i.audio[0].url}/>
+                                    &nbsp;
+                                    {i.text}
+                                </>
+                            ))}
+                        </ol>
+                    </li>
+            ))}
+        </ol>
+        </>
+    );
+}
+
+function LongmanEntry({ item, isNotLast }) {
+    return (
+        <Fragment>
+            <p>
+                <span className="webster-head-word">{ item.headword }</span>
+                <span className="webster-word-type"> { item.part_of_speech } </span>
+            </p>
+            {item.pronunciations && item.pronunciations.length > 0 &&
+                item.pronunciations.map((pron, index) => (
+                    <p key={index}>
+                        <span className="webster-pronun"> \{pron.ipa}\ </span>
+                        {
+                            pron.audio.map((sound, index) => (
+                                <LongmanPronunciationSection audio={sound} />
+                            ))
+                        }
+                    </p>
+                ))
+            }
+            {item.senses && item.senses.length > 0 && item.senses.map(
+                (sense, index) => <LongmanDefinitionSection definition={sense} key={index} />
+            )}
+            {isNotLast && <hr/>}
+        </Fragment>
+    );
+}
+
+function LongmanResult ({ result }) {
+    if (!result || result.length === 0) return false;
+    if (typeof result[0] === "string") return false;
+    const resultLen = result.length;
+    return (
+        <TranslationCardWithFullscreenAbility header={"Longman"}>
+            <CollapsableList>
+                {result.map((item, index) =>
+                    <LongmanEntry key={index} item={item} isNotLast={index < resultLen - 1}/>
+                )}
+            </CollapsableList>
+        </TranslationCardWithFullscreenAbility>
+    );
+}
+
 const UrbanResult = ({ result }) => {
     if (!result || result.length < 1 ) {
         return false;
@@ -350,6 +459,7 @@ const EnResult = {
     UrbanResult: UrbanResult,
     OxfordResult: OxfordResult,
     WebsterResult: WebsterResult,
+    LongmanResult: LongmanResult,
 }
 
 export default EnResult;

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Button, InputGroup, Form, ListGroup } from 'react-bootstrap';
 
-import { checkIfMandarin, checkIfSentence } from '../utils';
+import { checkIfMandarin, checkTextType } from '../utils';
 
 export function Suggestions({ cache, currentText, matchedOption, onClickSuggestion }) {
     if (matchedOption === currentText) return false;
@@ -39,11 +39,8 @@ export default class Input extends Component {
     }
 
     handleChange = (event) => {
-        let searchString = event.target.value;
-        const inputData = {
-            isEnglish: !checkIfMandarin(searchString),
-            isSentence: checkIfSentence(searchString),
-        };
+        const searchString = event.target.value;
+        const isEnglish = !checkIfMandarin(searchString);
 
         this.props.setCurrentText({ text: searchString });
 
@@ -56,7 +53,7 @@ export default class Input extends Component {
             // user add spaces in the end or begening of sentence
             // the input does change, but we don't need to trigger a HTTP request
             // we do nothing
-        } else if (inputData.isEnglish && searchString.length <= 20) {
+        } else if (isEnglish && searchString.length <= 20) {
             // input is english and not a sentence
             // there is high possibility to be a single word
             // we throttle the HTTP request(more often than debounce)
@@ -71,7 +68,7 @@ export default class Input extends Component {
         const inputData = {
             text: this.props.currentText.trim(),
             isEnglish: !checkIfMandarin(this.props.currentText.trim()),
-            isSentence: checkIfSentence(this.props.currentText.trim()),
+            textType: checkTextType(this.props.currentText.trim()),
         };
         this.props.googleTranslate(inputData);
         this.props.deeplTranslate(inputData);
@@ -81,11 +78,12 @@ export default class Input extends Component {
         this.props.amazonTranslate(inputData);
         this.props.caiyunTranslate(inputData);
         if (inputData.isEnglish) {
-            this.props.urbanTranslate(inputData);
-            this.props.oxfordTranslate(inputData);
-            this.props.oxfordFetchExamples(inputData);
-            if (!inputData.isSentence) {
+            if (inputData.textType === "phrase" || inputData.textType === "word") {
+                this.props.urbanTranslate(inputData);
+                this.props.oxfordTranslate(inputData);
+                this.props.oxfordFetchExamples(inputData);
                 this.props.websterTranslate(inputData);
+                this.props.longmanTranslate(inputData);
             }
         } else {
             this.props.cleanEnEnResult();
