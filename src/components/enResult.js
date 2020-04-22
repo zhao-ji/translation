@@ -9,7 +9,7 @@ import { secrets } from '../actions/secrets';
 import {
     CollapsableList, ConsoleLog,
     LoadingWrapper, starReplace,
-    TranslationCard, TranslationCardWithFullscreenAbility,
+    TranslationCardWithClipboard, TranslationCardWithFullscreenAbility,
     TagResolver, UrbanDictionaryTagResolver, AudioPlayer,
 } from '../utils';
 
@@ -458,7 +458,7 @@ const UrbanResult = ({ result }) => {
         return false;
     }
     const title = UrbanDictionaryTagResolver(result[0].definition);
-    return <TranslationCard header="Urban Dictionary" title={title} />;
+    return <TranslationCardWithClipboard header="Urban Dictionary" title={title} />;
 }
 
 const EnResult = {

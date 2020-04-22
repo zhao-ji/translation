@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import * as Sentry from '@sentry/browser';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
-import { faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[.,:;!?。，：；！？]/;
@@ -65,6 +66,55 @@ export function TranslationCard (props) {
     );
 }
 
+export class TranslationCardWithClipboard extends Component {
+    state = {
+        copied: false,
+    }
+
+    conponentDidMount() {
+        this.timer = null;
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
+    handleCopy = () => {
+        this.setState(
+            { copied: true },
+            () => {
+                this.timer = setTimeout(
+                    () => this.setState({ copied: false }),
+                    3000
+                );
+            }
+        );
+    }
+
+    render() {
+        const header = (
+            <>
+                {this.props.header}
+                {
+                    this.state.copied
+                        ?
+                        <span className="float-right text-success"> Copied! </span>
+                        :
+                        <CopyToClipboard
+                            text={this.props.title}
+                            onCopy={this.handleCopy}
+                            className="float-right"
+                        >
+                            <FontAwesomeIcon icon={faClipboard}/>
+                        </CopyToClipboard>
+                }
+            </>
+        );
+        return (
+            <TranslationCard {...this.props} header={header} />
+        );
+    }
+}
 
 export class TranslationCardWithFullscreenAbility extends Component {
     state = {
