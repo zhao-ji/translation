@@ -204,6 +204,12 @@ class WebsterDefinitionSection extends Component {
                         </ol>
                     </li>
                 );
+            case "sen":
+                return (
+                    <li key={index}>
+                        area: {i[1]["sls"][0]}
+                    </li>
+                );
             case "bs":
                 if (Array.isArray(i[1])) {
                     return (
@@ -417,9 +423,9 @@ function LongmanEntry({ item, isNotLast }) {
                     <p key={index}>
                         <span className="webster-pronun"> \{pron.ipa}\ </span>
                         {
-                            pron.audio.map((sound, index) => (
-                                <LongmanPronunciationSection audio={sound} />
-                            ))
+                            pron.audio && pron.audio.length > 0 && pron.audio.map(
+                                (sound, index) => <LongmanPronunciationSection audio={sound} key={index}/>
+                            )
                         }
                     </p>
                 ))

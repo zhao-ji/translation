@@ -187,17 +187,12 @@ export const translationActions = {
     },
     caiyunTranslate: kwargs => dispatch => {
         dispatch({ type: "CAIYUN_TRANSLATION_TRY", kwargs });
-        const config = {
-            headers: {
-                "x-authorization": secrets.caiyunKey,
-            },
-        };
         let data = {
             source: kwargs.text,
             trans_type: kwargs.isEnglish ? "en2zh" : "zh2en",
         };
         axios
-            .post(secrets.caiyunUrl, data, config)
+            .post(secrets.caiyunUrl, data)
             .then(response => {
                 dispatch({ type: "CAIYUN_TRANSLATION_SUCCESS", result: response.data.target, kwargs });
             })
