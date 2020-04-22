@@ -36,6 +36,7 @@
       - cross reference
       - example website
       - translation for english(click and load)
+      - urban dictionary show multi items
 
 * translation source
   - yandex
