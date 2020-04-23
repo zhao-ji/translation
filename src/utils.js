@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import * as Sentry from '@sentry/browser';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
-import { faClipboard, faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -105,7 +106,7 @@ export class TranslationCardWithClipboard extends Component {
                             onCopy={this.handleCopy}
                             className="float-right"
                         >
-                            <FontAwesomeIcon icon={faClipboard}/>
+                            <FontAwesomeIcon icon={faCopy} />
                         </CopyToClipboard>
                 }
             </>

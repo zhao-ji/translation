@@ -31,6 +31,7 @@
   - url link contains word
   - input box default stay center
   - input box can become textarea
+  - screenshot
   - dictionary content:
       - the sauruslinks
       - cross reference
