@@ -205,11 +205,20 @@ class WebsterDefinitionSection extends Component {
                     </li>
                 );
             case "sen":
-                return (
-                    <li key={index}>
-                        area: {i[1]["sls"][0]}
-                    </li>
-                );
+                if (i[1].hasOwnProperty("sls")) {
+                    return (
+                        <li key={index}>
+                            area: {i[1]["sls"][0]}
+                        </li>
+                    );
+                } else if (i[1].hasOwnProperty("ins")) {
+                    return (
+                        <li key={index}>
+                            plural: {i[1]["ins"][0]["if"]}
+                        </li>
+                    );
+                }
+                break;
             case "bs":
                 if (Array.isArray(i[1])) {
                     return (
