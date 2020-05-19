@@ -15,6 +15,7 @@ import { LoadingWrapper } from './utils';
 
 class App extends Component {
     render() {
+        const compareTo = !this.props.translation.deepl.isLoading && this.props.translation.deepl.result;
         return (
             <Container fluid={true}>
                 <Input
@@ -44,49 +45,49 @@ class App extends Component {
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.google.text}
                     >
-                        <Result.GoogleResult result={this.props.translation.google.result}/>
+                        <Result.GoogleResult result={this.props.translation.google} compareTo={compareTo} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.baidu.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.baidu.text}
                     >
-                        <Result.BaiduResult result={this.props.translation.baidu.result}/>
+                        <Result.BaiduResult result={this.props.translation.baidu} compareTo={compareTo} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.deepl.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.deepl.text}
                     >
-                        <Result.DeeplResult result={this.props.translation.deepl.result}/>
+                        <Result.DeeplResult result={this.props.translation.deepl} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.amazon.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.amazon.text}
                     >
-                        <Result.AmazonResult result={this.props.translation.amazon.result}/>
+                        <Result.AmazonResult result={this.props.translation.amazon} compareTo={compareTo} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.caiyun.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.caiyun.text}
                     >
-                        <Result.CaiyunResult result={this.props.translation.caiyun.result}/>
+                        <Result.CaiyunResult result={this.props.translation.caiyun} compareTo={compareTo} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.youdao.isLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.youdao.text}
                     >
-                        <Result.YoudaoResult result={this.props.translation.youdao.result}/>
+                        <Result.YoudaoResult result={this.props.translation.youdao.result} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.bing.isTranslationLoading}
                         currentText={this.props.utils.currentText}
                         resultText={this.props.translation.bing.text}
                     >
-                        <Result.BingResult result={this.props.translation.bing.result}/>
+                        <Result.BingResult result={this.props.translation.bing.result} />
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.urban.isTranslationLoading}
