@@ -15,15 +15,15 @@ import {
 /**
  * Google Translation Card, use for display google translation result
  */
-const GoogleResult = props => (<TranslationCardWithClipboard header="Google" title={props.result} />);
+const GoogleResult = props => (<TranslationCardWithClipboard header="Google" {...props} />);
 
-const BaiduResult = props => (<TranslationCardWithClipboard header="Baidu" title={props.result} />);
+const BaiduResult = props => (<TranslationCardWithClipboard header="Baidu" {...props} />);
 
-const DeeplResult = props => (<TranslationCardWithClipboard header="Deepl" title={props.result} />);
+const DeeplResult = props => (<TranslationCardWithClipboard header="Deepl" {...props} />);
 
-const AmazonResult = props => (<TranslationCardWithClipboard header="Amazon" title={props.result} />);
+const AmazonResult = props => (<TranslationCardWithClipboard header="Amazon" {...props} />);
 
-const CaiyunResult = props => (<TranslationCardWithClipboard header="Caiyun" title={props.result} />);
+const CaiyunResult = props => (<TranslationCardWithClipboard header="Caiyun" {...props} />);
 
 const BingResult = ({ result }) => {
     if (!result) return false;

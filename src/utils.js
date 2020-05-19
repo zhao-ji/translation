@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
+
 import * as Sentry from '@sentry/browser';
+
+import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { diffWords, diffChars } from 'diff';
+
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 import { faVolumeOff, faVolumeDown, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const chineseRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
 const punctuationRegex = /[.,:;!?。，：；！？]/;
@@ -40,7 +44,15 @@ class ErrorBoundary extends Component {
 
     render() {
         if (this.state.hasError) {
-            return <TranslationCard header="Oops" title={"Something went wrong!"} />;
+            return (
+                <Card>
+                    <Card.Body>
+                        <Card.Title>
+                            Something went wrong!
+                        </Card.Title>
+                    </Card.Body>
+                </Card>
+            );
         }
         return this.props.children;
     }
@@ -55,12 +67,19 @@ export const LoadingWrapper = ({ loading, currentText, resultText, children }) =
 }
 
 export function TranslationCard (props) {
-    if (!props.title) return null;
+    console.log(props)
+    if (!props.result || !props.result.result) return null;
+
+    let { text: originText, result } = props.result;
+    const { compareTo, header } = props;
+    if (checkTextType(originText) === 'sentence' && compareTo) {
+        result = diff(result, compareTo);
+    }
     return (
         <Card>
-            <Card.Header>{props.header}</Card.Header>
+            <Card.Header>{header}</Card.Header>
             <Card.Body>
-                <Card.Title> {props.title} </Card.Title>
+                <Card.Title> {result} </Card.Title>
             </Card.Body>
             {props.children}
         </Card>
@@ -175,6 +194,17 @@ export function checkTextType(text) {
     }
     console.log(text, 'what the hell is this?')
     return "sentence";
+}
+
+export function diff(text, compare) {
+    if (checkTextType(text) !== "sentence") return text;
+    const diff = diffWords(compare, text, true);
+    const result = diff.map(function(part, index) {
+        if (part.added) return <mark key={index}>{part.value}</mark>;
+        if (part.removed) return '';
+        return part.value;
+    });
+    return (<>{result}</>);
 }
 
 export class CollapsableList extends Component {
