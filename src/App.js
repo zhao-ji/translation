@@ -11,7 +11,7 @@ import Input from './components/input';
 import EnResult from './components/enResult';
 import Result from './components/result';
 
-import { LoadingWrapper } from './utils';
+import { LoadingWrapper, Comment } from './utils';
 
 class App extends Component {
     render() {
@@ -60,13 +60,15 @@ class App extends Component {
                     >
                         <Result.DeeplResult result={this.props.translation.deepl.result}/>
                     </LoadingWrapper>
-                    <LoadingWrapper
-                        loading={this.props.translation.amazon.isLoading}
-                        currentText={this.props.utils.currentText}
-                        resultText={this.props.translation.amazon.text}
-                    >
-                        <Result.AmazonResult result={this.props.translation.amazon.result}/>
-                    </LoadingWrapper>
+                    <Comment>
+                        <LoadingWrapper
+                            loading={this.props.translation.amazon.isLoading}
+                            currentText={this.props.utils.currentText}
+                            resultText={this.props.translation.amazon.text}
+                        >
+                            <Result.AmazonResult result={this.props.translation.amazon.result}/>
+                        </LoadingWrapper>
+                    </Comment>
                     <LoadingWrapper
                         loading={this.props.translation.caiyun.isLoading}
                         currentText={this.props.utils.currentText}
