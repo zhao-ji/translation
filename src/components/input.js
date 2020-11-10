@@ -75,7 +75,7 @@ export default class Input extends Component {
         this.props.baiduTranslate(inputData);
         this.props.youdaoTranslate(inputData);
         this.props.bingTranslate(inputData);
-        this.props.amazonTranslate(inputData);
+        // this.props.amazonTranslate(inputData);
         this.props.caiyunTranslate(inputData);
         if (inputData.isEnglish) {
             if (inputData.textType === "phrase" || inputData.textType === "word") {
