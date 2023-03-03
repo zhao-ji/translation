@@ -214,6 +214,22 @@ export const translationActions = {
             dispatch({ type: "URBAN_TRANSLATION_ERROR", error, kwargs });
         })
     },
+    chatgptTranslate: kwargs => dispatch => {
+        dispatch({ type: "CHATGPT_TRANSLATION_TRY", kwargs });
+
+        let args = {
+            params: {
+                text: kwargs.text,
+                source: kwargs.isEnglish ? "en" : "zh",
+                target: kwargs.isEnglish ? "zh" : "en",
+            }
+        };
+        axios.get(secrets.chatgptUrl, args).then(response => {
+            dispatch({ type: "CHATGPT_TRANSLATION_SUCCESS", result: response.data.result, kwargs });
+        }).catch(error => {
+            dispatch({ type: "CHATGPT_TRANSLATION_ERROR", error, kwargs });
+        })
+    },
     oxfordTranslate: kwargs => dispatch => {
         dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
 
