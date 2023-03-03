@@ -46,6 +46,11 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            chatgpt: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
             oxford: {
                 text: null,
                 result: null,

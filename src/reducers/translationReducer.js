@@ -144,6 +144,24 @@ export default (state = {}, action) => {
             ReportAPIErrorToSentry(action.error, "caiyun", action.kwargs, state);
             return newState
         }
+        case 'CHATGPT_TRANSLATION_TRY': {
+            newState.chatgpt = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'CHATGPT_TRANSLATION_SUCCESS': {
+            newState.chatgpt.result = action.result;
+            newState.chatgpt.isLoading = false;
+            return newState
+        }
+        case 'CHATGPT_TRANSLATION_ERROR': {
+            newState.chatgpt.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "chatgpt", action.kwargs, state);
+            return newState
+        }
         case 'URBAN_TRANSLATION_TRY': {
             newState.urban = {
                 text: action.kwargs.text,
