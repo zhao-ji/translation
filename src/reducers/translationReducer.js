@@ -162,6 +162,24 @@ export default (state = {}, action) => {
             ReportAPIErrorToSentry(action.error, "chatgpt", action.kwargs, state);
             return newState
         }
+        case 'LLAMA2_TRANSLATION_TRY': {
+            newState.llama2 = {
+                text: action.kwargs.text,
+                result: null,
+                isLoading: true
+            };
+            return newState
+        }
+        case 'LLAMA2_TRANSLATION_SUCCESS': {
+            newState.llama2.result = action.result.translated_text;
+            newState.llama2.isLoading = false;
+            return newState
+        }
+        case 'LLAMA2_TRANSLATION_ERROR': {
+            newState.llama2.isLoading = false;
+            ReportAPIErrorToSentry(action.error, "llama2", action.kwargs, state);
+            return newState
+        }
         case 'URBAN_TRANSLATION_TRY': {
             newState.urban = {
                 text: action.kwargs.text,

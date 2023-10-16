@@ -32,6 +32,7 @@ class App extends Component {
                     caiyunTranslate={this.props.caiyunTranslate}
                     urbanTranslate={this.props.urbanTranslate}
                     chatgptTranslate={this.props.chatgptTranslate}
+                    llama2Translate={this.props.llama2Translate}
                     oxfordTranslate={this.props.oxfordTranslate}
                     oxfordFetchExamples={this.props.oxfordFetchExamples}
                     websterTranslate={this.props.websterTranslate}
@@ -83,6 +84,13 @@ class App extends Component {
                         resultText={this.props.translation.chatgpt.text}
                     >
                         <Result.ChatgptResult result={this.props.translation.chatgpt.result}/>
+                    </LoadingWrapper>
+                    <LoadingWrapper
+                        loading={this.props.translation.llama2.isLoading}
+                        currentText={this.props.utils.currentText}
+                        resultText={this.props.translation.llama2.text}
+                    >
+                        <Result.Llama2Result result={this.props.translation.llama2.result}/>
                     </LoadingWrapper>
                     <LoadingWrapper
                         loading={this.props.translation.youdao.isLoading}

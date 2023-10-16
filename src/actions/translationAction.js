@@ -230,6 +230,20 @@ export const translationActions = {
             dispatch({ type: "CHATGPT_TRANSLATION_ERROR", error, kwargs });
         })
     },
+    llama2Translate: kwargs => dispatch => {
+        dispatch({ type: "LLAMA2_TRANSLATION_TRY", kwargs });
+
+        let data = {
+            text: kwargs.text,
+            source_lang: kwargs.isEnglish ? "english" : "chinese",
+            target_lang: kwargs.isEnglish ? "chinese" : "english",
+        };
+        axios.post(secrets.llama2Url, data).then(response => {
+            dispatch({ type: "LLAMA2_TRANSLATION_SUCCESS", result: response.data.result, kwargs });
+        }).catch(error => {
+            dispatch({ type: "LLAMA2_TRANSLATION_ERROR", error, kwargs });
+        })
+    },
     oxfordTranslate: kwargs => dispatch => {
         dispatch({ type: "OXFORD_TRANSLATION_TRY", kwargs });
 

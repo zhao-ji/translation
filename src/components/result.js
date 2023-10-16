@@ -27,6 +27,8 @@ const CaiyunResult = props => (<TranslationCardWithClipboard header="Caiyun" tit
 
 const ChatgptResult = props => (<TranslationCardWithClipboard header="ChatGPT" title={props.result} />);
 
+const Llama2Result = props => (<TranslationCardWithClipboard header="Llama2" title={props.result} />);
+
 const BingResult = ({ result }) => {
     if (!result) return false;
     const { dictionary, translation } = result;
@@ -117,6 +119,7 @@ const Result = {
     YoudaoResult: YoudaoResult,
     BingResult: BingResult,
     ChatgptResult: ChatgptResult,
+    Llama2Result: Llama2Result,
 }
 
 export default Result;
