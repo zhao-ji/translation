@@ -27,6 +27,8 @@ const CaiyunResult = props => (<TranslationCardWithClipboard header="Caiyun" tit
 
 const ChatgptResult = props => (<TranslationCardWithClipboard header="ChatGPT" title={props.result} />);
 
+const LlamaResult = props => (<TranslationCardWithClipboard header="Llama text generation" title={props.result} />);
+
 const Llama2Result = props => (<TranslationCardWithClipboard header="Llama2" title={props.result} />);
 
 const BingResult = ({ result }) => {
@@ -119,6 +121,7 @@ const Result = {
     YoudaoResult: YoudaoResult,
     BingResult: BingResult,
     ChatgptResult: ChatgptResult,
+    LlamaResult: LlamaResult,
     Llama2Result: Llama2Result,
 }
 

@@ -51,6 +51,11 @@ function initialState() {
                 result: null,
                 isLoading: false
             },
+            llama: {
+                text: null,
+                result: null,
+                isLoading: false
+            },
             llama2: {
                 text: null,
                 result: null,
